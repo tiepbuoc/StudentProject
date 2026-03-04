@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sao Vàng - Lịch sử & Văn hóa Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Nền là ảnh bg.png, phủ kín toàn bộ khung hình */
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0; /* Bỏ padding để chatbox sát mép */
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 100%; /* Chiếm toàn bộ chiều rộng */
+            height: 100vh; /* Chiếm toàn bộ chiều cao */
+            background: transparent; /* Làm trong suốt để thấy nền ảnh */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Loại bỏ viền và box-shadow cũ */
+        }
+
+        .chat-header {
+            background: rgba(139, 69, 19, 0.85); /* Màu nâu với độ trong suốt */
+            color: #ffd700;
+            padding: 15px 20px; /* Điều chỉnh padding */
+            text-align: center;
+            border-bottom: 2px solid #ffd700;
+            /* Làm mờ nền để thấy ảnh phía sau một phần */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .chat-header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-header p {
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: transparent; /* Làm trong suốt hoàn toàn */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            line-height: 1.4;
+            /* Hiệu ứng mờ cho bong bóng */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .user-message {
+            background: rgba(139, 69, 19, 0.75); /* Nâu trong suốt */
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.75); /* Trắng trong suốt */
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(218, 165, 32, 0.5);
+        }
+
+        .bot-message strong {
+            color: #8b4513;
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.75); /* Trắng trong suốt */
+            border-radius: 18px;
+            max-width: 100px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(218, 165, 32, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            align-self: flex-start;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #8b4513;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .input-area {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.85); /* Trắng trong suốt */
+            border-top: 2px solid #daa520;
+            display: flex;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 2px solid #daa520;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        #user-input:focus {
+            border-color: #8b4513;
+        }
+
+        #send-button {
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #send-button:hover {
+            background: #ffd700;
+            color: #8b4513;
+            transform: scale(1.05);
+        }
+
+        #send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .clear-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-top: 5px;
+            transition: all 0.3s;
+            backdrop-filter: blur(2px);
+        }
+
+        .clear-btn:hover {
+            background: #ffd700;
+            color: #8b4513;
+        }
+
+        .footer {
+            font-size: 0.7em;
+            text-align: center;
+            padding: 5px;
+            background: rgba(245, 245, 220, 0.7); /* Be trong suốt */
+            color: #8b4513;
+            backdrop-filter: blur(2px);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            background: rgba(255, 205, 210, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>⭐ SAO VÀNG ⭐</h1>
+            <p>Chuyên gia Lịch sử & Văn hóa Việt Nam</p>
+            <button class="clear-btn" onclick="clearHistory()">Xóa lịch sử</button>
+        </div>
+
+        <div id="messages" class="messages-container"></div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..."
+                autocomplete="off">
+            <button id="send-button" onclick="sendMessage()">➤</button>
+        </div>
+        <div class="footer">
+            🇻🇳 Tự hào văn hóa Việt Nam 🇻🇳
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyA9wqELJsr2sfgOK3wZKZ9macWz6bQIOxw'; // Thay thế bằng API key của bạn
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
+
+        let currentContext = 'none';
+        const messagesContainer = document.getElementById('messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Load lịch sử từ localStorage
+        function loadChatHistory() {
+            const savedMessages = localStorage.getItem('saoVangChatHistory');
+            const savedContext = localStorage.getItem('saoVangContext');
+
+            if (savedMessages) {
+                messagesContainer.innerHTML = savedMessages;
+            }
+
+            if (savedContext) {
+                currentContext = savedContext;
+            }
+
+            scrollToBottom();
+        }
+
+        // Lưu lịch sử vào localStorage
+        function saveChatHistory() {
+            localStorage.setItem('saoVangChatHistory', messagesContainer.innerHTML);
+            localStorage.setItem('saoVangContext', currentContext);
+        }
+
+        // Xóa lịch sử
+        function clearHistory() {
+            if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử trò chuyện?')) {
+                messagesContainer.innerHTML = '';
+                currentContext = 'none';
+                localStorage.removeItem('saoVangChatHistory');
+                localStorage.removeItem('saoVangContext');
+                addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?');
+            }
+        }
+
+        // Thêm tin nhắn vào giao diện
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'bot-message');
+
+            if (role === 'bot') {
+                messageDiv.innerHTML = `<strong>Sao Vàng:</strong><br>${content}`;
+            } else {
+                messageDiv.textContent = content;
+            }
+
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            saveChatHistory();
+        }
+
+        // Hiển thị lỗi
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('error-message');
+            errorDiv.textContent = message;
+            messagesContainer.appendChild(errorDiv);
+            scrollToBottom();
+        }
+
+        // Cuộn xuống cuối
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Hiển thị typing indicator
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.classList.add('typing-indicator');
+            indicator.id = 'typing-indicator';
+            indicator.innerHTML = '<span></span><span></span><span></span>';
+            messagesContainer.appendChild(indicator);
+            scrollToBottom();
+        }
+
+        // Xóa typing indicator
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // Gọi Gemini API
+        async function callGeminiAPI(userMessage) {
+            // Tạo prompt với context
+            let prompt = `Bạn là Sao Vàng - chuyên gia về lịch sử và văn hóa Việt Nam. 
+            Bối cảnh cuộc trò chuyện hiện tại: ${currentContext}
+            
+            Yêu cầu của người dùng: ${userMessage}
+            
+            Một số lưu ý trong lúc trả lời:
+            - Phần câu trả lời (answer) không được quá dài tầm dưới 50 từ thôi
+
+            Hãy phản hồi dưới định dạng JSON với 2 phần:
+            1. "answer": Câu trả lời chi tiết, chính xác, dựa trên yêu cầu của người dùng và bối cảnh cuộc trò chuyện.
+            2. "newContext": Tổng kết bối cảnh mới của cuộc trò chuyện (tóm tắt dựa trên bối cảnh cũ, yêu cầu mới và câu trả lời, chỉ giữ thông tin quan trọng nhất cho các câu hỏi tiếp theo).
+            
+            Ví dụ format:
+            {
+                "answer": "Câu trả lời của bạn...",
+                "newContext": "Tóm tắt bối cảnh mới..."
+            }`;
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Lỗi kết nối đến Gemini API');
+            }
+
+            const data = await response.json();
+            const textResponse = data.candidates[0].content.parts[0].text;
+
+            // Parse JSON từ response
+            const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) {
+                throw new Error('Không thể parse JSON từ response');
+            }
+
+            return JSON.parse(jsonMatch[0]);
+        }
+
+        // Xử lý gửi tin nhắn
+        async function sendMessage() {
+            const message = userInput.value.trim();
+
+            if (!message) return;
+
+            // Kiểm tra API key
+            if (API_KEY === 'YOUR_GEMINI_API_KEY') {
+                showError('Vui lòng cấu hình Gemini API key trong mã nguồn!');
+                return;
+            }
+
+            // Thêm tin nhắn user
+            addMessage('user', message);
+            userInput.value = '';
+
+            // Disable input và button
+            userInput.disabled = true;
+            sendButton.disabled = true;
+
+            // Hiển thị typing indicator
+            showTypingIndicator();
+
+            try {
+                // Gọi API
+                const response = await callGeminiAPI(message);
+
+                // Xóa typing indicator
+                removeTypingIndicator();
+
+                // Thêm câu trả lời
+                addMessage('bot', response.answer);
+
+                // Cập nhật context
+                currentContext = response.newContext;
+                saveChatHistory();
+
+            } catch (error) {
+                removeTypingIndicator();
+                showError('Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.');
+                console.error('Error:', error);
+            } finally {
+                // Enable input và button
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // Gửi tin nhắn khi nhấn Enter
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !sendButton.disabled) {
+                sendMessage();
+            }
+        });
+
+        // Load lịch sử khi trang được tải
+        window.addEventListener('load', () => {
+            loadChatHistory();
+            if (messagesContainer.children.length === 0) {
+                addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?');
+            }
+        });
+    </script>
+</body>
+</html>
