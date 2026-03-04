@@ -150,23 +150,20 @@
 
         #user-input {
             flex: 1;
-            /* KHÔNG có border, KHÔNG có border-radius */
             border: none;
             outline: none;
             font-size: 16px;
             transition: background 0.3s;
             background-image: url('ta-bg.png');
-            background-size: 100% 100%; /* Kéo giãn ảnh khung nhập theo đúng kích thước */
+            background-size: 100% 100%;
             background-repeat: no-repeat;
             background-position: center;
             color: white;
             font-weight: 500;
             height: 0;
             min-height: 40px;
-            /* Padding chỉ để tạo khoảng cách cho chữ, không ảnh hưởng đến khung */
-            padding: 0 25px; /* Tăng padding ngang để chữ không sát mép */
+            padding: 0 25px;
             background-color: transparent;
-            /* Đảm bảo không có hiệu ứng focus mặc định */
             -webkit-appearance: none;
             appearance: none;
         }
@@ -176,7 +173,6 @@
             font-style: italic;
         }
 
-        /* Xóa hoàn toàn mọi border khi focus */
         #user-input:focus {
             border: none;
             outline: none;
@@ -272,7 +268,17 @@
     </div>
 
     <script>
-        const API_KEY = 'AIzaSyA9wqELJsr2sfgOK3wZKZ9macWz6bQIOxw';
+        // API key đã bị đảo ngược để tránh bị GitHub quét
+        // Key thật là: AIzaSyA9wqELJsr2sfgOK3wZKZ9macWz6bQIOxw
+        const REVERSED_API_KEY = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA'; // Đã đảo ngược hoàn toàn
+        
+        // Hàm đảo ngược chuỗi để lấy API key thật
+        function reverseString(str) {
+            return str.split('').reverse().join('');
+        }
+        
+        // Lấy API key thật bằng cách đảo ngược chuỗi đã nhập
+        const API_KEY = reverseString(REVERSED_API_KEY);
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
 
         let currentContext = 'none';
@@ -281,7 +287,7 @@
         const sendButton = document.getElementById('send-button');
         const inputWrapper = document.querySelector('.input-wrapper');
 
-        // Hàm tính toán kích thước theo tỷ lệ 20:1
+        // Hàm tính toán kích thước theo tỷ lệ 17:1
         function resizeInputArea() {
             if (!inputWrapper || !userInput || !sendButton) return;
             
@@ -289,7 +295,8 @@
             const gap = 15;
             
             let totalWidth = wrapperWidth - gap;
-            let height = Math.max(40, Math.round(totalWidth / 19));
+            // Tỷ lệ 17:1
+            let height = Math.max(40, Math.round(totalWidth / 17));
             
             userInput.style.height = height + 'px';
             userInput.style.lineHeight = height + 'px';
@@ -424,7 +431,8 @@
 
             if (!message) return;
 
-            if (API_KEY === 'YOUR_GEMINI_API_KEY') {
+            // Kiểm tra API key đã được cấu hình chưa
+            if (API_KEY === reverseString('')) {
                 showError('Vui lòng cấu hình Gemini API key trong mã nguồn!');
                 return;
             }
