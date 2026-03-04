@@ -135,8 +135,8 @@
 
         .input-area {
             padding: 15px 20px;
-            background: transparent; /* Làm trong suốt hoàn toàn */
-            border-top: none; /* Bỏ đường viền trên */
+            background: transparent;
+            border-top: none;
             display: flex;
             gap: 10px;
             backdrop-filter: none;
@@ -146,12 +146,12 @@
         #user-input {
             flex: 1;
             padding: 12px 18px;
-            border: 2px solid rgba(218, 165, 32, 0.6);
-            border-radius: 25px;
+            border: 2px solid #ffd700; /* Viền vàng nổi bật */
+            border-radius: 8px; /* Giảm bo tròn */
             font-size: 16px;
             outline: none;
-            transition: border-color 0.3s, background 0.3s;
-            background: rgba(255, 255, 255, 0.2); /* Nền trắng trong suốt */
+            transition: background 0.3s;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -163,23 +163,22 @@
         }
 
         #user-input:focus {
-            border-color: #ffd700;
             background: rgba(255, 255, 255, 0.3);
         }
 
         #send-button {
             background: transparent;
             border: none;
-            border-radius: 50%;
             width: 50px;
             height: 50px;
             cursor: pointer;
-            transition: opacity 0.3s ease; /* Hiệu ứng mờ dần 0.3s */
+            transition: opacity 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             opacity: 1;
+            border-radius: 0; /* Bỏ bo tròn hoàn toàn */
             /* Ảnh mặc định */
             background-image: url('send-nm.png');
             background-size: contain;
@@ -188,8 +187,8 @@
         }
 
         #send-button:hover {
-            opacity: 0.7; /* Hiệu ứng mờ dần khi hover */
-            background-image: url('send-m.png'); /* Đổi ảnh khi hover */
+            opacity: 0.7;
+            background-image: url('send-m.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
