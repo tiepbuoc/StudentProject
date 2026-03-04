@@ -36,9 +36,9 @@
             overflow: hidden;
         }
 
-        /* Khoảng trống 50px phía trên, vẫn giữ nền bg.png */
+        /* Khoảng trống phía trên - 75px cố định */
         .chat-header-placeholder {
-            height: 50px;
+            height: 75px;
             width: 100%;
             background: transparent;
             flex-shrink: 0;
@@ -138,39 +138,52 @@
             background: transparent;
             border-top: none;
             display: flex;
-            gap: 10px;
+            gap: 15px;
             backdrop-filter: none;
             flex-shrink: 0;
+            width: 100%; /* Đảm bảo chiếm 100% width */
+        }
+
+        /* Container để tính toán tỷ lệ 20:1 cho tổng chiều rộng */
+        .input-wrapper {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            align-items: center;
         }
 
         #user-input {
             flex: 1;
-            padding: 12px 18px;
-            border: 2px solid #ffd700; /* Viền vàng nổi bật */
-            border-radius: 8px; /* Giảm bo tròn */
+            padding: 0 22px; /* Padding ngang giữ nguyên, bỏ padding dọc vì đã tính vào height từ tỷ lệ */
+            border: 2px solid #ffd700;
+            border-radius: 8px;
             font-size: 16px;
             outline: none;
             transition: background 0.3s;
-            background: rgba(255, 255, 255, 0.2);
+            background-image: url('ta-bg.png');
+            background-size: cover;
+            background-position: center;
             color: white;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
+            font-weight: 500;
+            height: 0; /* Tạm thời set 0, sẽ được tính toán bằng JS */
+            min-height: 40px; /* Chiều cao tối thiểu để đảm bảo hiển thị */
         }
 
         #user-input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             font-style: italic;
         }
 
         #user-input:focus {
-            background: rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 0, 0, 0.3);
+            background-blend-mode: overlay;
         }
 
         #send-button {
             background: transparent;
             border: none;
-            width: 50px;
-            height: 50px;
             cursor: pointer;
             transition: opacity 0.3s ease;
             display: flex;
@@ -178,12 +191,17 @@
             justify-content: center;
             padding: 0;
             opacity: 1;
-            border-radius: 0; /* Bỏ bo tròn hoàn toàn */
+            border-radius: 0;
             /* Ảnh mặc định */
             background-image: url('send-nm.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            width: 0; /* Tạm thời set 0, sẽ được tính toán bằng JS */
+            height: 0; /* Tạm thời set 0, sẽ được tính toán bằng JS */
+            aspect-ratio: 1/1; /* Tỉ lệ 1:1 cho nút vuông */
+            min-width: 40px; /* Kích thước tối thiểu */
+            min-height: 40px;
         }
 
         #send-button:hover {
@@ -202,7 +220,7 @@
 
         .clear-btn {
             position: fixed;
-            top: 10px;
+            top: 15px;
             right: 20px;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid #ffd700;
@@ -236,29 +254,63 @@
 </head>
 <body>
     <div class="chat-container">
-        <!-- Placeholder giữ khoảng trống 50px phía trên -->
+        <!-- Placeholder giữ khoảng trống 75px phía trên -->
         <div class="chat-header-placeholder"></div>
         
-        <!-- Nút xóa lịch sử vẫn được giữ lại nhưng đặt ở vị trí fixed để không ảnh hưởng layout -->
+        <!-- Nút xóa lịch sử vẫn được giữ lại -->
         <button class="clear-btn" onclick="clearHistory()">Xóa lịch sử</button>
 
         <div id="messages" class="messages-container"></div>
 
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..."
-                autocomplete="off">
-            <button id="send-button" onclick="sendMessage()"></button>
+            <div class="input-wrapper">
+                <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..."
+                    autocomplete="off">
+                <button id="send-button" onclick="sendMessage()"></button>
+            </div>
         </div>
     </div>
 
     <script>
-        const API_KEY = 'AIzaSyA9wqELJsr2sfgOK3wZKZ9macWz6bQIOxw'; // Thay thế bằng API key của bạn
+        const API_KEY = 'AIzaSyA9wqELJsr2sfgOK3wZKZ9macWz6bQIOxw';
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
 
         let currentContext = 'none';
         const messagesContainer = document.getElementById('messages');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const inputWrapper = document.querySelector('.input-wrapper');
+
+        // Hàm tính toán kích thước theo tỷ lệ 20:1
+        function resizeInputArea() {
+            if (!inputWrapper || !userInput || !sendButton) return;
+            
+            // Lấy chiều rộng của wrapper
+            const wrapperWidth = inputWrapper.offsetWidth;
+            
+            // Khoảng cách gap giữa input và button
+            const gap = 15; // 15px gap từ CSS
+            
+            // Tính toán chiều cao dựa trên tỷ lệ 20:1 (width:height)
+            // Với tổng chiều rộng (input width + button width + gap) và tỷ lệ 20:1 cho tổng thể
+            // Chiều cao = (wrapperWidth - gap) / 20 * (20/21?) 
+            // Thực tế: wrapperWidth = inputWidth + buttonWidth + gap
+            // Và inputWidth + buttonWidth = wrapperWidth - gap
+            // Với tỷ lệ 20:1, chiều cao = (wrapperWidth - gap) / 20
+            
+            let totalWidth = wrapperWidth - gap; // Tổng chiều rộng input + button
+            
+            // Chiều cao tính theo tỷ lệ 20:1 (20 phần chiều ngang : 1 phần chiều cao)
+            let height = Math.max(40, Math.round(totalWidth / 20)); // Tối thiểu 40px
+            
+            // Điều chỉnh để button vuông và input có cùng chiều cao
+            userInput.style.height = height + 'px';
+            userInput.style.lineHeight = height + 'px'; // Canh giữa chữ theo chiều dọc
+            
+            // Button vuông có kích thước bằng chiều cao
+            sendButton.style.width = height + 'px';
+            sendButton.style.height = height + 'px';
+        }
 
         // Load lịch sử từ localStorage
         function loadChatHistory() {
@@ -343,7 +395,6 @@
 
         // Gọi Gemini API
         async function callGeminiAPI(userMessage) {
-            // Tạo prompt với context
             let prompt = `Bạn là Sao Vàng - chuyên gia về lịch sử và văn hóa Việt Nam. 
             Bối cảnh cuộc trò chuyện hiện tại: ${currentContext}
             
@@ -383,7 +434,6 @@
             const data = await response.json();
             const textResponse = data.candidates[0].content.parts[0].text;
 
-            // Parse JSON từ response
             const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
             if (!jsonMatch) {
                 throw new Error('Không thể parse JSON từ response');
@@ -398,34 +448,26 @@
 
             if (!message) return;
 
-            // Kiểm tra API key
             if (API_KEY === 'YOUR_GEMINI_API_KEY') {
                 showError('Vui lòng cấu hình Gemini API key trong mã nguồn!');
                 return;
             }
 
-            // Thêm tin nhắn user
             addMessage('user', message);
             userInput.value = '';
 
-            // Disable input và button
             userInput.disabled = true;
             sendButton.disabled = true;
 
-            // Hiển thị typing indicator
             showTypingIndicator();
 
             try {
-                // Gọi API
                 const response = await callGeminiAPI(message);
 
-                // Xóa typing indicator
                 removeTypingIndicator();
 
-                // Thêm câu trả lời
                 addMessage('bot', response.answer);
 
-                // Cập nhật context
                 currentContext = response.newContext;
                 saveChatHistory();
 
@@ -434,7 +476,6 @@
                 showError('Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.');
                 console.error('Error:', error);
             } finally {
-                // Enable input và button
                 userInput.disabled = false;
                 sendButton.disabled = false;
                 userInput.focus();
@@ -448,13 +489,29 @@
             }
         });
 
-        // Load lịch sử khi trang được tải
+        // Resize khi window thay đổi kích thước
+        window.addEventListener('resize', () => {
+            resizeInputArea();
+        });
+
+        // Load lịch sử và resize khi trang được tải
         window.addEventListener('load', () => {
             loadChatHistory();
             if (messagesContainer.children.length === 0) {
                 addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?');
             }
+            // Gọi resize sau khi load xong
+            setTimeout(resizeInputArea, 100); // Timeout nhỏ để đảm bảo DOM đã render
         });
+
+        // Observe sự thay đổi kích thước của wrapper (phòng trường hợp có thay đổi layout)
+        const resizeObserver = new ResizeObserver(() => {
+            resizeInputArea();
+        });
+        
+        if (inputWrapper) {
+            resizeObserver.observe(inputWrapper);
+        }
     </script>
 </body>
 </html>
