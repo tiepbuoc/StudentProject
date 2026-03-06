@@ -4,117 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIETVERSE - Đăng nhập</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('bg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 2000px;
+            height: 2000px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            top: -10%;
+            right: -20%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 1500px;
+            height: 1500px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c00 100%);
+            bottom: -10%;
+            left: -20%;
+            opacity: 0.1;
+            animation: float 15s infinite linear reverse;
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .navbar {
-            background: rgba(55, 1, 0, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 10px 20px;
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #ffd700;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo img {
             height: 40px;
             width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
         }
 
         .logo span {
-            color: #ffd700;
             font-size: 24px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
 
         .nav-links a {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            font-weight: 500;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .nav-links a:hover {
-            background: #ffd700;
-            color: #370100;
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            border-color: #ffd700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .nav-links a.active {
             background: #ffd700;
-            color: #370100;
+            color: #333;
+            border-color: #ffd700;
         }
 
         .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%;
+            max-width: 450px;
             padding: 20px;
+            z-index: 10;
         }
 
-        .auth-container {
+        .auth-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 30px;
             padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid #ffd700;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(0);
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header i {
+            font-size: 60px;
+            color: #ffd700;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .auth-header h2 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         .auth-tabs {
             display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.05);
+            padding: 5px;
+            border-radius: 50px;
             margin-bottom: 30px;
-            border-bottom: 2px solid #ffd700;
         }
 
         .auth-tab {
             flex: 1;
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             cursor: pointer;
-            color: #370100;
-            font-weight: bold;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #666;
             transition: all 0.3s;
         }
 
         .auth-tab.active {
-            color: #ffd700;
-            border-bottom: 3px solid #ffd700;
-            margin-bottom: -2px;
+            background: #ffd700;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
         }
 
         .auth-form {
@@ -123,75 +204,106 @@
 
         .auth-form.active {
             display: block;
+            animation: fadeIn 0.5s ease;
         }
 
-        .form-group {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .input-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        .input-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #370100;
+            margin-bottom: 8px;
+            color: #555;
             font-weight: 500;
+            font-size: 14px;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+        .input-field {
+            position: relative;
+        }
+
+        .input-field i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
             font-size: 16px;
-            transition: all 0.3s;
         }
 
-        .form-group input:focus {
+        .input-field input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .input-field input:focus {
             border-color: #ffd700;
             outline: none;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
         }
 
         .auth-btn {
             width: 100%;
-            padding: 12px;
-            background: #370100;
-            color: white;
-            border: 2px solid #ffd700;
-            border-radius: 10px;
+            padding: 16px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #333;
+            border: none;
+            border-radius: 15px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .auth-btn:hover {
-            background: #5a0200;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
         }
 
-        .error-message {
-            color: #d32f2f;
+        .auth-btn i {
+            font-size: 18px;
+        }
+
+        .message {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
             font-size: 14px;
         }
 
-        .success-message {
-            color: #388e3c;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
+        .message.error {
+            background: rgba(255, 99, 71, 0.1);
+            color: #ff6347;
+            border: 1px solid rgba(255, 99, 71, 0.3);
         }
 
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .auth-container {
-                padding: 20px;
-            }
+        .message.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
         }
     </style>
 </head>
@@ -202,53 +314,82 @@
             <span>VIETVERSE</span>
         </div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="chatbot.html">Chatbot</a>
-            <a href="thuthach.html">Thử thách</a>
-            <a href="minigame.html">Minigame</a>
-            <a href="login.html" class="active">Đăng nhập</a>
+            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="chatbot.html"><i class="fas fa-robot"></i></a>
+            <a href="thuthach.html"><i class="fas fa-trophy"></i></a>
+            <a href="minigame.html"><i class="fas fa-gamepad"></i></a>
+            <a href="login.html" class="active"><i class="fas fa-user"></i></a>
         </div>
     </div>
 
     <div class="container">
-        <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-user-circle"></i>
+                <h2>Chào mừng bạn</h2>
+            </div>
+
             <div class="auth-tabs">
                 <div class="auth-tab active" onclick="switchTab('login')">Đăng nhập</div>
                 <div class="auth-tab" onclick="switchTab('register')">Đăng ký</div>
             </div>
 
             <div id="login-form" class="auth-form active">
-                <div class="form-group">
+                <div class="input-group">
                     <label>Email</label>
-                    <input type="email" id="login-email" placeholder="Nhập email của bạn">
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Nhập email của bạn">
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <label>Mật khẩu</label>
-                    <input type="password" id="login-password" placeholder="Nhập mật khẩu">
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Nhập mật khẩu">
+                    </div>
                 </div>
-                <button class="auth-btn" onclick="login()">Đăng nhập</button>
-                <div id="login-message" class="error-message"></div>
+                <button class="auth-btn" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Đăng nhập
+                </button>
+                <div id="login-message" class="message"></div>
             </div>
 
             <div id="register-form" class="auth-form">
-                <div class="form-group">
+                <div class="input-group">
                     <label>Họ tên</label>
-                    <input type="text" id="register-name" placeholder="Nhập họ tên của bạn">
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="register-name" placeholder="Nhập họ tên">
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <label>Email</label>
-                    <input type="email" id="register-email" placeholder="Nhập email của bạn">
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="register-email" placeholder="Nhập email">
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <label>Mật khẩu</label>
-                    <input type="password" id="register-password" placeholder="Nhập mật khẩu">
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="register-password" placeholder="Nhập mật khẩu">
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="input-group">
                     <label>Xác nhận mật khẩu</label>
-                    <input type="password" id="register-confirm-password" placeholder="Xác nhận mật khẩu">
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="register-confirm-password" placeholder="Xác nhận mật khẩu">
+                    </div>
                 </div>
-                <button class="auth-btn" onclick="register()">Đăng ký</button>
-                <div id="register-message" class="error-message"></div>
+                <button class="auth-btn" onclick="register()">
+                    <i class="fas fa-user-plus"></i>
+                    Đăng ký
+                </button>
+                <div id="register-message" class="message"></div>
             </div>
         </div>
     </div>
@@ -256,37 +397,38 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="config.js"></script>
     <script>
-        // Khởi tạo Firebase
-        const firebaseConfig = getFirebaseConfig();
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCznQ023bnCgA6QLl2M-0J5X3pslRiQwa0",
+            authDomain: "kehoachso.firebaseapp.com",
+            projectId: "kehoachso",
+            storageBucket: "kehoachso.firebasestorage.app",
+            messagingSenderId: "80210804205",
+            appId: "1:80210804205:web:be0d3b3e68bae6867dfbe4",
+            measurementId: "G-C6YGPPG13R"
+        };
+
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Kiểm tra trạng thái đăng nhập
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // Nếu đã đăng nhập, chuyển về trang chủ
                 window.location.href = 'index.html';
             }
         });
 
         function switchTab(tab) {
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
-            const tabs = document.querySelectorAll('.auth-tab');
-
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
             if (tab === 'login') {
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
-                tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
             } else {
-                loginForm.classList.remove('active');
-                registerForm.classList.add('active');
-                tabs[0].classList.remove('active');
-                tabs[1].classList.add('active');
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
             }
         }
 
@@ -295,31 +437,22 @@
             const password = document.getElementById('login-password').value;
             const messageDiv = document.getElementById('login-message');
 
+            messageDiv.className = 'message';
             if (!email || !password) {
-                messageDiv.textContent = 'Vui lòng nhập đầy đủ email và mật khẩu';
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Vui lòng nhập email và mật khẩu';
                 return;
             }
 
             auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    messageDiv.className = 'success-message';
-                    messageDiv.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
+                .then(() => {
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = 'Đăng nhập thành công!';
+                    setTimeout(() => window.location.href = 'index.html', 1000);
                 })
                 .catch((error) => {
-                    messageDiv.className = 'error-message';
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            messageDiv.textContent = 'Email không tồn tại';
-                            break;
-                        case 'auth/wrong-password':
-                            messageDiv.textContent = 'Sai mật khẩu';
-                            break;
-                        default:
-                            messageDiv.textContent = 'Đăng nhập thất bại: ' + error.message;
-                    }
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = error.message;
                 });
         }
 
@@ -330,52 +463,39 @@
             const confirmPassword = document.getElementById('register-confirm-password').value;
             const messageDiv = document.getElementById('register-message');
 
+            messageDiv.className = 'message';
             if (!name || !email || !password || !confirmPassword) {
+                messageDiv.className = 'message error';
                 messageDiv.textContent = 'Vui lòng nhập đầy đủ thông tin';
                 return;
             }
 
             if (password !== confirmPassword) {
-                messageDiv.textContent = 'Mật khẩu xác nhận không khớp';
-                return;
-            }
-
-            if (password.length < 6) {
-                messageDiv.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Mật khẩu không khớp';
                 return;
             }
 
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                    // Cập nhật displayName
-                    return userCredential.user.updateProfile({
-                        displayName: name
-                    }).then(() => {
-                        // Tạo document cho user trong Firestore
-                        return db.collection('users').doc(userCredential.user.uid).set({
-                            name: name,
-                            email: email,
-                            createdAt: new Date().toISOString(),
-                            lastChallenge: null,
-                            chatHistory: [],
-                            challengeHistory: []
+                    return userCredential.user.updateProfile({ displayName: name })
+                        .then(() => {
+                            return db.collection('users').doc(userCredential.user.uid).set({
+                                name: name,
+                                email: email,
+                                createdAt: new Date().toISOString(),
+                                challengeHistory: []
+                            });
                         });
-                    });
                 })
                 .then(() => {
-                    messageDiv.className = 'success-message';
-                    messageDiv.textContent = 'Đăng ký thành công! Đang chuyển hướng...';
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = 'Đăng ký thành công!';
+                    setTimeout(() => window.location.href = 'index.html', 1000);
                 })
                 .catch((error) => {
-                    messageDiv.className = 'error-message';
-                    if (error.code === 'auth/email-already-in-use') {
-                        messageDiv.textContent = 'Email đã được sử dụng';
-                    } else {
-                        messageDiv.textContent = 'Đăng ký thất bại: ' + error.message;
-                    }
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = error.message;
                 });
         }
     </script>
