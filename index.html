@@ -4,67 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIETVERSE - Khám phá văn hóa Việt Nam</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
-            overflow-x: hidden;
         }
 
         body::before {
             content: '';
-            position: absolute;
-            width: 2000px;
-            height: 2000px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            top: -10%;
-            right: -20%;
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 1500px;
-            height: 1500px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c00 100%);
-            bottom: -10%;
-            left: -20%;
-            opacity: 0.1;
-            animation: float 15s infinite linear reverse;
-        }
-
-        @keyframes float {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 15px 40px;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 100;
         }
 
         .logo {
@@ -74,119 +54,116 @@
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
 
         .logo span {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
         }
 
         .nav-links {
             display: flex;
-            gap: 15px;
+            gap: 25px;
         }
 
         .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
             width: 45px;
             height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            transition: all 0.3s;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-links a:hover {
-            background: rgba(255, 215, 0, 0.3);
+            background: #ffd700;
+            color: #370100;
             transform: translateY(-3px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
         }
 
         .nav-links a.active {
             background: #ffd700;
-            color: #333;
-            border-color: #ffd700;
+            color: #370100;
         }
 
-        .user-menu {
+        .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px 5px 5px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            background: #ffd700;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
+        .user-info i {
+            color: #ffd700;
             font-size: 18px;
         }
 
-        .user-name {
-            color: white;
+        .user-info span {
             font-weight: 500;
-            font-size: 14px;
         }
 
         .logout-btn {
             background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .logout-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
             color: #ffd700;
-            transform: scale(1.1);
         }
 
         .container {
-            max-width: 1200px;
-            margin: 100px auto 40px;
-            padding: 0 20px;
             position: relative;
             z-index: 10;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         .welcome-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
             padding: 50px;
             margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: slideUp 0.8s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease;
         }
 
-        @keyframes slideUp {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -195,16 +172,14 @@
         }
 
         .welcome-section h1 {
-            font-size: 3em;
-            background: linear-gradient(135deg, #333, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffd700;
+            font-size: 2.8em;
             margin-bottom: 20px;
-            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .welcome-section p {
-            color: #666;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.2em;
             line-height: 1.6;
             max-width: 800px;
@@ -214,18 +189,19 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 35px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            animation: slideUp 0.8s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            animation: fadeInUp 0.5s ease;
             animation-fill-mode: both;
         }
 
@@ -235,122 +211,139 @@
 
         .stat-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .stat-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 30px;
-            color: #333;
+            font-size: 3em;
+            color: #ffd700;
+            margin-bottom: 20px;
         }
 
         .stat-number {
-            font-size: 2.5em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #333, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: white;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
         .stat-label {
-            color: #666;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 1.1em;
-            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
+            margin-bottom: 40px;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
-            animation: slideUp 0.8s ease;
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
             animation-fill-mode: both;
         }
 
-        .feature-card:nth-child(1) { animation-delay: 0.4s; }
-        .feature-card:nth-child(2) { animation-delay: 0.5s; }
-        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
 
         .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transform: translateY(-15px);
+            border-color: #ffd700;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 4em;
+            color: #ffd700;
             margin-bottom: 25px;
-            font-size: 40px;
-            color: #333;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .feature-title {
             font-size: 1.8em;
-            font-weight: 600;
+            color: white;
             margin-bottom: 15px;
-            background: linear-gradient(135deg, #333, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: bold;
         }
 
         .feature-description {
-            color: #666;
+            color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
             font-size: 1.1em;
         }
 
         .feedback-card {
-            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,140,0,0.1));
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
             padding: 30px;
-            margin-top: 40px;
-            border: 1px solid rgba(255,215,0,0.3);
-            animation: slideUp 0.8s ease;
-            animation-delay: 0.7s;
-            animation-fill-mode: both;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            margin-top: 30px;
+            animation: fadeInUp 0.5s ease 0.4s both;
         }
 
-        .feedback-title {
+        .feedback-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #ff8c00;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-header i {
+            font-size: 2em;
+            color: #ffd700;
+        }
+
+        .feedback-header h3 {
+            color: white;
+            font-size: 1.5em;
         }
 
         .feedback-content {
-            color: #666;
-            line-height: 1.6;
-            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.1em;
+            line-height: 1.6;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2em;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -361,91 +354,27 @@
             <span>VIETVERSE</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="active"><i class="fas fa-home"></i></a>
-            <a href="chatbot.html"><i class="fas fa-robot"></i></a>
-            <a href="thuthach.html"><i class="fas fa-trophy"></i></a>
-            <a href="minigame.html"><i class="fas fa-gamepad"></i></a>
+            <a href="index.html" class="active" title="Trang chủ"><i class="fas fa-home"></i></a>
+            <a href="chatbot.html" title="Chatbot"><i class="fas fa-robot"></i></a>
+            <a href="thuthach.html" title="Thử thách"><i class="fas fa-trophy"></i></a>
+            <a href="minigame.html" title="Minigame"><i class="fas fa-gamepad"></i></a>
         </div>
-        <div class="user-menu" id="userMenu">
-            <div class="user-avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <span class="user-name" id="userName"></span>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+        <div class="user-info" id="userInfo">
+            <i class="fas fa-user-circle"></i>
+            <span id="userName">Đang tải...</span>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
         </div>
     </div>
 
-    <div class="container">
-        <div class="welcome-section" id="welcomeSection">
-            <h1>Chào mừng đến với VIETVERSE</h1>
-            <p>Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo.</p>
-        </div>
-
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="stat-number" id="totalScore">0</div>
-                <div class="stat-label">Tổng điểm</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-history"></i>
-                </div>
-                <div class="stat-number" id="challengeCount">0</div>
-                <div class="stat-label">Số lần thử thách</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="stat-number" id="avgPercentage">0%</div>
-                <div class="stat-label">Tỷ lệ trung bình</div>
-            </div>
-        </div>
-
-        <div class="features-grid">
-            <a href="chatbot.html" class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="feature-title">Chatbot Sao Vàng</div>
-                <div class="feature-description">Trò chuyện với AI thông minh về lịch sử và văn hóa Việt Nam. Nhận câu trả lời chi tiết và chính xác.</div>
-            </a>
-
-            <a href="thuthach.html" class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="feature-title">Thử thách kiến thức</div>
-                <div class="feature-description">Kiểm tra hiểu biết của bạn qua các câu hỏi về văn hóa Việt Nam. Nhận đánh giá chi tiết từ AI.</div>
-            </a>
-
-            <a href="minigame.html" class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-gamepad"></i>
-                </div>
-                <div class="feature-title">Minigame</div>
-                <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam. Vừa học vừa chơi thật thú vị!</div>
-            </a>
-        </div>
-
-        <div class="feedback-card" id="lastFeedback" style="display: none;">
-            <div class="feedback-title">
-                <i class="fas fa-comment-dots"></i>
-                <span>Nhận xét từ thử thách gần nhất</span>
-            </div>
-            <div class="feedback-content" id="feedbackContent"></div>
-        </div>
+    <div class="container" id="mainContent">
+        <!-- Nội dung sẽ được load bằng JavaScript -->
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script>
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyCznQ023bnCgA6QLl2M-0J5X3pslRiQwa0",
             authDomain: "kehoachso.firebaseapp.com",
@@ -456,64 +385,109 @@
             measurementId: "G-C6YGPPG13R"
         };
 
+        // Khởi tạo Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // Kiểm tra trạng thái đăng nhập
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'login.html';
-                return;
+            } else {
+                document.getElementById('userName').textContent = user.displayName || 'Người dùng';
+                loadHomePage(user);
             }
-
-            document.getElementById('userName').textContent = user.displayName || 'Người dùng';
-            loadUserStats(user.uid);
-            loadLastFeedback(user.uid);
         });
-
-        async function loadUserStats(userId) {
-            try {
-                const userDoc = await db.collection('users').doc(userId).get();
-                if (userDoc.exists) {
-                    const challengeHistory = userDoc.data().challengeHistory || [];
-                    
-                    if (challengeHistory.length > 0) {
-                        const totalScore = challengeHistory.reduce((sum, c) => sum + (c.score || 0), 0);
-                        const avgPercentage = challengeHistory.reduce((sum, c) => sum + (c.percentage || 0), 0) / challengeHistory.length;
-                        
-                        document.getElementById('totalScore').textContent = totalScore;
-                        document.getElementById('challengeCount').textContent = challengeHistory.length;
-                        document.getElementById('avgPercentage').textContent = Math.round(avgPercentage) + '%';
-                    }
-                }
-            } catch (error) {
-                console.error('Lỗi khi load thống kê:', error);
-            }
-        }
-
-        async function loadLastFeedback(userId) {
-            try {
-                const userDoc = await db.collection('users').doc(userId).get();
-                if (userDoc.exists) {
-                    const challengeHistory = userDoc.data().challengeHistory || [];
-                    
-                    if (challengeHistory.length > 0) {
-                        const lastChallenge = challengeHistory[challengeHistory.length - 1];
-                        if (lastChallenge.aiFeedback) {
-                            document.getElementById('lastFeedback').style.display = 'block';
-                            document.getElementById('feedbackContent').textContent = lastChallenge.aiFeedback;
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Lỗi khi load feedback:', error);
-            }
-        }
 
         function logout() {
             auth.signOut().then(() => {
                 window.location.href = 'login.html';
             });
+        }
+
+        async function loadHomePage(user) {
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                const userData = userDoc.exists ? userDoc.data() : {};
+                const challengeHistory = userData.challengeHistory || [];
+                
+                let statsHtml = '';
+                let feedbackHtml = '';
+
+                if (challengeHistory.length > 0) {
+                    const totalScore = challengeHistory.reduce((sum, c) => sum + (c.score || 0), 0);
+                    const avgPercentage = Math.round(challengeHistory.reduce((sum, c) => sum + (c.percentage || 0), 0) / challengeHistory.length);
+                    const lastChallenge = challengeHistory[challengeHistory.length - 1];
+
+                    statsHtml = `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                                <div class="stat-number">${totalScore}</div>
+                                <div class="stat-label">Tổng điểm</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-history"></i></div>
+                                <div class="stat-number">${challengeHistory.length}</div>
+                                <div class="stat-label">Số lần thử thách</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-percent"></i></div>
+                                <div class="stat-number">${avgPercentage}%</div>
+                                <div class="stat-label">Tỷ lệ trung bình</div>
+                            </div>
+                        </div>
+                    `;
+
+                    if (lastChallenge.aiFeedback) {
+                        feedbackHtml = `
+                            <div class="feedback-card">
+                                <div class="feedback-header">
+                                    <i class="fas fa-robot"></i>
+                                    <h3>Nhận xét từ thử thách gần nhất</h3>
+                                </div>
+                                <div class="feedback-content">
+                                    ${lastChallenge.aiFeedback}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="welcome-section">
+                        <h1>Chào mừng ${user.displayName || 'bạn'} trở lại VIETVERSE!</h1>
+                        <p>Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo. Hãy tiếp tục hành trình khám phá của bạn!</p>
+                    </div>
+
+                    ${statsHtml}
+
+                    <div class="features-grid">
+                        <a href="chatbot.html" class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                            <div class="feature-title">Chatbot Sao Vàng</div>
+                            <div class="feature-description">Trò chuyện với AI về lịch sử và văn hóa Việt Nam</div>
+                        </a>
+
+                        <a href="thuthach.html" class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="feature-title">Thử thách kiến thức</div>
+                            <div class="feature-description">Kiểm tra hiểu biết và nhận đánh giá chi tiết từ AI</div>
+                        </a>
+
+                        <a href="minigame.html" class="feature-card">
+                            <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+                            <div class="feature-title">Minigame</div>
+                            <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam</div>
+                        </a>
+                    </div>
+
+                    ${feedbackHtml}
+                `;
+            } catch (error) {
+                console.error('Lỗi khi load trang chủ:', error);
+            }
         }
     </script>
 </body>
