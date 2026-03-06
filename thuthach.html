@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIETVERSE - Thử thách kiến thức</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(55, 1, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #ffd700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo span {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: #ffd700;
+            color: #370100;
+        }
+
+        .nav-links a.active {
+            background: #ffd700;
+            color: #370100;
+        }
+
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ffd700;
+            color: #370100;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .challenge-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .challenge-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .challenge-header h1 {
+            color: #370100;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .challenge-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .question-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+        }
+
+        .question-number {
+            color: #370100;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .score {
+            color: #370100;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #e0e0e0;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #ffd700;
+            border-color: #370100;
+        }
+
+        .option.correct {
+            background: #4caf50;
+            color: white;
+        }
+
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+        }
+
+        .option-letter {
+            width: 30px;
+            height: 30px;
+            background: #370100;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.1em;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: #370100;
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #5a0200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ffd700;
+            color: #370100;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #ffed4a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result-score {
+            font-size: 3em;
+            color: #370100;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .result-percentage {
+            font-size: 2em;
+            color: #ffd700;
+            margin-bottom: 30px;
+        }
+
+        .ai-feedback {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .ai-feedback h3 {
+            color: #370100;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .retry-btn {
+            padding: 12px 30px;
+            background: #370100;
+            color: white;
+            border: 2px solid #ffd700;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .retry-btn:hover {
+            background: #5a0200;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="VIETVERSE Logo">
+            <span>VIETVERSE</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="chatbot.html">Chatbot</a>
+            <a href="thuthach.html" class="active">Thử thách</a>
+            <a href="minigame.html">Minigame</a>
+            <a href="login.html" id="login-link">Đăng nhập</a>
+        </div>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <span id="userName"></span>
+            <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="challenge-container" id="challengeContainer">
+            <!-- Nội dung sẽ được cập nhật bằng JavaScript -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="config.js"></script>
+    <script>
+        // Khởi tạo Firebase
+        const firebaseConfig = getFirebaseConfig();
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Gemini API
+        const GEMINI_KEY = getGeminiKey();
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_KEY}`;
+
+        let currentUser = null;
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizCompleted = false;
+
+        const questionsData = [
+            {
+                question: "Vua Hùng đầu tiên của nước Văn Lang là ai?",
+                options: ["Hùng Vương thứ I", "Hùng Vương thứ VI", "Hùng Vương thứ XVIII", "Hùng Vương thứ X"],
+                correct: 0
+            },
+            {
+                question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?",
+                options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"],
+                correct: 0
+            },
+            {
+                question: "Áo dài truyền thống của Việt Nam có nguồn gốc từ đâu?",
+                options: ["Miền Bắc", "Miền Trung", "Miền Nam", "Cả 3 miền"],
+                correct: 3
+            },
+            {
+                question: "Tết Nguyên Đán còn được gọi là gì?",
+                options: ["Tết Cả", "Tết Ta", "Tết cổ truyền", "Tất cả đều đúng"],
+                correct: 3
+            },
+            {
+                question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?",
+                options: ["1010", "1070", "1076", "1484"],
+                correct: 1
+            },
+            {
+                question: "Trần Hưng Đạo nổi tiếng với chiến thắng nào?",
+                options: ["Bạch Đằng 938", "Như Nguyệt", "Bạch Đằng 1288", "Chi Lăng"],
+                correct: 2
+            },
+            {
+                question: "Bánh chưng gắn liền với truyền thuyết về ai?",
+                options: ["Lang Liêu", "Sơn Tinh", "Thánh Gióng", "Mỵ Châu"],
+                correct: 0
+            },
+            {
+                question: "Chiến dịch Điện Biên Phủ diễn ra vào năm nào?",
+                options: ["1945", "1954", "1975", "1930"],
+                correct: 1
+            },
+            {
+                question: "Ca trù là loại hình nghệ thuật của vùng nào?",
+                options: ["Bắc Bộ", "Trung Bộ", "Nam Bộ", "Tây Nguyên"],
+                correct: 0
+            },
+            {
+                question: "Quốc hiệu đầu tiên của Việt Nam là gì?",
+                options: ["Văn Lang", "Âu Lạc", "Đại Việt", "Việt Nam"],
+                correct: 0
+            },
+            {
+                question: "Chùa Hương thuộc tỉnh nào?",
+                options: ["Hà Nội", "Hà Nam", "Ninh Bình", "Hòa Bình"],
+                correct: 0
+            },
+            {
+                question: "Lý Thái Tổ dời đô từ Hoa Lư về Thăng Long năm nào?",
+                options: ["1009", "1010", "1011", "1012"],
+                correct: 1
+            },
+            {
+                question: "Múa rối nước có nguồn gốc từ vùng nào?",
+                options: ["Đồng bằng sông Hồng", "Đồng bằng sông Cửu Long", "Miền Trung", "Miền núi phía Bắc"],
+                correct: 0
+            },
+            {
+                question: "Trống đồng Đông Sơn thuộc thời kỳ nào?",
+                options: ["Văn Lang - Âu Lạc", "Bắc thuộc", "Nhà Lý", "Nhà Trần"],
+                correct: 0
+            },
+            {
+                question: "Tết Trung Thu còn được gọi là gì?",
+                options: ["Tết Thiếu nhi", "Tết Đoàn viên", "Tết Trông trăng", "Tất cả đều đúng"],
+                correct: 3
+            }
+        ];
+
+        auth.onAuthStateChanged((user) => {
+            const loginLink = document.getElementById('login-link');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+
+            if (user) {
+                loginLink.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = user.displayName || 'Người dùng';
+                currentUser = user;
+            } else {
+                loginLink.style.display = 'inline-block';
+                userInfo.style.display = 'none';
+                currentUser = null;
+            }
+            
+            startNewQuiz();
+        });
+
+        function startNewQuiz() {
+            // Lấy ngẫu nhiên 10 câu hỏi
+            questions = [...questionsData].sort(() => 0.5 - Math.random()).slice(0, 10);
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            quizCompleted = false;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('challengeContainer');
+            
+            if (quizCompleted) {
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const selectedAnswer = userAnswers[currentQuestionIndex];
+
+            let optionsHtml = '';
+            question.options.forEach((option, index) => {
+                let optionClass = 'option';
+                if (selectedAnswer !== null) {
+                    if (index === selectedAnswer) {
+                        optionClass += ' selected';
+                    }
+                }
+                
+                optionsHtml += `
+                    <div class="${optionClass}" onclick="selectAnswer(${index})">
+                        <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                        <div class="option-text">${option}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="challenge-header">
+                    <h1>🏆 Thử thách kiến thức</h1>
+                    <p>Trả lời 10 câu hỏi về văn hóa Việt Nam</p>
+                </div>
+                
+                <div class="question-info">
+                    <span class="question-number">Câu ${currentQuestionIndex + 1}/10</span>
+                    <span class="score">Điểm: ${calculateCurrentScore()}</span>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-text">${question.question}</div>
+                    <div class="options">
+                        ${optionsHtml}
+                    </div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button class="nav-btn" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>Câu trước</button>
+                    <button class="nav-btn" onclick="nextQuestion()" ${currentQuestionIndex === questions.length - 1 ? 'disabled' : ''}>Câu sau</button>
+                </div>
+
+                ${currentQuestionIndex === questions.length - 1 ? 
+                    '<button class="submit-btn" onclick="submitQuiz()">Nộp bài</button>' : ''}
+            `;
+        }
+
+        function selectAnswer(index) {
+            if (quizCompleted) return;
+            
+            userAnswers[currentQuestionIndex] = index;
+            displayQuestion();
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            }
+        }
+
+        function calculateCurrentScore() {
+            let score = 0;
+            for (let i = 0; i <= currentQuestionIndex; i++) {
+                if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        function calculateFinalScore() {
+            let score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        async function submitQuiz() {
+            // Kiểm tra xem đã trả lời hết chưa
+            const unanswered = userAnswers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                alert(`Bạn còn ${unanswered} câu chưa trả lời. Vui lòng trả lời tất cả câu hỏi trước khi nộp bài.`);
+                return;
+            }
+
+            quizCompleted = true;
+            
+            const totalScore = calculateFinalScore();
+            const percentage = Math.round((totalScore / questions.length) * 100);
+            
+            // Hiển thị kết quả với loading
+            displayResult(totalScore, percentage, true);
+
+            // Gọi AI để nhận xét
+            try {
+                const aiFeedback = await getAIFeedback();
+                // Lưu kết quả vào Firestore
+                if (currentUser) {
+                    await saveResultToFirestore(totalScore, percentage, aiFeedback);
+                }
+                // Hiển thị kết quả với feedback
+                displayResult(totalScore, percentage, false, aiFeedback);
+            } catch (error) {
+                console.error('Lỗi khi gọi AI:', error);
+                displayResult(totalScore, percentage, false, 'Không thể lấy nhận xét từ AI. Vui lòng thử lại sau.');
+            }
+        }
+
+        async function getAIFeedback() {
+            const wrongAnswers = [];
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] !== questions[i].correct) {
+                    wrongAnswers.push({
+                        question: questions[i].question,
+                        userAnswer: questions[i].options[userAnswers[i]],
+                        correctAnswer: questions[i].options[questions[i].correct]
+                    });
+                }
+            }
+
+            const prompt = `Bạn là chuyên gia về văn hóa Việt Nam. Hãy phân tích kết quả bài kiểm tra của người dùng và đưa ra nhận xét chi tiết:
+
+Số câu đúng: ${questions.length - wrongAnswers.length}/${questions.length}
+Tỷ lệ: ${Math.round(((questions.length - wrongAnswers.length) / questions.length) * 100)}%
+
+Các câu sai:
+${wrongAnswers.map((w, i) => `${i+1}. Câu hỏi: "${w.question}"\n   Đáp án người dùng chọn: "${w.userAnswer}"\n   Đáp án đúng: "${w.correctAnswer}"`).join('\n\n')}
+
+Hãy phân tích:
+1. Điểm mạnh của người dùng (dựa vào các câu đúng)
+2. Các lĩnh vực kiến thức còn yếu (dựa vào các câu sai)
+3. Gợi ý cụ thể về những chủ đề cần tìm hiểu thêm
+4. Lời khuyên để cải thiện kiến thức văn hóa Việt Nam
+
+Trả lời bằng tiếng Việt, ngắn gọn nhưng đầy đủ ý, không quá 150 từ.`;
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Lỗi kết nối đến Gemini API');
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        async function saveResultToFirestore(score, percentage, feedback) {
+            try {
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                const userData = userDoc.exists ? userDoc.data() : {};
+                const challengeHistory = userData.challengeHistory || [];
+                
+                challengeHistory.push({
+                    date: new Date().toISOString(),
+                    score: score,
+                    totalQuestions: questions.length,
+                    percentage: percentage,
+                    aiFeedback: feedback,
+                    details: questions.map((q, i) => ({
+                        question: q.question,
+                        userAnswer: q.options[userAnswers[i]],
+                        correctAnswer: q.options[q.correct],
+                        isCorrect: userAnswers[i] === q.correct
+                    }))
+                });
+
+                await db.collection('users').doc(currentUser.uid).set({
+                    ...userData,
+                    challengeHistory: challengeHistory
+                });
+            } catch (error) {
+                console.error('Lỗi khi lưu kết quả:', error);
+            }
+        }
+
+        function displayResult(score, percentage, isLoading, feedback = '') {
+            const container = document.getElementById('challengeContainer');
+
+            let feedbackHtml = '';
+            if (isLoading) {
+                feedbackHtml = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>AI đang phân tích kết quả của bạn...</p>
+                    </div>
+                `;
+            } else {
+                feedbackHtml = `
+                    <div class="ai-feedback">
+                        <h3>📝 Nhận xét từ AI:</h3>
+                        <p>${feedback}</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="result-container">
+                    <h1>🎉 Kết quả thử thách</h1>
+                    
+                    <div class="result-score">
+                        ${score}/${questions.length}
+                    </div>
+                    
+                    <div class="result-percentage">
+                        ${percentage}% hiểu biết văn hóa
+                    </div>
+                    
+                    ${feedbackHtml}
+                    
+                    <button class="retry-btn" onclick="startNewQuiz()">
+                        Làm lại bài kiểm tra
+                    </button>
+                </div>
+            `;
+        }
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            }).catch((error) => {
+                console.error('Lỗi đăng xuất:', error);
+            });
+        }
+    </script>
+</body>
+</html>
