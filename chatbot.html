@@ -3,68 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sao Vàng - Chatbot văn hóa Việt Nam</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Sao Vàng - Lịch sử & Văn hóa Việt Nam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
-            overflow: hidden;
         }
 
         body::before {
             content: '';
-            position: absolute;
-            width: 2000px;
-            height: 2000px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            top: -10%;
-            right: -20%;
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 1500px;
-            height: 1500px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c00 100%);
-            bottom: -10%;
-            left: -20%;
-            opacity: 0.1;
-            animation: float 15s infinite linear reverse;
-        }
-
-        @keyframes float {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 15px 40px;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        .chat-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
 
         .logo {
@@ -74,129 +63,115 @@
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
 
         .logo span {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
         }
 
         .nav-links {
             display: flex;
-            gap: 15px;
+            gap: 25px;
         }
 
         .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
             width: 45px;
             height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            transition: all 0.3s;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-links a:hover {
-            background: rgba(255, 215, 0, 0.3);
+            background: #ffd700;
+            color: #370100;
             transform: translateY(-3px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
         }
 
         .nav-links a.active {
             background: #ffd700;
-            color: #333;
-            border-color: #ffd700;
+            color: #370100;
         }
 
-        .user-menu {
+        .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px 5px 5px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            background: #ffd700;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
+        .user-info i {
+            color: #ffd700;
             font-size: 18px;
         }
 
-        .user-name {
-            color: white;
+        .user-info span {
             font-weight: 500;
-            font-size: 14px;
         }
 
         .logout-btn {
             background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .logout-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
             color: #ffd700;
-            transform: scale(1.1);
-        }
-
-        .chat-container {
-            height: 100vh;
-            padding-top: 80px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 10;
         }
 
         .messages-container {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 40px;
+            padding: 20px 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
         .message {
-            max-width: 70%;
-            padding: 15px 20px;
+            padding: 15px 22px;
             border-radius: 25px;
-            position: relative;
-            animation: messageSlide 0.3s ease;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            max-width: 70%;
+            word-wrap: break-word;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+            font-size: 15px;
         }
 
-        @keyframes messageSlide {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -205,37 +180,41 @@
         }
 
         .user-message {
-            background: rgba(55, 1, 0, 0.8);
+            background: rgba(55, 1, 0, 0.9);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .bot-message {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             color: white;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .bot-message strong {
             color: #ffd700;
+            font-size: 16px;
+            display: block;
+            margin-bottom: 5px;
         }
 
         .typing-indicator {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 15px 25px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
+            padding: 15px 22px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 25px;
             max-width: 100px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             align-self: flex-start;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .typing-indicator span {
@@ -243,6 +222,7 @@
             height: 8px;
             background: #ffd700;
             border-radius: 50%;
+            margin: 0 2px;
             animation: typing 1.4s infinite;
         }
 
@@ -257,7 +237,7 @@
         @keyframes typing {
             0%, 60%, 100% {
                 transform: translateY(0);
-                opacity: 0.6;
+                opacity: 0.4;
             }
             30% {
                 transform: translateY(-10px);
@@ -266,94 +246,93 @@
         }
 
         .suggested-questions {
-            padding: 20px 40px;
+            padding: 15px 30px;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .suggested-question-btn {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 25px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 10px 22px;
             border-radius: 50px;
-            font-size: 0.95em;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
             font-weight: 500;
         }
 
         .suggested-question-btn:hover {
-            background: rgba(255, 215, 0, 0.3);
-            transform: translateY(-3px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            background: #8b4513;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .input-area {
-            padding: 20px 40px;
+            padding: 20px 30px;
             background: transparent;
-            display: flex;
-            gap: 15px;
             flex-shrink: 0;
         }
 
         .input-wrapper {
-            flex: 1;
             display: flex;
             gap: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 60px;
             padding: 5px 5px 5px 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-        }
-
-        .input-wrapper:focus-within {
-            border-color: #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         #user-input {
             flex: 1;
-            background: transparent;
             border: none;
             outline: none;
-            color: white;
             font-size: 16px;
-            padding: 12px 0;
+            background: transparent;
+            color: white;
+            padding: 15px 0;
         }
 
         #user-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             font-style: italic;
         }
 
         #send-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            width: 55px;
+            height: 55px;
             border: none;
-            color: #333;
-            font-size: 20px;
+            border-radius: 50%;
+            background: #8b4513;
+            color: white;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         #send-button:hover:not(:disabled) {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            background: #a55a2a;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
         }
 
         #send-button:disabled {
@@ -362,61 +341,56 @@
         }
 
         .error-message {
-            background: rgba(255, 99, 71, 0.8);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
+            background: rgba(244, 67, 54, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid #f44336;
+            color: #ff8a80;
+            padding: 12px 20px;
+            border-radius: 15px;
+            margin: 10px 30px;
             text-align: center;
-            margin: 10px 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: messageSlide 0.3s ease;
+            animation: fadeIn 0.3s ease;
         }
 
-        /* Scrollbar styling */
-        .messages-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb {
-            background: rgba(255,215,0,0.5);
-            border-radius: 10px;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb:hover {
-            background: #ffd700;
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .suggested-question-btn {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <img src="logo.png" alt="VIETVERSE Logo">
-            <span>VIETVERSE</span>
-        </div>
-        <div class="nav-links">
-            <a href="index.html"><i class="fas fa-home"></i></a>
-            <a href="chatbot.html" class="active"><i class="fas fa-robot"></i></a>
-            <a href="thuthach.html"><i class="fas fa-trophy"></i></a>
-            <a href="minigame.html"><i class="fas fa-gamepad"></i></a>
-        </div>
-        <div class="user-menu" id="userMenu">
-            <div class="user-avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <span class="user-name" id="userName"></span>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </div>
-    </div>
-
     <div class="chat-container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="VIETVERSE Logo">
+                <span>VIETVERSE</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" title="Trang chủ"><i class="fas fa-home"></i></a>
+                <a href="chatbot.html" class="active" title="Chatbot"><i class="fas fa-robot"></i></a>
+                <a href="thuthach.html" title="Thử thách"><i class="fas fa-trophy"></i></a>
+                <a href="minigame.html" title="Minigame"><i class="fas fa-gamepad"></i></a>
+            </div>
+            <div class="user-info" id="userInfo">
+                <i class="fas fa-user-circle"></i>
+                <span id="userName">Đang tải...</span>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+            </div>
+        </div>
+
         <div id="messages" class="messages-container"></div>
 
         <div class="suggested-questions" id="suggestedQuestions"></div>
@@ -424,9 +398,7 @@
         <div class="input-area">
             <div class="input-wrapper">
                 <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..." autocomplete="off">
-                <button id="send-button" onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <button id="send-button" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
@@ -446,19 +418,21 @@
             measurementId: "G-C6YGPPG13R"
         };
 
+        // Gemini API key (đã đảo ngược để bảo mật)
+        const REVERSED_GEMINI_KEY = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
+        function reverseString(str) {
+            return str.split('').reverse().join('');
+        }
+        const GEMINI_KEY = reverseString(REVERSED_GEMINI_KEY);
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_KEY}`;
+
+        // Khởi tạo Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Gemini API key (đã đảo ngược)
-        const GEMINI_KEY = (() => {
-            const reversed = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
-            return reversed.split('').reverse().join('');
-        })();
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_KEY}`;
-
-        let currentContext = 'none';
         let currentUser = null;
+        let currentContext = 'none';
         let lastChallengeFeedback = '';
 
         const messagesContainer = document.getElementById('messages');
@@ -466,29 +440,31 @@
         const sendButton = document.getElementById('send-button');
         const suggestedQuestionsDiv = document.getElementById('suggestedQuestions');
 
+        // 20 câu hỏi gợi ý
         const allSuggestedQuestions = [
             "Vua Hùng là ai?",
-            "Bạch Đằng 938?",
+            "Chiến thắng Bạch Đằng 938?",
             "Nguồn gốc áo dài?",
-            "Tết nghĩa là gì?",
-            "Phở Hà Nội vs SG?",
-            "Văn Miếu năm nào?",
-            "Trần Hưng Đạo?",
-            "Bánh chưng tích?",
-            "Điện Biên Phủ?",
+            "Tết Nguyên Đán nghĩa là gì?",
+            "Sự khác biệt phở Hà Nội và Sài Gòn?",
+            "Văn Miếu được xây năm nào?",
+            "Trần Hưng Đạo là ai?",
+            "Sự tích bánh chưng?",
+            "Chiến dịch Điện Biên Phủ?",
             "Ca trù là gì?",
-            "Quốc hiệu đầu?",
-            "Chùa Hương khi?",
-            "Lý Thái Tổ?",
-            "Múa rối nước?",
-            "Trống Đông Sơn?",
-            "Trung Thu là?",
-            "Rạch Gầm năm?",
-            "Nón lá từ đâu?",
-            "Quang Trung?",
-            "Gốm Bát Tràng?"
+            "Quốc hiệu đầu tiên?",
+            "Chùa Hương ở đâu?",
+            "Lý Thái Tổ dời đô năm nào?",
+            "Múa rối nước bắt nguồn từ đâu?",
+            "Trống đồng Đông Sơn thời nào?",
+            "Tết Trung Thu là tết gì?",
+            "Chiến thắng Rạch Gầm - Xoài Mút?",
+            "Nón lá có từ bao giờ?",
+            "Vua Quang Trung đại phá quân Thanh?",
+            "Gốm Bát Tràng nổi tiếng thế nào?"
         ];
 
+        // Kiểm tra đăng nhập
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
                 window.location.href = 'login.html';
@@ -498,38 +474,19 @@
             document.getElementById('userName').textContent = user.displayName || 'Người dùng';
             currentUser = user;
             
-            await loadChatHistory(user.uid);
-            await loadLastChallengeFeedback(user.uid);
-            updateSuggestedQuestions();
-            addWelcomeMessage();
+            // Load lịch sử chat
+            await loadChatHistory();
+            
+            // Load feedback từ thử thách
+            await loadLastChallengeFeedback();
         });
 
-        async function loadChatHistory(userId) {
+        async function loadLastChallengeFeedback() {
             try {
-                const userDoc = await db.collection('users').doc(userId).get();
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 if (userDoc.exists) {
-                    const chatHistory = userDoc.data().chatHistory || [];
-                    
-                    messagesContainer.innerHTML = '';
-                    
-                    chatHistory.forEach(msg => {
-                        addMessage(msg.role, msg.content, false);
-                    });
-                    
-                    if (chatHistory.length > 0) {
-                        currentContext = chatHistory[chatHistory.length - 1].context || 'none';
-                    }
-                }
-            } catch (error) {
-                console.error('Lỗi khi load lịch sử:', error);
-            }
-        }
-
-        async function loadLastChallengeFeedback(userId) {
-            try {
-                const userDoc = await db.collection('users').doc(userId).get();
-                if (userDoc.exists) {
-                    const challengeHistory = userDoc.data().challengeHistory || [];
+                    const userData = userDoc.data();
+                    const challengeHistory = userData.challengeHistory || [];
                     if (challengeHistory.length > 0) {
                         lastChallengeFeedback = challengeHistory[challengeHistory.length - 1].aiFeedback || '';
                     }
@@ -539,9 +496,37 @@
             }
         }
 
-        async function saveChatHistory() {
-            if (!currentUser) return;
+        async function loadChatHistory() {
+            try {
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    const chatHistory = userData.chatHistory || [];
+                    
+                    messagesContainer.innerHTML = '';
+                    
+                    if (chatHistory.length > 0) {
+                        chatHistory.forEach(msg => {
+                            addMessage(msg.role, msg.content, false);
+                        });
+                        currentContext = chatHistory[chatHistory.length - 1].context || 'none';
+                    } else {
+                        addWelcomeMessage();
+                    }
+                } else {
+                    addWelcomeMessage();
+                }
+            } catch (error) {
+                console.error('Lỗi khi load lịch sử:', error);
+                addWelcomeMessage();
+            }
+        }
 
+        function addWelcomeMessage() {
+            addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?', false);
+        }
+
+        async function saveChatHistory() {
             try {
                 const messages = [];
                 const messageElements = messagesContainer.querySelectorAll('.message');
@@ -554,7 +539,7 @@
                             context: currentContext
                         });
                     } else if (el.classList.contains('bot-message')) {
-                        const content = el.innerHTML.replace('<strong>Sao Vàng:</strong><br>', '');
+                        const content = el.innerHTML.replace('<strong>Sao Vàng:</strong><br>', '').replace(/<[^>]*>/g, '');
                         messages.push({
                             role: 'bot',
                             content: content,
@@ -571,32 +556,19 @@
             }
         }
 
-        function addWelcomeMessage() {
-            if (messagesContainer.children.length === 0) {
-                const welcomeMsg = lastChallengeFeedback ? 
-                    `Xin chào! Tôi là Sao Vàng. Tôi thấy bạn đã làm bài kiểm tra gần đây: "${lastChallengeFeedback.substring(0, 100)}..." Hôm nay bạn muốn tìm hiểu thêm về điều gì?` :
-                    'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?';
-                
-                addMessage('bot', welcomeMsg);
-            }
+        function getRandomQuestions(n) {
+            const shuffled = [...allSuggestedQuestions].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
         }
 
         function updateSuggestedQuestions() {
-            const shuffled = [...allSuggestedQuestions].sort(() => 0.5 - Math.random());
-            const selected = shuffled.slice(0, 6);
+            const width = window.innerWidth;
+            const n = width < 480 ? 3 : width < 768 ? 4 : width < 1024 ? 5 : 6;
+            const questions = getRandomQuestions(n);
             
-            suggestedQuestionsDiv.innerHTML = '';
-            
-            selected.forEach(question => {
-                const button = document.createElement('button');
-                button.classList.add('suggested-question-btn');
-                button.innerHTML = `<i class="fas fa-question-circle" style="margin-right: 8px;"></i>${question}`;
-                button.onclick = () => {
-                    userInput.value = question;
-                    sendMessage();
-                };
-                suggestedQuestionsDiv.appendChild(button);
-            });
+            suggestedQuestionsDiv.innerHTML = questions.map(q => 
+                `<button class="suggested-question-btn" onclick="useSuggestedQuestion('${q.replace(/'/g, "\\'")}')">${q}</button>`
+            ).join('');
         }
 
         function addMessage(role, content, save = true) {
@@ -604,7 +576,7 @@
             messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'bot-message');
 
             if (role === 'bot') {
-                messageDiv.innerHTML = `<strong><i class="fas fa-star" style="color: #ffd700; margin-right: 8px;"></i>Sao Vàng:</strong><br>${content}`;
+                messageDiv.innerHTML = `<strong>Sao Vàng <i class="fas fa-star" style="color: #ffd700; font-size: 14px;"></i></strong><br>${content}`;
             } else {
                 messageDiv.innerHTML = `<i class="fas fa-user" style="margin-right: 8px;"></i>${content}`;
             }
@@ -623,7 +595,6 @@
             errorDiv.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>${message}`;
             messagesContainer.appendChild(errorDiv);
             scrollToBottom();
-            setTimeout(() => errorDiv.remove(), 5000);
         }
 
         function scrollToBottom() {
@@ -646,50 +617,64 @@
             }
         }
 
+        function useSuggestedQuestion(question) {
+            if (sendButton.disabled) return;
+            userInput.value = question;
+            sendMessage();
+        }
+
         async function callGeminiAPI(userMessage) {
             const prompt = `Bạn là Sao Vàng - chuyên gia về lịch sử và văn hóa Việt Nam. 
-            Bối cảnh: ${currentContext}
-            
-            Thông tin người dùng (tham khảo nếu cần): ${lastChallengeFeedback || 'Chưa có dữ liệu'}
-            
-            Câu hỏi: ${userMessage}
-            
-            Hãy trả lời chi tiết, chính xác và sinh động về văn hóa Việt Nam.`;
+Bối cảnh hiện tại: ${currentContext}
+
+Thông tin người dùng (có thể tham khảo): ${lastChallengeFeedback || 'Chưa có dữ liệu thử thách'}
+
+Câu hỏi: ${userMessage}
+
+Hãy trả lời bằng tiếng Việt, chính xác, chi tiết và thân thiện.
+
+Trả lời dưới dạng JSON:
+{
+    "answer": "Câu trả lời chi tiết...",
+    "newContext": "Tóm tắt ngắn bối cảnh mới..."
+}`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }]
+                    contents: [{ parts: [{ text: prompt }] }]
                 })
             });
 
-            if (!response.ok) throw new Error('Lỗi kết nối Gemini API');
-
+            if (!response.ok) throw new Error('Lỗi kết nối API');
+            
             const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
+            const text = data.candidates[0].content.parts[0].text;
+            const jsonMatch = text.match(/\{[\s\S]*\}/);
+            
+            if (!jsonMatch) throw new Error('Không thể parse JSON');
+            
+            return JSON.parse(jsonMatch[0]);
         }
 
         async function sendMessage() {
             const message = userInput.value.trim();
-            if (!message || sendButton.disabled) return;
+            if (!message) return;
 
             addMessage('user', message);
             userInput.value = '';
 
             userInput.disabled = true;
             sendButton.disabled = true;
+
             showTypingIndicator();
 
             try {
                 const response = await callGeminiAPI(message);
                 removeTypingIndicator();
-                addMessage('bot', response);
-                currentContext = message;
+                addMessage('bot', response.answer);
+                currentContext = response.newContext;
             } catch (error) {
                 removeTypingIndicator();
                 showError('Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.');
@@ -711,6 +696,12 @@
             if (e.key === 'Enter' && !sendButton.disabled) {
                 sendMessage();
             }
+        });
+
+        window.addEventListener('resize', updateSuggestedQuestions);
+        window.addEventListener('load', () => {
+            updateSuggestedQuestions();
+            setTimeout(scrollToBottom, 100);
         });
     </script>
 </body>
