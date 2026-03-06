@@ -130,6 +130,42 @@
             }
         }
 
+        /* Suggested questions section */
+        .suggested-questions {
+            padding: 10px 20px 5px 20px;
+            background: transparent;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .suggested-question-btn {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(218, 165, 32, 0.6);
+            color: #fff;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggested-question-btn:hover {
+            background: rgba(218, 165, 32, 0.4);
+            border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .input-area {
             padding: 15px 20px;
             background: transparent;
@@ -258,6 +294,15 @@
 
         <div id="messages" class="messages-container"></div>
 
+        <!-- Suggested questions section -->
+        <div class="suggested-questions" id="suggestedQuestions">
+            <button class="suggested-question-btn" onclick="useSuggestedQuestion('Vua Hùng là ai?')">Vua Hùng là ai?</button>
+            <button class="suggested-question-btn" onclick="useSuggestedQuestion('Chiến thắng Bạch Đằng năm 938 có ý nghĩa gì?')">Chiến thắng Bạch Đằng 938?</button>
+            <button class="suggested-question-btn" onclick="useSuggestedQuestion('Áo dài Việt Nam có nguồn gốc từ đâu?')">Nguồn gốc áo dài?</button>
+            <button class="suggested-question-btn" onclick="useSuggestedQuestion('Tết Nguyên Đán có ý nghĩa gì?')">Ý nghĩa Tết Nguyên Đán?</button>
+            <button class="suggested-question-btn" onclick="useSuggestedQuestion('Phở Hà Nội khác gì phở Sài Gòn?')">Phở Hà Nội vs Sài Gòn?</button>
+        </div>
+
         <div class="input-area">
             <div class="input-wrapper">
                 <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..."
@@ -376,6 +421,13 @@
             if (indicator) {
                 indicator.remove();
             }
+        }
+
+        // Function to use suggested question
+        function useSuggestedQuestion(question) {
+            if (sendButton.disabled) return;
+            userInput.value = question;
+            sendMessage();
         }
 
         async function callGeminiAPI(userMessage) {
