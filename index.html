@@ -326,38 +326,38 @@
         const inputWrapper = document.querySelector('.input-wrapper');
         const suggestedQuestionsDiv = document.getElementById('suggestedQuestions');
 
-        // 20 câu hỏi gợi ý về lịch sử và văn hóa Việt Nam
+        // 20 câu hỏi gợi ý NGẮN về lịch sử và văn hóa Việt Nam
         const allSuggestedQuestions = [
             "Vua Hùng là ai?",
-            "Chiến thắng Bạch Đằng năm 938 có ý nghĩa gì?",
-            "Áo dài Việt Nam có nguồn gốc từ đâu?",
-            "Tết Nguyên Đán có ý nghĩa gì?",
-            "Phở Hà Nội khác gì phở Sài Gòn?",
-            "Văn Miếu Quốc Tử Giám được xây dựng khi nào?",
-            "Trần Hưng Đạo là ai?",
-            "Bánh chưng bánh dày có ý nghĩa gì?",
-            "Chiến dịch Điện Biên Phủ diễn ra năm nào?",
+            "Bạch Đằng 938?",
+            "Nguồn gốc áo dài?",
+            "Tết nghĩa là gì?",
+            "Phở Hà Nội vs SG?",
+            "Văn Miếu năm nào?",
+            "Trần Hưng Đạo?",
+            "Bánh chưng tích?",
+            "Điện Biên Phủ?",
             "Ca trù là gì?",
-            "Quốc hiệu đầu tiên của nước ta là gì?",
-            "Lễ hội Chùa Hương diễn ra vào thời gian nào?",
-            "Vua Lý Thái Tổ dời đô về Thăng Long năm nào?",
-            "Múa rối nước có nguồn gốc từ đâu?",
-            "Trống đồng Đông Sơn có ý nghĩa gì?",
-            "Tết Trung Thu có ý nghĩa gì?",
-            "Chiến thắng Rạch Gầm Xoài Mút năm nào?",
-            "Nón lá Việt Nam có từ bao giờ?",
-            "Vua Quang Trung là ai?",
-            "Làng nghề gốm Bát Tràng có từ bao giờ?"
+            "Quốc hiệu đầu?",
+            "Chùa Hương khi?",
+            "Lý Thái Tổ?",
+            "Múa rối nước?",
+            "Trống Đông Sơn?",
+            "Trung Thu là?",
+            "Rạch Gầm năm?",
+            "Nón lá từ đâu?",
+            "Quang Trung?",
+            "Gốm Bát Tràng?"
         ];
 
         // Hàm tính toán số lượng câu hỏi gợi ý dựa trên kích thước màn hình
         function getNumberOfSuggestions() {
             const width = window.innerWidth;
-            if (width < 480) return 2; // Mobile nhỏ
-            if (width < 768) return 3; // Mobile lớn
-            if (width < 1024) return 4; // Tablet
-            if (width < 1280) return 5; // Desktop nhỏ
-            return 6; // Desktop lớn
+            if (width < 480) return 3; // Mobile nhỏ
+            if (width < 768) return 4; // Mobile lớn
+            if (width < 1024) return 5; // Tablet
+            if (width < 1280) return 6; // Desktop nhỏ
+            return 7; // Desktop lớn
         }
 
         // Hàm lấy ngẫu nhiên n câu hỏi từ mảng
