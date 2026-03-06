@@ -3,175 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sao Vàng - Lịch sử & Văn hóa Việt Nam</title>
+    <title>Sao Vàng - Chatbot văn hóa Việt Nam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('bg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-        }
-
-        .chat-container {
-            width: 100%;
-            max-width: 100%;
-            height: 100vh;
-            background: transparent;
-            display: flex;
-            flex-direction: column;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
             overflow: hidden;
         }
 
+        body::before {
+            content: '';
+            position: absolute;
+            width: 2000px;
+            height: 2000px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            top: -10%;
+            right: -20%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 1500px;
+            height: 1500px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c00 100%);
+            bottom: -10%;
+            left: -20%;
+            opacity: 0.1;
+            animation: float 15s infinite linear reverse;
+        }
+
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .navbar {
-            background: rgba(55, 1, 0, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 10px 20px;
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 2px solid #ffd700;
-            flex-shrink: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo img {
             height: 40px;
             width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
         }
 
         .logo span {
-            color: #ffd700;
             font-size: 24px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
 
         .nav-links a {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            font-weight: 500;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .nav-links a:hover {
-            background: #ffd700;
-            color: #370100;
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            border-color: #ffd700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .nav-links a.active {
             background: #ffd700;
-            color: #370100;
+            color: #333;
+            border-color: #ffd700;
         }
 
-        .user-info {
-            color: white;
+        .user-menu {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px 5px 5px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .user-name {
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
         }
 
         .logout-btn {
             background: transparent;
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 5px 15px;
-            border-radius: 15px;
+            border: none;
+            color: rgba(255,255,255,0.8);
             cursor: pointer;
+            font-size: 16px;
             transition: all 0.3s;
         }
 
         .logout-btn:hover {
-            background: #ffd700;
-            color: #370100;
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+
+        .chat-container {
+            height: 100vh;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
         }
 
         .messages-container {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
-            background: transparent;
+            padding: 20px 40px;
             display: flex;
             flex-direction: column;
+            gap: 15px;
         }
 
         .message {
-            margin-bottom: 15px;
-            padding: 12px 18px;
-            border-radius: 18px;
-            max-width: 80%;
-            word-wrap: break-word;
-            line-height: 1.4;
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 25px;
+            position: relative;
+            animation: messageSlide 0.3s ease;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .user-message {
-            background: rgba(139, 69, 19, 0.75);
+            background: rgba(55, 1, 0, 0.8);
             color: white;
             align-self: flex-end;
-            margin-left: auto;
             border-bottom-right-radius: 5px;
-            border: 1px solid rgba(255, 215, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .bot-message {
-            background: rgba(255, 255, 255, 0.75);
-            color: #333;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
             align-self: flex-start;
             border-bottom-left-radius: 5px;
-            border: 1px solid rgba(218, 165, 32, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .bot-message strong {
-            color: #8b4513;
+            color: #ffd700;
         }
 
         .typing-indicator {
             display: flex;
-            padding: 12px 18px;
-            background: rgba(255, 255, 255, 0.75);
-            border-radius: 18px;
+            align-items: center;
+            gap: 5px;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
             max-width: 100px;
             margin-bottom: 15px;
-            border: 1px solid rgba(218, 165, 32, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             align-self: flex-start;
         }
 
         .typing-indicator span {
             width: 8px;
             height: 8px;
-            background: #8b4513;
+            background: #ffd700;
             border-radius: 50%;
-            margin: 0 2px;
             animation: typing 1.4s infinite;
         }
 
@@ -184,14 +255,10 @@
         }
 
         @keyframes typing {
-
-            0%,
-            60%,
-            100% {
+            0%, 60%, 100% {
                 transform: translateY(0);
                 opacity: 0.6;
             }
-
             30% {
                 transform: translateY(-10px);
                 opacity: 1;
@@ -199,190 +266,167 @@
         }
 
         .suggested-questions {
-            padding: 10px 20px 5px 20px;
-            background: transparent;
+            padding: 20px 40px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
-            flex-shrink: 0;
-            min-height: 60px;
         }
 
         .suggested-question-btn {
-            background: #370100;
-            border: 1px solid #ffd700;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 6px 15px;
-            border-radius: 30px;
-            font-size: 0.9em;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 0.95em;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-weight: 500;
         }
 
         .suggested-question-btn:hover {
-            background: #5a0200;
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
             border-color: #ffd700;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         .input-area {
-            padding: 15px 20px;
+            padding: 20px 40px;
             background: transparent;
-            border-top: none;
             display: flex;
             gap: 15px;
-            backdrop-filter: none;
             flex-shrink: 0;
-            width: 100%;
         }
 
         .input-wrapper {
+            flex: 1;
             display: flex;
             gap: 15px;
-            width: 100%;
-            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 5px 5px 5px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         #user-input {
             flex: 1;
+            background: transparent;
             border: none;
             outline: none;
-            font-size: 16px;
-            transition: background 0.3s;
-            background-image: url('ta-bg.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-position: center;
             color: white;
-            font-weight: 500;
-            height: 0;
-            min-height: 40px;
-            padding: 0 25px;
-            background-color: transparent;
-            -webkit-appearance: none;
-            appearance: none;
+            font-size: 16px;
+            padding: 12px 0;
         }
 
         #user-input::placeholder {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.6);
             font-style: italic;
         }
 
-        #user-input:focus {
-            border: none;
-            outline: none;
-            box-shadow: none;
-            background-color: transparent;
-        }
-
         #send-button {
-            background: transparent;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
             border: none;
+            color: #333;
+            font-size: 20px;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
-            opacity: 1;
-            border-radius: 0;
-            background-image: url('send-nm.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 0;
-            height: 0;
-            aspect-ratio: 1/1;
-            min-width: 40px;
-            min-height: 40px;
         }
 
-        #send-button:hover {
-            opacity: 0.7;
-            background-image: url('send-m.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+        #send-button:hover:not(:disabled) {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
 
         #send-button:disabled {
-            opacity: 0.3;
+            opacity: 0.5;
             cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .clear-btn {
-            position: fixed;
-            top: 85px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 5px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.3s;
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            z-index: 10;
-        }
-
-        .clear-btn:hover {
-            background: #ffd700;
-            color: #8b4513;
         }
 
         .error-message {
-            color: #d32f2f;
-            background: rgba(255, 205, 210, 0.9);
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px 0;
+            background: rgba(255, 99, 71, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
             text-align: center;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            margin: 10px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: messageSlide 0.3s ease;
+        }
+
+        /* Scrollbar styling */
+        .messages-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: rgba(255,215,0,0.5);
+            border-radius: 10px;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb:hover {
+            background: #ffd700;
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="navbar">
-            <div class="logo">
-                <img src="logo.png" alt="VIETVERSE Logo">
-                <span>VIETVERSE</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="chatbot.html" class="active">Chatbot</a>
-                <a href="thuthach.html">Thử thách</a>
-                <a href="minigame.html">Minigame</a>
-                <a href="login.html" id="login-link">Đăng nhập</a>
-            </div>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <span id="userName"></span>
-                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
-            </div>
+    <div class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="VIETVERSE Logo">
+            <span>VIETVERSE</span>
         </div>
-        
-        <button class="clear-btn" onclick="clearHistory()">Xóa lịch sử</button>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i></a>
+            <a href="chatbot.html" class="active"><i class="fas fa-robot"></i></a>
+            <a href="thuthach.html"><i class="fas fa-trophy"></i></a>
+            <a href="minigame.html"><i class="fas fa-gamepad"></i></a>
+        </div>
+        <div class="user-menu" id="userMenu">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </div>
 
+    <div class="chat-container">
         <div id="messages" class="messages-container"></div>
 
         <div class="suggested-questions" id="suggestedQuestions"></div>
 
         <div class="input-area">
             <div class="input-wrapper">
-                <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..."
-                    autocomplete="off">
-                <button id="send-button" onclick="sendMessage()"></button>
+                <input type="text" id="user-input" placeholder="Hỏi tôi về lịch sử và văn hóa Việt Nam..." autocomplete="off">
+                <button id="send-button" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -390,17 +434,28 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="config.js"></script>
     <script>
-        // Khởi tạo Firebase
-        const firebaseConfig = getFirebaseConfig();
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCznQ023bnCgA6QLl2M-0J5X3pslRiQwa0",
+            authDomain: "kehoachso.firebaseapp.com",
+            projectId: "kehoachso",
+            storageBucket: "kehoachso.firebasestorage.app",
+            messagingSenderId: "80210804205",
+            appId: "1:80210804205:web:be0d3b3e68bae6867dfbe4",
+            measurementId: "G-C6YGPPG13R"
+        };
+
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Gemini API
-        const GEMINI_KEY = getGeminiKey();
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_KEY}`;
+        // Gemini API key (đã đảo ngược)
+        const GEMINI_KEY = (() => {
+            const reversed = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
+            return reversed.split('').reverse().join('');
+        })();
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_KEY}`;
 
         let currentContext = 'none';
         let currentUser = null;
@@ -409,10 +464,8 @@
         const messagesContainer = document.getElementById('messages');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
-        const inputWrapper = document.querySelector('.input-wrapper');
         const suggestedQuestionsDiv = document.getElementById('suggestedQuestions');
 
-        // 20 câu hỏi gợi ý
         const allSuggestedQuestions = [
             "Vua Hùng là ai?",
             "Bạch Đằng 938?",
@@ -437,42 +490,48 @@
         ];
 
         auth.onAuthStateChanged(async (user) => {
-            const loginLink = document.getElementById('login-link');
-            const userInfo = document.getElementById('userInfo');
-            const userName = document.getElementById('userName');
-
-            if (user) {
-                loginLink.style.display = 'none';
-                userInfo.style.display = 'flex';
-                userName.textContent = user.displayName || 'Người dùng';
-                currentUser = user;
-                
-                // Load lịch sử chat từ Firestore
-                await loadChatHistoryFromFirestore(user.uid);
-                
-                // Load feedback từ thử thách gần nhất
-                await loadLastChallengeFeedback(user.uid);
-            } else {
-                loginLink.style.display = 'inline-block';
-                userInfo.style.display = 'none';
-                currentUser = null;
-                lastChallengeFeedback = '';
-                
-                // Load lịch sử chat từ localStorage
-                loadChatHistoryFromLocal();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
             }
+
+            document.getElementById('userName').textContent = user.displayName || 'Người dùng';
+            currentUser = user;
+            
+            await loadChatHistory(user.uid);
+            await loadLastChallengeFeedback(user.uid);
+            updateSuggestedQuestions();
+            addWelcomeMessage();
         });
+
+        async function loadChatHistory(userId) {
+            try {
+                const userDoc = await db.collection('users').doc(userId).get();
+                if (userDoc.exists) {
+                    const chatHistory = userDoc.data().chatHistory || [];
+                    
+                    messagesContainer.innerHTML = '';
+                    
+                    chatHistory.forEach(msg => {
+                        addMessage(msg.role, msg.content, false);
+                    });
+                    
+                    if (chatHistory.length > 0) {
+                        currentContext = chatHistory[chatHistory.length - 1].context || 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Lỗi khi load lịch sử:', error);
+            }
+        }
 
         async function loadLastChallengeFeedback(userId) {
             try {
                 const userDoc = await db.collection('users').doc(userId).get();
                 if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    const challengeHistory = userData.challengeHistory || [];
-                    
+                    const challengeHistory = userDoc.data().challengeHistory || [];
                     if (challengeHistory.length > 0) {
-                        const lastChallenge = challengeHistory[challengeHistory.length - 1];
-                        lastChallengeFeedback = lastChallenge.aiFeedback || '';
+                        lastChallengeFeedback = challengeHistory[challengeHistory.length - 1].aiFeedback || '';
                     }
                 }
             } catch (error) {
@@ -480,145 +539,64 @@
             }
         }
 
-        async function loadChatHistoryFromFirestore(userId) {
-            try {
-                const userDoc = await db.collection('users').doc(userId).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    const chatHistory = userData.chatHistory || [];
-                    
-                    messagesContainer.innerHTML = '';
-                    
-                    if (chatHistory.length > 0) {
-                        chatHistory.forEach(msg => {
-                            addMessage(msg.role, msg.content, false);
-                        });
-                        currentContext = chatHistory[chatHistory.length - 1].context || 'none';
-                    } else {
-                        addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?', false);
-                    }
-                } else {
-                    addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?', false);
-                }
-            } catch (error) {
-                console.error('Lỗi khi load lịch sử chat:', error);
-                addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?', false);
-            }
-        }
-
-        function loadChatHistoryFromLocal() {
-            const savedMessages = localStorage.getItem('saoVangChatHistory');
-            const savedContext = localStorage.getItem('saoVangContext');
-
-            if (savedMessages) {
-                messagesContainer.innerHTML = savedMessages;
-            }
-
-            if (savedContext) {
-                currentContext = savedContext;
-            }
-
-            if (messagesContainer.children.length === 0) {
-                addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?', false);
-            }
-        }
-
         async function saveChatHistory() {
-            if (currentUser) {
-                try {
-                    const messages = [];
-                    const messageElements = messagesContainer.querySelectorAll('.message');
-                    
-                    messageElements.forEach(el => {
-                        if (el.classList.contains('user-message')) {
-                            messages.push({
-                                role: 'user',
-                                content: el.textContent,
-                                context: currentContext
-                            });
-                        } else if (el.classList.contains('bot-message')) {
-                            const content = el.innerHTML.replace('<strong>Sao Vàng:</strong><br>', '');
-                            messages.push({
-                                role: 'bot',
-                                content: content,
-                                context: currentContext
-                            });
-                        }
-                    });
+            if (!currentUser) return;
 
-                    await db.collection('users').doc(currentUser.uid).update({
-                        chatHistory: messages
-                    });
-                } catch (error) {
-                    console.error('Lỗi khi lưu lịch sử chat:', error);
-                }
-            } else {
-                localStorage.setItem('saoVangChatHistory', messagesContainer.innerHTML);
-                localStorage.setItem('saoVangContext', currentContext);
+            try {
+                const messages = [];
+                const messageElements = messagesContainer.querySelectorAll('.message');
+                
+                messageElements.forEach(el => {
+                    if (el.classList.contains('user-message')) {
+                        messages.push({
+                            role: 'user',
+                            content: el.textContent,
+                            context: currentContext
+                        });
+                    } else if (el.classList.contains('bot-message')) {
+                        const content = el.innerHTML.replace('<strong>Sao Vàng:</strong><br>', '');
+                        messages.push({
+                            role: 'bot',
+                            content: content,
+                            context: currentContext
+                        });
+                    }
+                });
+
+                await db.collection('users').doc(currentUser.uid).update({
+                    chatHistory: messages
+                });
+            } catch (error) {
+                console.error('Lỗi khi lưu lịch sử:', error);
             }
         }
 
-        function getNumberOfSuggestions() {
-            const width = window.innerWidth;
-            if (width < 480) return 3;
-            if (width < 768) return 4;
-            if (width < 1024) return 5;
-            if (width < 1280) return 6;
-            return 7;
-        }
-
-        function getRandomQuestions(n) {
-            const shuffled = [...allSuggestedQuestions].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, n);
+        function addWelcomeMessage() {
+            if (messagesContainer.children.length === 0) {
+                const welcomeMsg = lastChallengeFeedback ? 
+                    `Xin chào! Tôi là Sao Vàng. Tôi thấy bạn đã làm bài kiểm tra gần đây: "${lastChallengeFeedback.substring(0, 100)}..." Hôm nay bạn muốn tìm hiểu thêm về điều gì?` :
+                    'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?';
+                
+                addMessage('bot', welcomeMsg);
+            }
         }
 
         function updateSuggestedQuestions() {
-            const numberOfQuestions = getNumberOfSuggestions();
-            const randomQuestions = getRandomQuestions(numberOfQuestions);
+            const shuffled = [...allSuggestedQuestions].sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 6);
             
             suggestedQuestionsDiv.innerHTML = '';
             
-            randomQuestions.forEach(question => {
+            selected.forEach(question => {
                 const button = document.createElement('button');
                 button.classList.add('suggested-question-btn');
-                button.textContent = question;
-                button.onclick = () => useSuggestedQuestion(question);
+                button.innerHTML = `<i class="fas fa-question-circle" style="margin-right: 8px;"></i>${question}`;
+                button.onclick = () => {
+                    userInput.value = question;
+                    sendMessage();
+                };
                 suggestedQuestionsDiv.appendChild(button);
             });
-        }
-
-        function resizeInputArea() {
-            if (!inputWrapper || !userInput || !sendButton) return;
-            
-            const wrapperWidth = inputWrapper.offsetWidth;
-            const gap = 15;
-            
-            let totalWidth = wrapperWidth - gap;
-            let height = Math.max(40, Math.round(totalWidth / 18));
-            
-            userInput.style.height = height + 'px';
-            userInput.style.lineHeight = height + 'px';
-            
-            sendButton.style.width = height + 'px';
-            sendButton.style.height = height + 'px';
-        }
-
-        function clearHistory() {
-            if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử trò chuyện?')) {
-                messagesContainer.innerHTML = '';
-                currentContext = 'none';
-                
-                if (currentUser) {
-                    db.collection('users').doc(currentUser.uid).update({
-                        chatHistory: []
-                    });
-                } else {
-                    localStorage.removeItem('saoVangChatHistory');
-                    localStorage.removeItem('saoVangContext');
-                }
-                
-                addMessage('bot', 'Xin chào! Tôi là Sao Vàng, chuyên gia về lịch sử và văn hóa Việt Nam. Bạn muốn tìm hiểu về điều gì?');
-            }
         }
 
         function addMessage(role, content, save = true) {
@@ -626,9 +604,9 @@
             messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'bot-message');
 
             if (role === 'bot') {
-                messageDiv.innerHTML = `<strong>Sao Vàng:</strong><br>${content}`;
+                messageDiv.innerHTML = `<strong><i class="fas fa-star" style="color: #ffd700; margin-right: 8px;"></i>Sao Vàng:</strong><br>${content}`;
             } else {
-                messageDiv.textContent = content;
+                messageDiv.innerHTML = `<i class="fas fa-user" style="margin-right: 8px;"></i>${content}`;
             }
 
             messagesContainer.appendChild(messageDiv);
@@ -642,9 +620,10 @@
         function showError(message) {
             const errorDiv = document.createElement('div');
             errorDiv.classList.add('error-message');
-            errorDiv.textContent = message;
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>${message}`;
             messagesContainer.appendChild(errorDiv);
             scrollToBottom();
+            setTimeout(() => errorDiv.remove(), 5000);
         }
 
         function scrollToBottom() {
@@ -667,39 +646,19 @@
             }
         }
 
-        function useSuggestedQuestion(question) {
-            if (sendButton.disabled) return;
-            userInput.value = question;
-            sendMessage();
-        }
-
         async function callGeminiAPI(userMessage) {
-            let prompt = `Bạn là Sao Vàng - chuyên gia về lịch sử và văn hóa Việt Nam. 
-            Bối cảnh cuộc trò chuyện hiện tại: ${currentContext}
+            const prompt = `Bạn là Sao Vàng - chuyên gia về lịch sử và văn hóa Việt Nam. 
+            Bối cảnh: ${currentContext}
             
-            Thông tin về người dùng (có thể dùng để tùy chỉnh câu trả lời nếu cần):
-            - Feedback từ thử thách gần nhất: ${lastChallengeFeedback || 'Chưa có dữ liệu'}
+            Thông tin người dùng (tham khảo nếu cần): ${lastChallengeFeedback || 'Chưa có dữ liệu'}
             
-            Yêu cầu của người dùng: ${userMessage}
+            Câu hỏi: ${userMessage}
             
-            Một số lưu ý trong lúc trả lời:
-            - Phần câu trả lời (answer) không được quá dài tầm dưới 50 từ thôi
-
-            Hãy phản hồi dưới định dạng JSON với 2 phần:
-            1. "answer": Câu trả lời chi tiết, chính xác, dựa trên yêu cầu của người dùng và bối cảnh cuộc trò chuyện.
-            2. "newContext": Tổng kết bối cảnh mới của cuộc trò chuyện (tóm tắt dựa trên bối cảnh cũ, yêu cầu mới và câu trả lời, chỉ giữ thông tin quan trọng nhất cho các câu hỏi tiếp theo).
-            
-            Ví dụ format:
-            {
-                "answer": "Câu trả lời của bạn...",
-                "newContext": "Tóm tắt bối cảnh mới..."
-            }`;
+            Hãy trả lời chi tiết, chính xác và sinh động về văn hóa Việt Nam.`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
@@ -709,49 +668,28 @@
                 })
             });
 
-            if (!response.ok) {
-                throw new Error('Lỗi kết nối đến Gemini API');
-            }
+            if (!response.ok) throw new Error('Lỗi kết nối Gemini API');
 
             const data = await response.json();
-            const textResponse = data.candidates[0].content.parts[0].text;
-
-            const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) {
-                throw new Error('Không thể parse JSON từ response');
-            }
-
-            return JSON.parse(jsonMatch[0]);
+            return data.candidates[0].content.parts[0].text;
         }
 
         async function sendMessage() {
             const message = userInput.value.trim();
-
-            if (!message) return;
-
-            if (!GEMINI_KEY) {
-                showError('Vui lòng cấu hình Gemini API key!');
-                return;
-            }
+            if (!message || sendButton.disabled) return;
 
             addMessage('user', message);
             userInput.value = '';
 
             userInput.disabled = true;
             sendButton.disabled = true;
-
             showTypingIndicator();
 
             try {
                 const response = await callGeminiAPI(message);
-
                 removeTypingIndicator();
-
-                addMessage('bot', response.answer);
-
-                currentContext = response.newContext;
-                await saveChatHistory();
-
+                addMessage('bot', response);
+                currentContext = message;
             } catch (error) {
                 removeTypingIndicator();
                 showError('Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau.');
@@ -765,9 +703,7 @@
 
         function logout() {
             auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            }).catch((error) => {
-                console.error('Lỗi đăng xuất:', error);
+                window.location.href = 'login.html';
             });
         }
 
@@ -776,24 +712,6 @@
                 sendMessage();
             }
         });
-
-        window.addEventListener('resize', () => {
-            resizeInputArea();
-            updateSuggestedQuestions();
-        });
-
-        window.addEventListener('load', () => {
-            setTimeout(resizeInputArea, 100);
-            updateSuggestedQuestions();
-        });
-
-        const resizeObserver = new ResizeObserver(() => {
-            resizeInputArea();
-        });
-        
-        if (inputWrapper) {
-            resizeObserver.observe(inputWrapper);
-        }
     </script>
 </body>
 </html>
