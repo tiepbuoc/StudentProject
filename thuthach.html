@@ -4,67 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIETVERSE - Thử thách kiến thức</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             position: relative;
-            overflow-x: hidden;
         }
 
         body::before {
             content: '';
-            position: absolute;
-            width: 2000px;
-            height: 2000px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
-            top: -10%;
-            right: -20%;
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 1500px;
-            height: 1500px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff8c00 100%);
-            bottom: -10%;
-            left: -20%;
-            opacity: 0.1;
-            animation: float 15s infinite linear reverse;
-        }
-
-        @keyframes float {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 15px 40px;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 15px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 100;
         }
 
         .logo {
@@ -74,118 +54,115 @@
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
         }
 
         .logo span {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
         }
 
         .nav-links {
             display: flex;
-            gap: 15px;
+            gap: 25px;
         }
 
         .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
             width: 45px;
             height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            transition: all 0.3s;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-links a:hover {
-            background: rgba(255, 215, 0, 0.3);
+            background: #ffd700;
+            color: #370100;
             transform: translateY(-3px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
         }
 
         .nav-links a.active {
             background: #ffd700;
-            color: #333;
-            border-color: #ffd700;
+            color: #370100;
         }
 
-        .user-menu {
+        .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px 5px 5px;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            background: #ffd700;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
+        .user-info i {
+            color: #ffd700;
             font-size: 18px;
         }
 
-        .user-name {
-            color: white;
+        .user-info span {
             font-weight: 500;
-            font-size: 14px;
         }
 
         .logout-btn {
             background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .logout-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
             color: #ffd700;
-            transform: scale(1.1);
         }
 
         .container {
-            max-width: 1000px;
-            margin: 100px auto 40px;
-            padding: 0 20px;
             position: relative;
             z-index: 10;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        .menu-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
-            padding: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: slideUp 0.8s ease;
+        .menu-container {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes slideUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -199,223 +176,187 @@
         }
 
         .menu-header i {
-            font-size: 70px;
+            font-size: 4em;
             color: #ffd700;
             margin-bottom: 20px;
-            text-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .menu-header h1 {
+            color: white;
             font-size: 2.5em;
-            background: linear-gradient(135deg, #333, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
 
         .menu-header p {
-            color: #666;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+        }
+
+        .menu-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .menu-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 60px;
             font-size: 1.2em;
-        }
-
-        .menu-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .menu-option {
-            background: linear-gradient(135deg, #f5f5f5, #fff);
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .menu-option:hover {
-            transform: translateY(-10px);
-            border-color: #ffd700;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .menu-option i {
-            font-size: 50px;
-            color: #ffd700;
-            margin-bottom: 20px;
-        }
-
-        .menu-option h3 {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .menu-option p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .history-section {
-            background: rgba(0,0,0,0.03);
-            border-radius: 30px;
-            padding: 30px;
-        }
-
-        .history-title {
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #333;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .history-list {
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 10px;
+        .menu-btn i {
+            font-size: 1.2em;
         }
 
-        .history-item {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s;
-            border: 1px solid #eee;
+        .menu-btn.start-btn {
+            background: #ffd700;
+            color: #370100;
         }
 
-        .history-item:hover {
-            transform: translateX(5px);
+        .menu-btn.start-btn:hover {
+            background: #ffed4a;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .menu-btn.history-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
             border-color: #ffd700;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .history-info {
+        .history-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .history-section.show {
+            max-height: 500px;
+        }
+
+        .history-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .history-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
-        }
-
-        .history-score {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .history-details {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+            margin-bottom: 15px;
         }
 
         .history-date {
-            color: #666;
+            color: #ffd700;
             font-size: 0.9em;
         }
 
-        .history-percentage {
-            font-weight: 600;
-            color: #333;
+        .history-score {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 5px 15px;
+            border-radius: 30px;
+            color: #ffd700;
+            font-weight: bold;
         }
 
-        .history-percentage.good {
-            color: #4caf50;
+        .history-details {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
         }
 
-        .history-percentage.medium {
-            color: #ff9800;
+        .history-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid #ffd700;
+            font-style: italic;
         }
 
-        .history-percentage.bad {
-            color: #f44336;
-        }
-
-        .history-view-btn {
-            background: transparent;
-            border: 1px solid #ffd700;
-            color: #333;
-            padding: 8px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .history-view-btn:hover {
-            background: #ffd700;
+        .no-history {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 40px;
+            font-size: 1.1em;
         }
 
         .quiz-container {
-            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease;
         }
 
-        .quiz-container.active {
-            display: block;
-            animation: slideUp 0.8s ease;
-        }
-
-        .question-header {
+        .question-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
             padding: 20px;
-            background: rgba(0,0,0,0.03);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
         }
 
         .question-number {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        .question-number span {
-            font-weight: bold;
             color: #ffd700;
-            font-size: 1.5em;
-        }
-
-        .question-score {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        .question-score span {
             font-weight: bold;
-            color: #4caf50;
-            font-size: 1.5em;
+            font-size: 1.1em;
+        }
+
+        .score {
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .score i {
+            color: #ffd700;
+            margin-right: 5px;
         }
 
         .question-card {
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
         }
 
         .question-text {
-            font-size: 1.5em;
-            color: #333;
+            font-size: 1.4em;
+            color: white;
             margin-bottom: 30px;
             line-height: 1.6;
+            font-weight: 500;
         }
 
         .options {
@@ -427,16 +368,18 @@
         .option {
             display: flex;
             align-items: center;
-            padding: 20px 25px;
-            background: #f5f5f5;
+            padding: 18px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid transparent;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .option:hover {
-            background: #e0e0e0;
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 215, 0, 0.3);
             transform: translateX(5px);
         }
 
@@ -446,27 +389,17 @@
         }
 
         .option-letter {
-            width: 40px;
-            height: 40px;
-            background: #333;
-            color: white;
-            border-radius: 12px;
+            width: 35px;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            margin-right: 20px;
-            font-size: 1.2em;
-        }
-
-        .option.selected .option-letter {
-            background: #ffd700;
-            color: #333;
-        }
-
-        .option-text {
-            flex: 1;
-            font-size: 1.2em;
+            margin-right: 15px;
         }
 
         .navigation-buttons {
@@ -476,81 +409,70 @@
         }
 
         .nav-btn {
-            padding: 15px 35px;
-            background: #333;
+            padding: 12px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1em;
+            border-radius: 60px;
+            font-size: 1em;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .nav-btn:hover:not(:disabled) {
-            background: #ffd700;
-            color: #333;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            transform: translateY(-2px);
         }
 
         .nav-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #333;
+            padding: 18px;
+            background: #ffd700;
+            color: #370100;
             border: none;
-            border-radius: 30px;
-            font-size: 1.3em;
+            border-radius: 60px;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: 30px;
         }
 
         .submit-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+            background: #ffed4a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
 
         .result-container {
             text-align: center;
-            padding: 40px;
         }
 
         .result-score {
             font-size: 4em;
+            color: #ffd700;
             font-weight: bold;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             margin: 20px 0;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .result-percentage {
-            font-size: 2.5em;
-            color: #4caf50;
+            font-size: 2em;
+            color: white;
             margin-bottom: 30px;
-        }
-
-        .ai-feedback {
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 30px;
-            padding: 30px;
-            text-align: left;
-            margin: 30px 0;
-            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         .loading {
@@ -558,14 +480,14 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            padding: 50px;
+            padding: 40px;
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255,215,0,0.3);
-            border-top: 4px solid #ffd700;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-top: 3px solid #ffd700;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -575,39 +497,45 @@
             100% { transform: rotate(360deg); }
         }
 
+        .ai-feedback {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .ai-feedback h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-feedback p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
         .back-btn {
             padding: 12px 30px;
-            background: #333;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
-            border-radius: 30px;
+            border-radius: 60px;
+            font-size: 1em;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
         }
 
         .back-btn:hover {
-            background: #ffd700;
-            color: #333;
-            transform: translateX(-5px);
-        }
-
-        /* Scrollbar styling */
-        .history-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .history-list::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-            border-radius: 10px;
-        }
-
-        .history-list::-webkit-scrollbar-thumb {
-            background: #ffd700;
-            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
         }
     </style>
 </head>
@@ -618,62 +546,20 @@
             <span>VIETVERSE</span>
         </div>
         <div class="nav-links">
-            <a href="index.html"><i class="fas fa-home"></i></a>
-            <a href="chatbot.html"><i class="fas fa-robot"></i></a>
-            <a href="thuthach.html" class="active"><i class="fas fa-trophy"></i></a>
-            <a href="minigame.html"><i class="fas fa-gamepad"></i></a>
+            <a href="index.html" title="Trang chủ"><i class="fas fa-home"></i></a>
+            <a href="chatbot.html" title="Chatbot"><i class="fas fa-robot"></i></a>
+            <a href="thuthach.html" class="active" title="Thử thách"><i class="fas fa-trophy"></i></a>
+            <a href="minigame.html" title="Minigame"><i class="fas fa-gamepad"></i></a>
         </div>
-        <div class="user-menu" id="userMenu">
-            <div class="user-avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <span class="user-name" id="userName"></span>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+        <div class="user-info" id="userInfo">
+            <i class="fas fa-user-circle"></i>
+            <span id="userName">Đang tải...</span>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
         </div>
     </div>
 
-    <div class="container">
-        <div id="menuContainer" class="menu-card">
-            <div class="menu-header">
-                <i class="fas fa-trophy"></i>
-                <h1>Thử thách kiến thức</h1>
-                <p>Kiểm tra hiểu biết của bạn về văn hóa Việt Nam</p>
-            </div>
-
-            <div class="menu-options">
-                <div class="menu-option" onclick="startNewQuiz()">
-                    <i class="fas fa-play-circle"></i>
-                    <h3>Bắt đầu</h3>
-                    <p>Làm bài kiểm tra mới với 10 câu hỏi ngẫu nhiên</p>
-                </div>
-                <div class="menu-option" onclick="showHistory()">
-                    <i class="fas fa-history"></i>
-                    <h3>Lịch sử</h3>
-                    <p>Xem lại kết quả các lần thi trước</p>
-                </div>
-            </div>
-
-            <div id="historySection" class="history-section" style="display: none;">
-                <div class="history-title">
-                    <i class="fas fa-clock"></i>
-                    <span>Lịch sử thử thách</span>
-                </div>
-                <div id="historyList" class="history-list">
-                    <!-- Lịch sử sẽ được load bằng JavaScript -->
-                </div>
-            </div>
-        </div>
-
-        <div id="quizContainer" class="quiz-container">
-            <button class="back-btn" onclick="backToMenu()">
-                <i class="fas fa-arrow-left"></i>
-                Quay lại
-            </button>
-            
-            <div id="quizContent"></div>
-        </div>
+    <div class="container" id="mainContainer">
+        <!-- Nội dung sẽ được load bằng JavaScript -->
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -691,16 +577,18 @@
             measurementId: "G-C6YGPPG13R"
         };
 
+        // Gemini API key
+        const REVERSED_GEMINI_KEY = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
+        function reverseString(str) {
+            return str.split('').reverse().join('');
+        }
+        const GEMINI_KEY = reverseString(REVERSED_GEMINI_KEY);
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_KEY}`;
+
+        // Khởi tạo Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
-        // Gemini API key
-        const GEMINI_KEY = (() => {
-            const reversed = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
-            return reversed.split('').reverse().join('');
-        })();
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_KEY}`;
 
         let currentUser = null;
         let questions = [];
@@ -786,6 +674,7 @@
             }
         ];
 
+        // Kiểm tra đăng nhập
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'login.html';
@@ -794,172 +683,171 @@
 
             document.getElementById('userName').textContent = user.displayName || 'Người dùng';
             currentUser = user;
-            loadHistory();
+            showMainMenu();
         });
 
-        function loadHistory() {
-            if (!currentUser) return;
-
-            db.collection('users').doc(currentUser.uid).get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        const challengeHistory = doc.data().challengeHistory || [];
-                        displayHistory(challengeHistory);
-                    }
-                })
-                .catch(error => console.error('Lỗi khi load lịch sử:', error));
-        }
-
-        function displayHistory(history) {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
-
-            if (history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Chưa có lịch sử thử thách</p>';
-                return;
-            }
-
-            history.reverse().forEach((item, index) => {
-                const percentageClass = item.percentage >= 70 ? 'good' : item.percentage >= 40 ? 'medium' : 'bad';
-                const date = new Date(item.date).toLocaleDateString('vi-VN', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
-
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.innerHTML = `
-                    <div class="history-info">
-                        <div class="history-score">${item.score}/10</div>
-                        <div class="history-details">
-                            <span class="history-date"><i class="far fa-calendar-alt" style="margin-right: 5px;"></i>${date}</span>
-                            <span class="history-percentage ${percentageClass}">
-                                <i class="fas fa-chart-line" style="margin-right: 5px;"></i>${item.percentage}%
-                            </span>
-                        </div>
-                    </div>
-                    <button class="history-view-btn" onclick="viewHistoryDetail(${history.length - 1 - index})">
-                        <i class="fas fa-eye"></i>
-                        Xem
-                    </button>
-                `;
-                historyList.appendChild(historyItem);
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html';
             });
         }
 
-        function viewHistoryDetail(index) {
-            if (!currentUser) return;
+        function showMainMenu() {
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="menu-container">
+                    <div class="menu-header">
+                        <i class="fas fa-trophy"></i>
+                        <h1>Thử thách kiến thức</h1>
+                        <p>Kiểm tra hiểu biết của bạn về văn hóa Việt Nam</p>
+                    </div>
+                    
+                    <div class="menu-buttons">
+                        <button class="menu-btn start-btn" onclick="startQuiz()">
+                            <i class="fas fa-play"></i> Bắt đầu
+                        </button>
+                        <button class="menu-btn history-btn" onclick="toggleHistory()">
+                            <i class="fas fa-history"></i> Lịch sử
+                        </button>
+                    </div>
 
-            db.collection('users').doc(currentUser.uid).get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        const history = doc.data().challengeHistory || [];
-                        const item = history[index];
-                        alert(`Kết quả: ${item.score}/10 - ${item.percentage}%\n\nNhận xét: ${item.aiFeedback}`);
+                    <div class="history-section" id="historySection">
+                        <!-- Lịch sử sẽ được load ở đây -->
+                    </div>
+                </div>
+            `;
+
+            loadHistory();
+        }
+
+        async function loadHistory() {
+            try {
+                const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    const challengeHistory = userData.challengeHistory || [];
+                    
+                    const historySection = document.getElementById('historySection');
+                    
+                    if (challengeHistory.length === 0) {
+                        historySection.innerHTML = '<div class="no-history"><i class="fas fa-history" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i><p>Chưa có lịch sử thử thách</p></div>';
+                        return;
                     }
-                });
+
+                    historySection.innerHTML = challengeHistory.reverse().map((item, index) => `
+                        <div class="history-card">
+                            <div class="history-header">
+                                <span class="history-date"><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('vi-VN')}</span>
+                                <span class="history-score"><i class="fas fa-star"></i> ${item.score}/${item.totalQuestions}</span>
+                            </div>
+                            <div class="history-details">
+                                <p><i class="fas fa-percent" style="color: #ffd700;"></i> Tỷ lệ: ${item.percentage}%</p>
+                            </div>
+                            ${item.aiFeedback ? `
+                                <div class="history-feedback">
+                                    <i class="fas fa-robot" style="color: #ffd700; margin-right: 8px;"></i>
+                                    ${item.aiFeedback}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Lỗi khi load lịch sử:', error);
+            }
         }
 
-        function showHistory() {
-            const historySection = document.getElementById('historySection');
-            historySection.style.display = historySection.style.display === 'none' ? 'block' : 'none';
+        function toggleHistory() {
+            const section = document.getElementById('historySection');
+            section.classList.toggle('show');
         }
 
-        function startNewQuiz() {
+        function startQuiz() {
+            // Lấy ngẫu nhiên 10 câu hỏi
             questions = [...questionsData].sort(() => 0.5 - Math.random()).slice(0, 10);
             currentQuestionIndex = 0;
             userAnswers = new Array(questions.length).fill(null);
             quizCompleted = false;
-
-            document.getElementById('menuContainer').style.display = 'none';
-            document.getElementById('quizContainer').classList.add('active');
-            
-            displayQuestion();
+            displayQuiz();
         }
 
-        function backToMenu() {
-            document.getElementById('menuContainer').style.display = 'block';
-            document.getElementById('quizContainer').classList.remove('active');
-        }
-
-        function displayQuestion() {
-            const quizContent = document.getElementById('quizContent');
-            
-            if (quizCompleted) {
-                return;
-            }
-
+        function displayQuiz() {
             const question = questions[currentQuestionIndex];
             const selectedAnswer = userAnswers[currentQuestionIndex];
-            const currentScore = userAnswers.filter(a => a !== null).length;
 
-            let optionsHtml = '';
-            question.options.forEach((option, index) => {
-                const optionClass = selectedAnswer === index ? 'option selected' : 'option';
-                optionsHtml += `
-                    <div class="${optionClass}" onclick="selectAnswer(${index})">
-                        <div class="option-letter">${String.fromCharCode(65 + index)}</div>
-                        <div class="option-text">${option}</div>
-                    </div>
-                `;
-            });
-
-            quizContent.innerHTML = `
-                <div class="question-header">
-                    <div class="question-number">
-                        <i class="fas fa-question-circle" style="color: #ffd700; margin-right: 5px;"></i>
-                        Câu <span>${currentQuestionIndex + 1}</span>/10
-                    </div>
-                    <div class="question-score">
-                        <i class="fas fa-star" style="color: #ffd700; margin-right: 5px;"></i>
-                        Điểm <span>${currentScore}</span>
-                    </div>
+            const optionsHtml = question.options.map((option, index) => `
+                <div class="option ${selectedAnswer === index ? 'selected' : ''}" onclick="selectAnswer(${index})">
+                    <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="option-text">${option}</div>
                 </div>
+            `).join('');
 
-                <div class="question-card">
-                    <div class="question-text">${question.question}</div>
-                    <div class="options">
-                        ${optionsHtml}
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="quiz-container">
+                    <div class="question-info">
+                        <span class="question-number"><i class="fas fa-question-circle"></i> Câu ${currentQuestionIndex + 1}/${questions.length}</span>
+                        <span class="score"><i class="fas fa-star"></i> Điểm: ${calculateCurrentScore()}</span>
                     </div>
-                </div>
 
-                <div class="navigation-buttons">
-                    <button class="nav-btn" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
-                        <i class="fas fa-arrow-left"></i>
-                        Câu trước
-                    </button>
-                    <button class="nav-btn" onclick="nextQuestion()" ${currentQuestionIndex === questions.length - 1 ? 'disabled' : ''}>
-                        Câu sau
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
+                    <div class="question-card">
+                        <div class="question-text">${question.question}</div>
+                        <div class="options">
+                            ${optionsHtml}
+                        </div>
+                    </div>
 
-                ${currentQuestionIndex === questions.length - 1 ? 
-                    '<button class="submit-btn" onclick="submitQuiz()"><i class="fas fa-check-circle"></i> Nộp bài</button>' : ''}
+                    <div class="navigation-buttons">
+                        <button class="nav-btn" onclick="previousQuestion()" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-arrow-left"></i> Câu trước
+                        </button>
+                        <button class="nav-btn" onclick="nextQuestion()" ${currentQuestionIndex === questions.length - 1 ? 'disabled' : ''}>
+                            Câu sau <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    ${currentQuestionIndex === questions.length - 1 ? 
+                        '<button class="submit-btn" onclick="submitQuiz()"><i class="fas fa-check-circle"></i> Nộp bài</button>' : ''}
+                </div>
             `;
         }
 
         function selectAnswer(index) {
             if (quizCompleted) return;
             userAnswers[currentQuestionIndex] = index;
-            displayQuestion();
+            displayQuiz();
         }
 
         function previousQuestion() {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
-                displayQuestion();
+                displayQuiz();
             }
         }
 
         function nextQuestion() {
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
-                displayQuestion();
+                displayQuiz();
             }
+        }
+
+        function calculateCurrentScore() {
+            let score = 0;
+            for (let i = 0; i <= currentQuestionIndex; i++) {
+                if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+        function calculateFinalScore() {
+            let score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            return score;
         }
 
         async function submitQuiz() {
@@ -971,28 +859,30 @@
 
             quizCompleted = true;
             
-            const totalScore = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            const totalScore = calculateFinalScore();
             const percentage = Math.round((totalScore / questions.length) * 100);
             
             // Hiển thị loading
-            document.getElementById('quizContent').innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p style="color: #666; font-size: 1.2em;">AI đang phân tích kết quả của bạn...</p>
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="quiz-container">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p style="color: white; font-size: 1.2em;">AI đang phân tích kết quả của bạn...</p>
+                    </div>
                 </div>
             `;
 
             try {
-                const aiFeedback = await getAIFeedback();
+                const aiFeedback = await getAIFeedback(totalScore, percentage);
                 await saveResult(totalScore, percentage, aiFeedback);
                 displayResult(totalScore, percentage, aiFeedback);
             } catch (error) {
-                console.error('Lỗi:', error);
+                console.error('Lỗi khi gọi AI:', error);
                 displayResult(totalScore, percentage, 'Không thể lấy nhận xét từ AI. Vui lòng thử lại sau.');
             }
         }
 
-        async function getAIFeedback() {
+        async function getAIFeedback(score, percentage) {
             const wrongAnswers = [];
             for (let i = 0; i < questions.length; i++) {
                 if (userAnswers[i] !== questions[i].correct) {
@@ -1006,21 +896,23 @@
 
             const prompt = `Bạn là chuyên gia về văn hóa Việt Nam. Hãy phân tích kết quả bài kiểm tra:
 
-Số câu đúng: ${questions.length - wrongAnswers.length}/10
-Tỷ lệ: ${Math.round(((questions.length - wrongAnswers.length) / 10) * 100)}%
+Số câu đúng: ${score}/${questions.length} (${percentage}%)
 
 Các câu sai:
-${wrongAnswers.map((w, i) => `${i+1}. "${w.question}"\n   Chọn: "${w.userAnswer}"\n   Đáp án đúng: "${w.correctAnswer}"`).join('\n\n')}
+${wrongAnswers.map((w, i) => `${i+1}. Câu: "${w.question}"\n   Đáp án chọn: "${w.userAnswer}"\n   Đáp án đúng: "${w.correctAnswer}"`).join('\n\n')}
 
-Hãy phân tích điểm mạnh, điểm yếu và gợi ý cải thiện. Trả lời ngắn gọn, dễ hiểu, tối đa 150 từ.`;
+Hãy đưa ra nhận xét ngắn gọn (khoảng 100-150 từ) về:
+1. Điểm mạnh
+2. Các chủ đề cần cải thiện
+3. Lời khuyên cụ thể
+
+Trả lời bằng tiếng Việt, thân thiện, khích lệ.`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }]
+                    contents: [{ parts: [{ text: prompt }] }]
                 })
             });
 
@@ -1031,8 +923,6 @@ Hãy phân tích điểm mạnh, điểm yếu và gợi ý cải thiện. Trả
         }
 
         async function saveResult(score, percentage, feedback) {
-            if (!currentUser) return;
-
             try {
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 const userData = userDoc.exists ? userDoc.data() : {};
@@ -1041,6 +931,7 @@ Hãy phân tích điểm mạnh, điểm yếu và gợi ý cải thiện. Trả
                 challengeHistory.push({
                     date: new Date().toISOString(),
                     score: score,
+                    totalQuestions: questions.length,
                     percentage: percentage,
                     aiFeedback: feedback
                 });
@@ -1049,40 +940,34 @@ Hãy phân tích điểm mạnh, điểm yếu và gợi ý cải thiện. Trả
                     ...userData,
                     challengeHistory: challengeHistory
                 });
-
-                loadHistory();
             } catch (error) {
                 console.error('Lỗi khi lưu kết quả:', error);
             }
         }
 
         function displayResult(score, percentage, feedback) {
-            const percentageClass = percentage >= 70 ? 'good' : percentage >= 40 ? 'medium' : 'bad';
-            
-            document.getElementById('quizContent').innerHTML = `
-                <div class="result-container">
-                    <i class="fas fa-trophy" style="font-size: 80px; color: #ffd700; margin-bottom: 20px;"></i>
-                    <h2>Kết quả của bạn</h2>
-                    <div class="result-score">${score}/10</div>
-                    <div class="result-percentage ${percentageClass}">${percentage}%</div>
+            document.getElementById('mainContainer').innerHTML = `
+                <div class="quiz-container result-container">
+                    <i class="fas fa-trophy" style="font-size: 4em; color: #ffd700; margin-bottom: 20px;"></i>
+                    
+                    <div class="result-score">
+                        ${score}/${questions.length}
+                    </div>
+                    
+                    <div class="result-percentage">
+                        ${percentage}% hiểu biết văn hóa
+                    </div>
                     
                     <div class="ai-feedback">
-                        <h3><i class="fas fa-robot" style="margin-right: 10px;"></i>Nhận xét từ AI</h3>
+                        <h3><i class="fas fa-robot"></i> Nhận xét từ AI</h3>
                         <p>${feedback}</p>
                     </div>
                     
-                    <button class="submit-btn" onclick="backToMenu()" style="width: auto; padding: 15px 40px;">
-                        <i class="fas fa-home"></i>
-                        Về trang chủ
+                    <button class="back-btn" onclick="showMainMenu()">
+                        <i class="fas fa-arrow-left"></i> Quay lại menu
                     </button>
                 </div>
             `;
-        }
-
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = 'login.html';
-            });
         }
     </script>
 </body>
