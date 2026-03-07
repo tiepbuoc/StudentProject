@@ -161,9 +161,9 @@
         .message {
             padding: 15px 22px;
             border-radius: 25px;
-            max-width: 80%;
+            max-width: 70%;
             word-wrap: break-word;
-            line-height: 1.5;
+            line-height: 1.6;
             animation: fadeIn 0.3s ease;
             font-size: 15px;
         }
@@ -202,44 +202,34 @@
             color: #ffd700;
             font-size: 16px;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .bot-message p {
-            margin: 8px 0;
+            margin-bottom: 10px;
+        }
+
+        .bot-message p:last-child {
+            margin-bottom: 0;
         }
 
         .bot-message ul, .bot-message ol {
-            margin: 8px 0 8px 20px;
+            margin-left: 20px;
+            margin-bottom: 10px;
         }
 
         .bot-message li {
-            margin: 4px 0;
+            margin-bottom: 5px;
         }
 
         .bot-message h1, .bot-message h2, .bot-message h3 {
             color: #ffd700;
-            margin: 10px 0 5px 0;
+            margin: 15px 0 10px 0;
         }
 
         .bot-message h1 { font-size: 1.5em; }
         .bot-message h2 { font-size: 1.3em; }
-        .bot-message h3 { font-size: 1.1em; }
-
-        .bot-message code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .bot-message pre {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 8px 0;
-        }
+        .bot-message h3 { font-size: 1.2em; }
 
         .typing-indicator {
             display: flex;
@@ -292,11 +282,11 @@
 
         .suggested-question-btn {
             background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 10px 22px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 20px;
             border-radius: 50px;
             font-size: 14px;
             cursor: pointer;
@@ -310,7 +300,8 @@
 
         .suggested-question-btn:hover {
             background: #8b4513;
-            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -323,13 +314,14 @@
 
         .input-wrapper {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
-            background-image: url('ta-bg.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            background-position: center;
-            padding: 0 10px 0 25px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 60px;
+            padding: 5px 5px 5px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         #user-input {
@@ -339,36 +331,50 @@
             font-size: 16px;
             background: transparent;
             color: white;
-            height: 50px;
-            line-height: 50px;
+            padding: 14px 0;
         }
 
         #user-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             font-style: italic;
         }
 
         #send-button {
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             border: none;
-            background: transparent;
+            border-radius: 50%;
+            background: #8b4513;
             background-image: url('send-nm.png');
-            background-size: contain;
-            background-repeat: no-repeat;
+            background-size: 60%;
             background-position: center;
+            background-repeat: no-repeat;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         #send-button:hover:not(:disabled) {
-            opacity: 0.8;
+            background: #a55a2a;
             background-image: url('send-m.png');
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
         }
 
         #send-button:disabled {
-            opacity: 0.3;
+            opacity: 0.5;
             cursor: not-allowed;
+            background: #8b4513;
+            background-image: url('send-nm.png');
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .error-message {
@@ -392,16 +398,16 @@
             }
             
             .message {
-                max-width: 90%;
+                max-width: 85%;
             }
             
             .suggested-question-btn {
                 font-size: 13px;
-                padding: 8px 16px;
+                padding: 6px 16px;
             }
             
             .input-area {
-                padding: 15px 15px 20px 15px;
+                padding: 10px 20px 20px 20px;
             }
         }
     </style>
@@ -475,6 +481,51 @@
         const sendButton = document.getElementById('send-button');
         const suggestedQuestionsDiv = document.getElementById('suggestedQuestions');
 
+        // Hàm xử lý markdown và các ký tự đặc biệt
+        function formatBotMessage(text) {
+            if (!text) return '';
+            
+            // Xử lý các thẻ markdown và ký tự đặc biệt
+            let formatted = text
+                // Xử lý tiêu đề
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                
+                // Xử lý in đậm và in nghiêng
+                .replace(/\*\*\*(.*?)\*\*\*/gim, '<strong><em>$1</em></strong>')
+                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+                
+                // Xử lý gạch ngang
+                .replace(/^---/gim, '<hr>')
+                .replace(/^__(.*?)__/gim, '<u>$1</u>')
+                
+                // Xử lý danh sách
+                .replace(/^\- (.*$)/gim, '<li>$1</li>')
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/^\d\. (.*$)/gim, '<li>$1</li>')
+                
+                // Xử lý blockquote
+                .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
+                
+                // Xử lý code
+                .replace(/`(.*?)`/gim, '<code>$1</code>')
+                
+                // Xuống dòng
+                .replace(/\n/g, '<br>');
+
+            // Gom các thẻ li liên tiếp thành ul/ol
+            formatted = formatted.replace(/(<li>.*?<\/li>)(?:\s*<br>\s*)*(?=<li>|$)/g, function(match) {
+                return '<ul>' + match + '</ul>';
+            });
+
+            // Xóa các thẻ ul lồng nhau
+            formatted = formatted.replace(/<\/ul>\s*<ul>/g, '');
+
+            return formatted;
+        }
+
         // 20 câu hỏi gợi ý
         const allSuggestedQuestions = [
             "Vua Hùng là ai?",
@@ -499,62 +550,6 @@
             "Gốm Bát Tràng nổi tiếng thế nào?"
         ];
 
-        // Hàm xử lý markdown và các ký tự đặc biệt
-        function formatBotMessage(text) {
-            if (!text) return '';
-            
-            // Xử lý các ký tự đặc biệt
-            let formatted = text
-                // Xử lý tiêu đề
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                
-                // Xử lý in đậm và nghiêng
-                .replace(/\*\*\*(.*?)\*\*\*/gim, '<strong><em>$1</em></strong>')
-                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-                
-                // Xử lý gạch ngang
-                .replace(/~~(.*?)~~/gim, '<del>$1</del>')
-                
-                // Xử lý code block
-                .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
-                .replace(/`([^`]+)`/gim, '<code>$1</code>')
-                
-                // Xử lý đường kẻ ngang
-                .replace(/^---$/gim, '<hr>')
-                .replace(/^\*\*\*$/gim, '<hr>')
-                
-                // Xử lý danh sách
-                .replace(/^\* (.*$)/gim, '<li>$1</li>')
-                .replace(/^- (.*$)/gim, '<li>$1</li>')
-                .replace(/^\+ (.*$)/gim, '<li>$1</li>')
-                
-                // Xử lý số thứ tự
-                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-                
-                // Xử lý xuống dòng
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>');
-
-            // Gom các li liên tiếp vào ul/ol
-            formatted = formatted.replace(/(<li>.*<\/li>\s*)+/g, function(match) {
-                if (match.match(/^\d+\./)) {
-                    return '<ol>' + match + '</ol>';
-                } else {
-                    return '<ul>' + match + '</ul>';
-                }
-            });
-
-            // Thêm paragraph nếu chưa có
-            if (!formatted.startsWith('<h') && !formatted.startsWith('<p')) {
-                formatted = '<p>' + formatted + '</p>';
-            }
-
-            return formatted;
-        }
-
         // Kiểm tra đăng nhập
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -570,9 +565,6 @@
             
             // Load feedback từ thử thách
             await loadLastChallengeFeedback();
-            
-            // Cập nhật câu hỏi gợi ý
-            updateSuggestedQuestions();
         });
 
         async function loadLastChallengeFeedback() {
@@ -600,13 +592,13 @@
                     messagesContainer.innerHTML = '';
                     
                     if (chatHistory.length > 0) {
-                        chatHistory.forEach(msg => {
+                        for (const msg of chatHistory) {
                             if (msg.role === 'bot') {
                                 addMessage('bot', msg.content, false);
                             } else {
                                 addMessage('user', msg.content, false);
                             }
-                        });
+                        }
                         currentContext = chatHistory[chatHistory.length - 1].context || 'none';
                     } else {
                         addWelcomeMessage();
@@ -629,7 +621,7 @@
                 const messages = [];
                 const messageElements = messagesContainer.querySelectorAll('.message');
                 
-                messageElements.forEach(el => {
+                for (const el of messageElements) {
                     if (el.classList.contains('user-message')) {
                         messages.push({
                             role: 'user',
@@ -638,14 +630,14 @@
                         });
                     } else if (el.classList.contains('bot-message')) {
                         // Lấy nội dung text, bỏ qua các thẻ HTML
-                        const content = el.innerText.replace('Sao Vàng ★', '').trim();
+                        const content = el.innerText.replace('Sao Vàng', '').trim();
                         messages.push({
                             role: 'bot',
                             content: content,
                             context: currentContext
                         });
                     }
-                });
+                }
 
                 await db.collection('users').doc(currentUser.uid).update({
                     chatHistory: messages
@@ -731,11 +723,11 @@ Thông tin người dùng (có thể tham khảo): ${lastChallengeFeedback || 'C
 
 Câu hỏi: ${userMessage}
 
-Hãy trả lời bằng tiếng Việt, chính xác, chi tiết và thân thiện. Có thể sử dụng markdown để định dạng câu trả lời cho dễ đọc.
+Hãy trả lời bằng tiếng Việt, chính xác, chi tiết và thân thiện. Có thể sử dụng các định dạng như **in đậm**, *in nghiêng*, - gạch đầu dòng, # tiêu đề để làm câu trả lời sinh động hơn.
 
 Trả lời dưới dạng JSON:
 {
-    "answer": "Câu trả lời chi tiết (có thể dùng markdown)...",
+    "answer": "Câu trả lời chi tiết...",
     "newContext": "Tóm tắt ngắn bối cảnh mới..."
 }`;
 
@@ -799,9 +791,8 @@ Trả lời dưới dạng JSON:
         });
 
         window.addEventListener('resize', updateSuggestedQuestions);
-        
-        // Khởi tạo resize cho input
         window.addEventListener('load', () => {
+            updateSuggestedQuestions();
             setTimeout(scrollToBottom, 100);
         });
     </script>
