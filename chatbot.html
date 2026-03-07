@@ -516,51 +516,73 @@
             "Gốm Bát Tràng nổi tiếng thế nào?"
         ];
 
-        // Hàm xử lý markdown từ AI
+        // Hàm xử lý markdown từ AI - ĐÃ SỬA LỖI
         function formatAIResponse(text) {
-            if (!text) return '';
+            if (!text || typeof text !== 'string') return '';
             
-            // Xử lý các thẻ markdown
-            let formatted = text
-            
-                // Xử lý tiêu đề ###
-                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')
-                // Xử lý tiêu đề ##
-                .replace(/## (.*?)(?:\n|$)/g, '<h2>$1</h2>')
-                // Xử lý tiêu đề #
-                .replace(/# (.*?)(?:\n|$)/g, '<h1>$1</h1>')
+            try {
+                let formatted = text
+                    // Xử lý tiêu đề
+                    .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')
+                    .replace(/## (.*?)(?:\n|$)/g, '<h2>$1</h2>')
+                    .replace(/# (.*?)(?:\n|$)/g, '<h1>$1</h1>')
+                    
+                    // Xử lý in đậm và nghiêng
+                    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    
+                    // Xử lý gạch ngang
+                    .replace(/---/g, '<hr>')
+                    
+                    // Xử lý danh sách
+                    .replace(/^- (.*?)(?:\n|$)/gm, '<li>$1</li>')
+                    .replace(/^\d+\. (.*?)(?:\n|$)/gm, '<li>$1</li>');
                 
-                // Xử lý in đậm ***
-                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-                // Xử lý in đậm **
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                // Xử lý in nghiêng *
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                
-                // Xử lý gạch ngang ---
-                .replace(/---/g, '<hr>')
-                
-                // Xử lý danh sách không thứ tự
-                .replace(/^- (.*?)(?:\n|$)/gm, '<li>$1</li>')
-                .replace(/(<li>.*?<\/li>)+/g, function(match) {
-                    return '<ul>' + match + '</ul>';
-                })
-                
-                // Xử lý danh sách có thứ tự
-                .replace(/^\d+\. (.*?)(?:\n|$)/gm, '<li>$1</li>')
-                .replace(/(<li>.*?<\/li>)+/g, function(match, offset, string) {
-                    // Kiểm tra nếu là danh sách số
-                    if (string.match(/^\d+\./m)) {
-                        return '<ol>' + match + '</ol>';
+                // Gom các thẻ li thành ul hoặc ol - cách đơn giản hóa
+                if (formatted.includes('<li>')) {
+                    // Kiểm tra xem có phải danh sách số không
+                    const hasNumbers = /^\d+\./.test(text);
+                    const listTag = hasNumbers ? 'ol' : 'ul';
+                    
+                    // Tách và xử lý từng phần
+                    const parts = formatted.split(/(<li>.*?<\/li>)/g);
+                    let result = '';
+                    let inList = false;
+                    
+                    for (let i = 0; i < parts.length; i++) {
+                        if (parts[i].startsWith('<li>')) {
+                            if (!inList) {
+                                result += `<${listTag}>`;
+                                inList = true;
+                            }
+                            result += parts[i];
+                        } else {
+                            if (inList && parts[i].trim()) {
+                                result += `</${listTag}>` + parts[i];
+                                inList = false;
+                            } else {
+                                result += parts[i];
+                            }
+                        }
                     }
-                    return match;
-                })
+                    
+                    if (inList) {
+                        result += `</${listTag}>`;
+                    }
+                    
+                    formatted = result;
+                }
                 
                 // Xử lý xuống dòng
-                .replace(/\n\n/g, '<br><br>')
-                .replace(/\n/g, '<br>');
-            
-            return formatted;
+                formatted = formatted.replace(/\n\n/g, '<br><br>')
+                                    .replace(/\n/g, '<br>');
+                
+                return formatted;
+            } catch (error) {
+                console.error('Lỗi format AI response:', error);
+                return text;
+            }
         }
 
         // Kiểm tra đăng nhập
