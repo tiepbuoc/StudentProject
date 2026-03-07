@@ -180,7 +180,7 @@
         }
 
         .user-message {
-            background: rgba(55, 1, 0, 0.9);
+            background: rgba(139, 69, 19, 0.9);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
@@ -188,7 +188,7 @@
         }
 
         .bot-message {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             color: white;
@@ -206,35 +206,36 @@
         }
 
         .bot-message p {
-            margin-bottom: 10px;
-        }
-
-        .bot-message p:last-child {
-            margin-bottom: 0;
+            margin: 8px 0;
         }
 
         .bot-message ul, .bot-message ol {
-            margin-left: 20px;
-            margin-bottom: 10px;
+            margin: 8px 0 8px 20px;
         }
 
         .bot-message li {
-            margin-bottom: 5px;
+            margin: 4px 0;
         }
 
         .bot-message h1, .bot-message h2, .bot-message h3 {
             color: #ffd700;
-            margin: 15px 0 10px 0;
+            margin: 12px 0 6px 0;
         }
 
         .bot-message h1 { font-size: 1.5em; }
         .bot-message h2 { font-size: 1.3em; }
         .bot-message h3 { font-size: 1.2em; }
 
+        .bot-message hr {
+            border: none;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            margin: 12px 0;
+        }
+
         .typing-indicator {
             display: flex;
             padding: 15px 22px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 25px;
@@ -272,12 +273,14 @@
         }
 
         .suggested-questions {
-            padding: 15px 30px;
+            padding: 10px 20px 5px 20px;
+            background: transparent;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             flex-shrink: 0;
+            min-height: 60px;
         }
 
         .suggested-question-btn {
@@ -286,16 +289,16 @@
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.9);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 14px;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9em;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .suggested-question-btn:hover {
@@ -303,25 +306,26 @@
             color: white;
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .input-area {
-            padding: 15px 30px 25px 30px;
+            padding: 15px 20px;
             background: transparent;
+            border-top: none;
+            display: flex;
+            gap: 15px;
+            backdrop-filter: none;
             flex-shrink: 0;
+            width: 100%;
         }
 
         .input-wrapper {
             display: flex;
-            gap: 12px;
+            gap: 15px;
+            width: 100%;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 60px;
-            padding: 5px 5px 5px 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
         }
 
         #user-input {
@@ -329,52 +333,67 @@
             border: none;
             outline: none;
             font-size: 16px;
-            background: transparent;
+            transition: all 0.3s;
+            background-image: url('ta-bg.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
             color: white;
-            padding: 14px 0;
+            font-weight: 500;
+            height: 0;
+            min-height: 45px;
+            padding: 0 25px;
+            background-color: transparent;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         #user-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.9);
             font-style: italic;
         }
 
-        #send-button {
-            width: 52px;
-            height: 52px;
+        #user-input:focus {
             border: none;
-            border-radius: 50%;
-            background: #8b4513;
-            background-image: url('send-nm.png');
-            background-size: 60%;
-            background-position: center;
-            background-repeat: no-repeat;
+            outline: none;
+            box-shadow: none;
+            background-color: transparent;
+        }
+
+        #send-button {
+            background: transparent;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: opacity 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 0;
+            opacity: 1;
+            border-radius: 0;
+            background-image: url('send-nm.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 0;
+            height: 0;
+            aspect-ratio: 1/1;
+            min-width: 45px;
+            min-height: 45px;
         }
 
-        #send-button:hover:not(:disabled) {
-            background: #a55a2a;
+        #send-button:hover {
+            opacity: 0.8;
             background-image: url('send-m.png');
-            background-size: 60%;
-            background-position: center;
+            background-size: contain;
             background-repeat: no-repeat;
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
+            background-position: center;
         }
 
         #send-button:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
-            background: #8b4513;
-            background-image: url('send-nm.png');
-            background-size: 60%;
-            background-position: center;
-            background-repeat: no-repeat;
+            pointer-events: none;
         }
 
         .error-message {
@@ -399,15 +418,6 @@
             
             .message {
                 max-width: 85%;
-            }
-            
-            .suggested-question-btn {
-                font-size: 13px;
-                padding: 6px 16px;
-            }
-            
-            .input-area {
-                padding: 10px 20px 20px 20px;
             }
         }
     </style>
@@ -459,7 +469,7 @@
             measurementId: "G-C6YGPPG13R"
         };
 
-        // Gemini API key (đã đảo ngược để bảo mật)
+        // Gemini API key
         const REVERSED_GEMINI_KEY = 'gVH30eaBb4DV1utfJ94m0GVymawfG5QlCySazIA';
         function reverseString(str) {
             return str.split('').reverse().join('');
@@ -479,52 +489,8 @@
         const messagesContainer = document.getElementById('messages');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const inputWrapper = document.querySelector('.input-wrapper');
         const suggestedQuestionsDiv = document.getElementById('suggestedQuestions');
-
-        // Hàm xử lý markdown và các ký tự đặc biệt
-        function formatBotMessage(text) {
-            if (!text) return '';
-            
-            // Xử lý các thẻ markdown và ký tự đặc biệt
-            let formatted = text
-                // Xử lý tiêu đề
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                
-                // Xử lý in đậm và in nghiêng
-                .replace(/\*\*\*(.*?)\*\*\*/gim, '<strong><em>$1</em></strong>')
-                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-                
-                // Xử lý gạch ngang
-                .replace(/^---/gim, '<hr>')
-                .replace(/^__(.*?)__/gim, '<u>$1</u>')
-                
-                // Xử lý danh sách
-                .replace(/^\- (.*$)/gim, '<li>$1</li>')
-                .replace(/^\* (.*$)/gim, '<li>$1</li>')
-                .replace(/^\d\. (.*$)/gim, '<li>$1</li>')
-                
-                // Xử lý blockquote
-                .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-                
-                // Xử lý code
-                .replace(/`(.*?)`/gim, '<code>$1</code>')
-                
-                // Xuống dòng
-                .replace(/\n/g, '<br>');
-
-            // Gom các thẻ li liên tiếp thành ul/ol
-            formatted = formatted.replace(/(<li>.*?<\/li>)(?:\s*<br>\s*)*(?=<li>|$)/g, function(match) {
-                return '<ul>' + match + '</ul>';
-            });
-
-            // Xóa các thẻ ul lồng nhau
-            formatted = formatted.replace(/<\/ul>\s*<ul>/g, '');
-
-            return formatted;
-        }
 
         // 20 câu hỏi gợi ý
         const allSuggestedQuestions = [
@@ -549,6 +515,53 @@
             "Vua Quang Trung đại phá quân Thanh?",
             "Gốm Bát Tràng nổi tiếng thế nào?"
         ];
+
+        // Hàm xử lý markdown từ AI
+        function formatAIResponse(text) {
+            if (!text) return '';
+            
+            // Xử lý các thẻ markdown
+            let formatted = text
+            
+                // Xử lý tiêu đề ###
+                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')
+                // Xử lý tiêu đề ##
+                .replace(/## (.*?)(?:\n|$)/g, '<h2>$1</h2>')
+                // Xử lý tiêu đề #
+                .replace(/# (.*?)(?:\n|$)/g, '<h1>$1</h1>')
+                
+                // Xử lý in đậm ***
+                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                // Xử lý in đậm **
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Xử lý in nghiêng *
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                
+                // Xử lý gạch ngang ---
+                .replace(/---/g, '<hr>')
+                
+                // Xử lý danh sách không thứ tự
+                .replace(/^- (.*?)(?:\n|$)/gm, '<li>$1</li>')
+                .replace(/(<li>.*?<\/li>)+/g, function(match) {
+                    return '<ul>' + match + '</ul>';
+                })
+                
+                // Xử lý danh sách có thứ tự
+                .replace(/^\d+\. (.*?)(?:\n|$)/gm, '<li>$1</li>')
+                .replace(/(<li>.*?<\/li>)+/g, function(match, offset, string) {
+                    // Kiểm tra nếu là danh sách số
+                    if (string.match(/^\d+\./m)) {
+                        return '<ol>' + match + '</ol>';
+                    }
+                    return match;
+                })
+                
+                // Xử lý xuống dòng
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+            
+            return formatted;
+        }
 
         // Kiểm tra đăng nhập
         auth.onAuthStateChanged(async (user) => {
@@ -592,13 +605,13 @@
                     messagesContainer.innerHTML = '';
                     
                     if (chatHistory.length > 0) {
-                        for (const msg of chatHistory) {
+                        chatHistory.forEach(msg => {
                             if (msg.role === 'bot') {
                                 addMessage('bot', msg.content, false);
                             } else {
                                 addMessage('user', msg.content, false);
                             }
-                        }
+                        });
                         currentContext = chatHistory[chatHistory.length - 1].context || 'none';
                     } else {
                         addWelcomeMessage();
@@ -621,7 +634,7 @@
                 const messages = [];
                 const messageElements = messagesContainer.querySelectorAll('.message');
                 
-                for (const el of messageElements) {
+                messageElements.forEach(el => {
                     if (el.classList.contains('user-message')) {
                         messages.push({
                             role: 'user',
@@ -629,15 +642,15 @@
                             context: currentContext
                         });
                     } else if (el.classList.contains('bot-message')) {
-                        // Lấy nội dung text, bỏ qua các thẻ HTML
-                        const content = el.innerText.replace('Sao Vàng', '').trim();
+                        // Lấy nội dung text, bỏ qua HTML
+                        const content = el.innerText.replace('Sao Vàng  ', '').trim();
                         messages.push({
                             role: 'bot',
                             content: content,
                             context: currentContext
                         });
                     }
-                }
+                });
 
                 await db.collection('users').doc(currentUser.uid).update({
                     chatHistory: messages
@@ -654,12 +667,34 @@
 
         function updateSuggestedQuestions() {
             const width = window.innerWidth;
-            const n = width < 480 ? 3 : width < 768 ? 4 : width < 1024 ? 5 : 6;
-            const questions = getRandomQuestions(n);
+            const numberOfQuestions = width < 480 ? 3 : width < 768 ? 4 : width < 1024 ? 5 : 6;
+            const randomQuestions = getRandomQuestions(numberOfQuestions);
             
-            suggestedQuestionsDiv.innerHTML = questions.map(q => 
-                `<button class="suggested-question-btn" onclick="useSuggestedQuestion('${q.replace(/'/g, "\\'")}')">${q}</button>`
-            ).join('');
+            suggestedQuestionsDiv.innerHTML = '';
+            
+            randomQuestions.forEach(question => {
+                const button = document.createElement('button');
+                button.classList.add('suggested-question-btn');
+                button.textContent = question;
+                button.onclick = () => useSuggestedQuestion(question);
+                suggestedQuestionsDiv.appendChild(button);
+            });
+        }
+
+        function resizeInputArea() {
+            if (!inputWrapper || !userInput || !sendButton) return;
+            
+            const wrapperWidth = inputWrapper.offsetWidth;
+            const gap = 15;
+            
+            let totalWidth = wrapperWidth - gap;
+            let height = Math.max(45, Math.round(totalWidth / 18));
+            
+            userInput.style.height = height + 'px';
+            userInput.style.lineHeight = height + 'px';
+            
+            sendButton.style.width = height + 'px';
+            sendButton.style.height = height + 'px';
         }
 
         function addMessage(role, content, save = true) {
@@ -667,7 +702,7 @@
             messageDiv.classList.add('message', role === 'user' ? 'user-message' : 'bot-message');
 
             if (role === 'bot') {
-                const formattedContent = formatBotMessage(content);
+                const formattedContent = formatAIResponse(content);
                 messageDiv.innerHTML = `<strong>Sao Vàng <i class="fas fa-star" style="color: #ffd700; font-size: 14px;"></i></strong><br>${formattedContent}`;
             } else {
                 messageDiv.innerHTML = `<i class="fas fa-user" style="margin-right: 8px;"></i>${content}`;
@@ -723,11 +758,11 @@ Thông tin người dùng (có thể tham khảo): ${lastChallengeFeedback || 'C
 
 Câu hỏi: ${userMessage}
 
-Hãy trả lời bằng tiếng Việt, chính xác, chi tiết và thân thiện. Có thể sử dụng các định dạng như **in đậm**, *in nghiêng*, - gạch đầu dòng, # tiêu đề để làm câu trả lời sinh động hơn.
+Hãy trả lời bằng tiếng Việt, chính xác, chi tiết và thân thiện. Có thể sử dụng markdown để định dạng câu trả lời (**, *, ###, ##, #, ---) nếu cần.
 
 Trả lời dưới dạng JSON:
 {
-    "answer": "Câu trả lời chi tiết...",
+    "answer": "Câu trả lời chi tiết (có thể dùng markdown)...",
     "newContext": "Tóm tắt ngắn bối cảnh mới..."
 }`;
 
@@ -790,11 +825,23 @@ Trả lời dưới dạng JSON:
             }
         });
 
-        window.addEventListener('resize', updateSuggestedQuestions);
-        window.addEventListener('load', () => {
+        window.addEventListener('resize', () => {
+            resizeInputArea();
             updateSuggestedQuestions();
-            setTimeout(scrollToBottom, 100);
         });
+
+        window.addEventListener('load', () => {
+            setTimeout(resizeInputArea, 100);
+            updateSuggestedQuestions();
+        });
+
+        const resizeObserver = new ResizeObserver(() => {
+            resizeInputArea();
+        });
+        
+        if (inputWrapper) {
+            resizeObserver.observe(inputWrapper);
+        }
     </script>
 </body>
 </html>
