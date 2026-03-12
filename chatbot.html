@@ -532,20 +532,21 @@
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     
+                    // XỬ LÝ DẤU * CÒN SÓT
+                    .replace(/\*+/g, '')
+                    
                     // Xử lý gạch ngang
                     .replace(/---/g, '<hr>')
                     
                     // Xử lý danh sách
-                    .replace(/^- (.*?)(?:\n|$)/gm, '<li>$1</li>')
-                    .replace(/^\d+\. (.*?)(?:\n|$)/gm, '<li>$1</li>');
+                    .replace(/^[-*]\s+(.*?)(?:\n|$)/gm, '<li>$1</li>')
+                    .replace(/^\d+\.\s+(.*?)(?:\n|$)/gm, '<li>$1</li>');
                 
-                // Gom các thẻ li thành ul hoặc ol - cách đơn giản hóa
+                // Gom các thẻ li thành ul hoặc ol
                 if (formatted.includes('<li>')) {
-                    // Kiểm tra xem có phải danh sách số không
                     const hasNumbers = /^\d+\./.test(text);
                     const listTag = hasNumbers ? 'ol' : 'ul';
                     
-                    // Tách và xử lý từng phần
                     const parts = formatted.split(/(<li>.*?<\/li>)/g);
                     let result = '';
                     let inList = false;
@@ -578,10 +579,18 @@
                 formatted = formatted.replace(/\n\n/g, '<br><br>')
                                     .replace(/\n/g, '<br>');
                 
+                // Xử lý các trường hợp đặc biệt: loại bỏ dấu * còn sót trong text
+                formatted = formatted.replace(/<[^>]*>|([^*]+)/g, function(match, textContent) {
+                    if (textContent) {
+                        return textContent.replace(/\*/g, '');
+                    }
+                    return match;
+                });
+                
                 return formatted;
             } catch (error) {
                 console.error('Lỗi format AI response:', error);
-                return text;
+                return text.replace(/\*/g, '');
             }
         }
 
@@ -595,10 +604,7 @@
             document.getElementById('userName').textContent = user.displayName || 'Người dùng';
             currentUser = user;
             
-            // Load lịch sử chat
             await loadChatHistory();
-            
-            // Load feedback từ thử thách
             await loadLastChallengeFeedback();
         });
 
@@ -660,15 +666,18 @@
                     if (el.classList.contains('user-message')) {
                         messages.push({
                             role: 'user',
-                            content: el.textContent,
+                            content: el.textContent.trim(),
                             context: currentContext
                         });
                     } else if (el.classList.contains('bot-message')) {
-                        // Lấy nội dung text, bỏ qua HTML
-                        const content = el.innerText.replace('Sao Vàng  ', '').trim();
+                        const strongTag = el.querySelector('strong');
+                        const contentWithoutStrong = el.innerHTML.replace(strongTag?.outerHTML || '', '').replace('<br>', '').trim();
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = contentWithoutStrong;
+                        const content = tempDiv.textContent || tempDiv.innerText || '';
                         messages.push({
                             role: 'bot',
-                            content: content,
+                            content: content.trim(),
                             context: currentContext
                         });
                     }
@@ -725,6 +734,7 @@
 
             if (role === 'bot') {
                 const formattedContent = formatAIResponse(content);
+                // ĐÃ SỬA: Chỉ hiển thị 1 chữ Sao Vàng
                 messageDiv.innerHTML = `<strong>Sao Vàng <i class="fas fa-star" style="color: #ffd700; font-size: 14px;"></i></strong><br>${formattedContent}`;
             } else {
                 messageDiv.innerHTML = `<i class="fas fa-user" style="margin-right: 8px;"></i>${content}`;
