@@ -245,7 +245,7 @@
         }
 
         .history-section.show {
-            max-height: 500px;
+            max-height: 2000px;
         }
 
         .history-card {
@@ -274,11 +274,15 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            cursor: pointer;
         }
 
         .history-date {
             color: #ffd700;
             font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .history-score {
@@ -292,15 +296,40 @@
         .history-details {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         .history-feedback {
-            margin-top: 15px;
-            padding: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 0;
+            padding: 0 15px;
             background: rgba(255, 215, 0, 0.1);
             border-radius: 15px;
             border-left: 4px solid #ffd700;
             font-style: italic;
+        }
+
+        .history-feedback.show {
+            max-height: 500px;
+            margin-top: 15px;
+            padding: 15px;
+        }
+
+        .history-feedback-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .history-feedback-content p {
+            margin-bottom: 10px;
+        }
+
+        .history-feedback-content ul, 
+        .history-feedback-content ol {
+            margin-left: 20px;
+            margin-bottom: 10px;
         }
 
         .no-history {
@@ -308,6 +337,15 @@
             color: rgba(255, 255, 255, 0.5);
             padding: 40px;
             font-size: 1.1em;
+        }
+
+        .expand-icon {
+            color: #ffd700;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(90deg);
         }
 
         .quiz-container {
@@ -320,49 +358,37 @@
             animation: fadeIn 0.5s ease;
         }
 
-        .question-info {
+        .question-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 15px;
             margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
         }
 
         .question-number {
             color: #ffd700;
             font-weight: bold;
             font-size: 1.1em;
-        }
-
-        .score {
-            color: white;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .score i {
-            color: #ffd700;
-            margin-right: 5px;
-        }
-
-        .question-card {
-            margin-bottom: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            white-space: nowrap;
         }
 
         .question-text {
             font-size: 1.4em;
             color: white;
-            margin-bottom: 30px;
             line-height: 1.6;
             font-weight: 500;
+            flex: 1;
         }
 
         .options {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 40px;
         }
 
         .option {
@@ -517,6 +543,7 @@
         .ai-feedback p {
             color: rgba(255, 255, 255, 0.9);
             line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         .back-btn {
@@ -735,17 +762,24 @@
 
                     historySection.innerHTML = challengeHistory.reverse().map((item, index) => `
                         <div class="history-card">
-                            <div class="history-header">
-                                <span class="history-date"><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('vi-VN')}</span>
-                                <span class="history-score"><i class="fas fa-star"></i> ${item.score}/${item.totalQuestions}</span>
+                            <div class="history-header" onclick="toggleFeedback(${index})">
+                                <span class="history-date">
+                                    <i class="far fa-calendar-alt"></i> 
+                                    ${new Date(item.date).toLocaleDateString('vi-VN')}
+                                </span>
+                                <span class="history-score">
+                                    <i class="fas fa-star"></i> ${item.score}/${item.totalQuestions}
+                                </span>
+                                <i class="fas fa-chevron-right expand-icon" id="expand-icon-${index}"></i>
                             </div>
                             <div class="history-details">
                                 <p><i class="fas fa-percent" style="color: #ffd700;"></i> Tỷ lệ: ${item.percentage}%</p>
                             </div>
                             ${item.aiFeedback ? `
-                                <div class="history-feedback">
-                                    <i class="fas fa-robot" style="color: #ffd700; margin-right: 8px;"></i>
-                                    ${item.aiFeedback}
+                                <div class="history-feedback" id="feedback-${index}">
+                                    <div class="history-feedback-content">
+                                        ${formatAIFeedback(item.aiFeedback)}
+                                    </div>
                                 </div>
                             ` : ''}
                         </div>
@@ -753,6 +787,32 @@
                 }
             } catch (error) {
                 console.error('Lỗi khi load lịch sử:', error);
+            }
+        }
+
+        function formatAIFeedback(text) {
+            if (!text) return '';
+            
+            // Xử lý markdown cơ bản
+            let formatted = text
+                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/### (.*?)(?:\n|$)/g, '<h3>$1</h3>')
+                .replace(/## (.*?)(?:\n|$)/g, '<h2>$1</h2>')
+                .replace(/# (.*?)(?:\n|$)/g, '<h1>$1</h1>')
+                .replace(/\n/g, '<br>');
+            
+            return formatted;
+        }
+
+        function toggleFeedback(index) {
+            const feedback = document.getElementById(`feedback-${index}`);
+            const icon = document.getElementById(`expand-icon-${index}`);
+            
+            if (feedback) {
+                feedback.classList.toggle('show');
+                icon.classList.toggle('rotated');
             }
         }
 
@@ -783,16 +843,13 @@
 
             document.getElementById('mainContainer').innerHTML = `
                 <div class="quiz-container">
-                    <div class="question-info">
+                    <div class="question-header">
                         <span class="question-number"><i class="fas fa-question-circle"></i> Câu ${currentQuestionIndex + 1}/${questions.length}</span>
-                        <span class="score"><i class="fas fa-star"></i> Điểm: ${calculateCurrentScore()}</span>
+                        <div class="question-text">${question.question}</div>
                     </div>
 
-                    <div class="question-card">
-                        <div class="question-text">${question.question}</div>
-                        <div class="options">
-                            ${optionsHtml}
-                        </div>
+                    <div class="options">
+                        ${optionsHtml}
                     </div>
 
                     <div class="navigation-buttons">
@@ -813,7 +870,16 @@
         function selectAnswer(index) {
             if (quizCompleted) return;
             userAnswers[currentQuestionIndex] = index;
-            displayQuiz();
+            
+            // Cập nhật UI trực tiếp không cần reload
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                if (i === index) {
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.remove('selected');
+                }
+            });
         }
 
         function previousQuestion() {
@@ -828,16 +894,6 @@
                 currentQuestionIndex++;
                 displayQuiz();
             }
-        }
-
-        function calculateCurrentScore() {
-            let score = 0;
-            for (let i = 0; i <= currentQuestionIndex; i++) {
-                if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) {
-                    score++;
-                }
-            }
-            return score;
         }
 
         function calculateFinalScore() {
@@ -901,12 +957,12 @@ Số câu đúng: ${score}/${questions.length} (${percentage}%)
 Các câu sai:
 ${wrongAnswers.map((w, i) => `${i+1}. Câu: "${w.question}"\n   Đáp án chọn: "${w.userAnswer}"\n   Đáp án đúng: "${w.correctAnswer}"`).join('\n\n')}
 
-Hãy đưa ra nhận xét ngắn gọn (khoảng 100-150 từ) về:
+Hãy đưa ra nhận xét ngắn gọn (khoảng 50 từ) về:
 1. Điểm mạnh
 2. Các chủ đề cần cải thiện
 3. Lời khuyên cụ thể
 
-Trả lời bằng tiếng Việt, thân thiện, khích lệ.`;
+Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụng markdown, chỉ dùng văn bản thuần túy.`;
 
             const response = await fetch(API_URL, {
                 method: 'POST',
