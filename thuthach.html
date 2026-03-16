@@ -250,7 +250,6 @@
             padding: 0 20px;
         }
 
-        /* Menu Container */
         .menu-container {
             background: rgba(255, 249, 240, 0.9);
             backdrop-filter: blur(15px);
@@ -262,7 +261,6 @@
             animation: fadeIn 0.5s ease;
             position: relative;
             overflow: hidden;
-            margin-bottom: 30px;
         }
 
         .menu-container::before {
@@ -537,7 +535,6 @@
             transform: rotate(90deg);
         }
 
-        /* Quiz Container */
         .quiz-container {
             background: rgba(255, 249, 240, 0.9);
             backdrop-filter: blur(15px);
@@ -547,7 +544,6 @@
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px var(--jade-glow);
             animation: fadeIn 0.5s ease;
-            margin-bottom: 30px;
         }
 
         .question-header {
@@ -925,19 +921,26 @@
             box-shadow: 0 10px 20px var(--jade-glow);
         }
 
+        /* Canvas cho certificate (ẩn) */
+        #certificateCanvas {
+            display: none;
+        }
+
         /* Ranking Container */
+        .ranking-wrapper {
+            margin-top: 30px;
+        }
+
         .ranking-container {
             background: rgba(255, 249, 240, 0.9);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-radius: 40px;
-            padding: 40px;
+            border-radius: 30px;
+            padding: 30px;
             border: 1px solid var(--border);
-            box-shadow: 0 30px 60px var(--jade-glow);
-            animation: fadeIn 0.6s ease;
+            box-shadow: 0 20px 40px var(--jade-glow);
             position: relative;
             overflow: hidden;
-            margin-top: 30px;
         }
 
         .ranking-container::before {
@@ -1110,7 +1113,7 @@
             border-color: #a18cd1;
         }
 
-        /* Crown và Trophy icons */
+        /* Crown và Trophy icons - nằm ngoài phía trên */
         .card {
             position: relative;
             margin-top: 25px;
@@ -1200,7 +1203,7 @@
             gap: 4px;
         }
 
-        .user-info .user-name {
+        .user-name {
             font-weight: 600;
             font-size: 16px;
             color: var(--white);
@@ -1242,6 +1245,13 @@
             margin-right: 2px;
         }
 
+        .time-badge {
+            font-size: 14px;
+            color: var(--text-mid);
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
         /* Row medals */
         .row:nth-child(1) .score-badge {
             background: linear-gradient(135deg, #ffd966, #ffb347);
@@ -1259,17 +1269,7 @@
             border-color: #a5673f;
         }
 
-        .time-badge {
-            font-size: 12px;
-            color: var(--text-dim);
-            margin-left: 10px;
-        }
-
-        /* Canvas cho certificate (ẩn) */
-        #certificateCanvas {
-            display: none;
-        }
-
+        /* Animation */
         @keyframes glowPulse {
             0% { text-shadow: 0 0 15px var(--jade-glow); }
             50% { text-shadow: 0 0 30px var(--jade-glow); }
@@ -1280,6 +1280,7 @@
             animation: glowPulse 3s infinite;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -1364,8 +1365,13 @@
                 min-width: 65px;
             }
 
-            .user-info .user-name {
+            .user-name {
                 font-size: 14px;
+            }
+
+            .time-badge {
+                font-size: 12px;
+                margin-left: 8px;
             }
         }
 
@@ -1443,7 +1449,7 @@
             <h2>CHÚC MỪNG!</h2>
             <p>Bạn đã đạt điểm tuyệt đối 10/10 ở miền <span id="perfectRegion"></span>!</p>
             <p>Nhập tên của bạn để nhận giấy chứng nhận và ghi danh lên bảng xếp hạng:</p>
-            <input type="text" id="certificateName" placeholder="Nhập tên của bạn" value="" required>
+            <input type="text" id="certificateName" placeholder="Nhập tên của bạn" value="">
             <div class="certificate-buttons">
                 <button class="cert-btn generate" onclick="generateCertificate()">
                     <i class="fas fa-certificate"></i> Tạo giấy chứng nhận
@@ -1500,7 +1506,7 @@
         let quizCompleted = false;
         let startTime = null;
         let endTime = null;
-        let rankListeners = []; // Lưu các listener để cleanup
+        let currentCertificateName = '';
 
         // Kiểm tra đăng nhập
         auth.onAuthStateChanged((user) => {
@@ -1539,106 +1545,230 @@
                         south: [],
                         west: []
                     };
-                    
-                    // Kiểm tra mỗi miền có ít nhất 10 câu hỏi
-                    const regions = ['north', 'central', 'south', 'west'];
-                    let needUpdate = false;
-                    
-                    regions.forEach(region => {
-                        if (!allQuestions[region] || allQuestions[region].length < 10) {
-                            needUpdate = true;
-                        }
-                    });
-                    
-                    if (needUpdate) {
-                        // Thêm câu hỏi mặc định nếu thiếu
-                        const defaultQuestions = getDefaultQuestions();
-                        regions.forEach(region => {
-                            if (!allQuestions[region]) allQuestions[region] = [];
-                            while (allQuestions[region].length < 10) {
-                                const defaultQ = defaultQuestions[region][allQuestions[region].length % defaultQuestions[region].length];
-                                allQuestions[region].push({...defaultQ});
-                            }
-                        });
-                        
-                        await db.collection('settings').doc('challengeQuestions').set(allQuestions);
-                    }
                 } else {
-                    // Tạo câu hỏi mặc định
-                    allQuestions = getDefaultQuestions();
+                    // Câu hỏi mặc định theo 4 miền (mỗi miền ít nhất 10 câu)
+                    allQuestions = {
+                        north: [
+                            {
+                                question: "Vua Hùng đầu tiên của nước Văn Lang là ai?",
+                                options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "Âu Cơ"],
+                                correct: 2
+                            },
+                            {
+                                question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?",
+                                options: ["1010", "1070", "1076", "1484"],
+                                correct: 1
+                            },
+                            {
+                                question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?",
+                                options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"],
+                                correct: 0
+                            },
+                            {
+                                question: "Chùa Một Cột còn có tên gọi khác là gì?",
+                                options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"],
+                                correct: 0
+                            },
+                            {
+                                question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?",
+                                options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"],
+                                correct: 0
+                            },
+                            {
+                                question: "Hoàng thành Thăng Long được UNESCO công nhận là di sản thế giới năm nào?",
+                                options: ["2010", "2011", "2012", "2013"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vua nào đã dời đô từ Hoa Lư về Thăng Long?",
+                                options: ["Lý Thái Tổ", "Lý Thánh Tông", "Lý Nhân Tông", "Lý Anh Tông"],
+                                correct: 0
+                            },
+                            {
+                                question: "Chùa Hương nằm ở đâu?",
+                                options: ["Hà Nội", "Hà Nam", "Ninh Bình", "Hòa Bình"],
+                                correct: 0
+                            },
+                            {
+                                question: "Lễ hội chùa Hương diễn ra vào mùa nào?",
+                                options: ["Xuân", "Hạ", "Thu", "Đông"],
+                                correct: 0
+                            },
+                            {
+                                question: "Đền Hùng nằm ở tỉnh nào?",
+                                options: ["Phú Thọ", "Vĩnh Phúc", "Tuyên Quang", "Yên Bái"],
+                                correct: 0
+                            }
+                        ],
+                        central: [
+                            {
+                                question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?",
+                                options: ["1993", "1999", "2003", "2011"],
+                                correct: 0
+                            },
+                            {
+                                question: "Phố cổ Hội An thuộc tỉnh nào?",
+                                options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vua nào đã có công mở mang bờ cõi về phương Nam?",
+                                options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"],
+                                correct: 3
+                            },
+                            {
+                                question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?",
+                                options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"],
+                                correct: 0
+                            },
+                            {
+                                question: "Cầu Rồng là biểu tượng của thành phố nào?",
+                                options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"],
+                                correct: 0
+                            },
+                            {
+                                question: "Thánh địa Mỹ Sơn thuộc tỉnh nào?",
+                                options: ["Quảng Nam", "Quảng Ngãi", "Bình Định", "Phú Yên"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vườn quốc gia Phong Nha - Kẻ Bàng nằm ở tỉnh nào?",
+                                options: ["Quảng Bình", "Quảng Trị", "Hà Tĩnh", "Nghệ An"],
+                                correct: 0
+                            },
+                            {
+                                question: "Biển Mỹ Khê nằm ở thành phố nào?",
+                                options: ["Đà Nẵng", "Nha Trang", "Quy Nhơn", "Huế"],
+                                correct: 0
+                            },
+                            {
+                                question: "Đèo Hải Vân nằm giữa hai tỉnh/thành nào?",
+                                options: ["Đà Nẵng - Huế", "Đà Nẵng - Quảng Nam", "Huế - Quảng Trị", "Quảng Nam - Quảng Ngãi"],
+                                correct: 0
+                            },
+                            {
+                                question: "Cầu Vàng (Golden Bridge) nằm ở đâu?",
+                                options: ["Đà Nẵng", "Nha Trang", "Đà Lạt", "Huế"],
+                                correct: 0
+                            }
+                        ],
+                        south: [
+                            {
+                                question: "Chợ Bến Thành là biểu tượng của thành phố nào?",
+                                options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"],
+                                correct: 0
+                            },
+                            {
+                                question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?",
+                                options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"],
+                                correct: 2
+                            },
+                            {
+                                question: "Bến Nhà Rồng gắn liền với sự kiện nào?",
+                                options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"],
+                                correct: 0
+                            },
+                            {
+                                question: "Địa đạo Củ Chi nằm ở đâu?",
+                                options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"],
+                                correct: 0
+                            },
+                            {
+                                question: "Lăng Ông Bà Chiểu thờ ai?",
+                                options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"],
+                                correct: 0
+                            },
+                            {
+                                question: "Dinh Độc Lập còn có tên gọi khác là gì?",
+                                options: ["Dinh Thống Nhất", "Dinh Gia Long", "Dinh Norodom", "Dinh Độc Lập"],
+                                correct: 0
+                            },
+                            {
+                                question: "Bưu điện Thành phố Hồ Chí Minh nằm ở quận nào?",
+                                options: ["Quận 1", "Quận 3", "Quận 5", "Quận 10"],
+                                correct: 0
+                            },
+                            {
+                                question: "Chợ Bình Tây (Chợ Lớn) nằm ở quận nào?",
+                                options: ["Quận 6", "Quận 5", "Quận 8", "Quận 11"],
+                                correct: 0
+                            },
+                            {
+                                question: "Công viên Văn hóa Đầm Sen nằm ở quận nào?",
+                                options: ["Quận 11", "Quận 6", "Quận 8", "Quận Tân Bình"],
+                                correct: 0
+                            },
+                            {
+                                question: "Suối Tiên là khu du lịch ở đâu?",
+                                options: ["TP.HCM", "Đồng Nai", "Bình Dương", "Long An"],
+                                correct: 0
+                            }
+                        ],
+                        west: [
+                            {
+                                question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?",
+                                options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?",
+                                options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"],
+                                correct: 0
+                            },
+                            {
+                                question: "Đặc sản nào nổi tiếng của miền Tây?",
+                                options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"],
+                                correct: 3
+                            },
+                            {
+                                question: "Cù lao Ông Hổ thuộc tỉnh nào?",
+                                options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"],
+                                correct: 1
+                            },
+                            {
+                                question: "Miền Tây có bao nhiêu tỉnh thành?",
+                                options: ["12", "13", "14", "15"],
+                                correct: 1
+                            },
+                            {
+                                question: "Vườn quốc gia U Minh Hạ thuộc tỉnh nào?",
+                                options: ["Cà Mau", "Kiên Giang", "Bạc Liêu", "Sóc Trăng"],
+                                correct: 0
+                            },
+                            {
+                                question: "Chùa Vàng (Chùa Khmer) nổi tiếng ở tỉnh nào?",
+                                options: ["Sóc Trăng", "Trà Vinh", "Bạc Liêu", "Cà Mau"],
+                                correct: 0
+                            },
+                            {
+                                question: "Cồn Sơn nằm ở tỉnh/thành nào?",
+                                options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Vĩnh Long"],
+                                correct: 0
+                            },
+                            {
+                                question: "Làng hoa Sa Đéc nằm ở tỉnh nào?",
+                                options: ["Đồng Tháp", "An Giang", "Vĩnh Long", "Cần Thơ"],
+                                correct: 0
+                            },
+                            {
+                                question: "Khu du lịch sinh thái Gáo Giồng nằm ở tỉnh nào?",
+                                options: ["Đồng Tháp", "An Giang", "Kiên Giang", "Long An"],
+                                correct: 0
+                            }
+                        ]
+                    };
+                    
+                    // Lưu câu hỏi mặc định
                     await db.collection('settings').doc('challengeQuestions').set(allQuestions);
                 }
-                
                 showMainMenu();
-                loadRanking(); // Load bảng xếp hạng
-                setupRealtimeRanking(); // Thiết lập realtime update
             } catch (error) {
                 console.error('Lỗi khi load câu hỏi:', error);
                 showMainMenu();
-                loadRanking();
             }
         }
 
-        function getDefaultQuestions() {
-            return {
-                north: [
-                    { question: "Vua Hùng đầu tiên của nước Văn Lang là ai?", options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "Âu Cơ"], correct: 2 },
-                    { question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?", options: ["1010", "1070", "1076", "1484"], correct: 1 },
-                    { question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?", options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"], correct: 0 },
-                    { question: "Chùa Một Cột còn có tên gọi khác là gì?", options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"], correct: 0 },
-                    { question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?", options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"], correct: 0 },
-                    { question: "Hoàng thành Thăng Long được xây dựng dưới triều vua nào?", options: ["Lý Thái Tổ", "Lý Thánh Tông", "Trần Nhân Tông", "Lê Lợi"], correct: 0 },
-                    { question: "Dân ca quan họ là di sản của vùng nào?", options: ["Bắc Ninh", "Hà Nội", "Hải Dương", "Bắc Giang"], correct: 0 },
-                    { question: "Vua Lý Thái Tổ dời đô từ Hoa Lư về Thăng Long năm nào?", options: ["1009", "1010", "1011", "1012"], correct: 1 },
-                    { question: "Bánh chưng gắn liền với truyền thuyết về ai?", options: ["Lang Liêu", "Sơn Tinh", "Thánh Gióng", "Mỵ Châu"], correct: 0 },
-                    { question: "Núi Ba Vì gắn liền với truyền thuyết gì?", options: ["Sơn Tinh - Thủy Tinh", "Thánh Gióng", "Mỵ Châu - Trọng Thủy", "Bánh chưng bánh giầy"], correct: 0 }
-                ],
-                central: [
-                    { question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?", options: ["1993", "1999", "2003", "2011"], correct: 0 },
-                    { question: "Phố cổ Hội An thuộc tỉnh nào?", options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"], correct: 0 },
-                    { question: "Vua nào đã có công mở mang bờ cõi về phương Nam?", options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"], correct: 3 },
-                    { question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?", options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"], correct: 0 },
-                    { question: "Cầu Rồng là biểu tượng của thành phố nào?", options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"], correct: 0 },
-                    { question: "Vịnh Hạ Long là di sản thế giới từ năm nào?", options: ["1994", "2000", "2005", "2010"], correct: 0 },
-                    { question: "Động Phong Nha thuộc tỉnh nào?", options: ["Quảng Bình", "Quảng Trị", "Hà Tĩnh", "Nghệ An"], correct: 0 },
-                    { question: "Lăng vua Gia Long nằm ở đâu?", options: ["Huế", "Đà Nẵng", "Quảng Nam", "Bình Định"], correct: 0 },
-                    { question: "Nhã nhạc cung đình Huế được công nhận năm nào?", options: ["2003", "2005", "2008", "2010"], correct: 0 },
-                    { question: "Đèo Hải Vân nối liền 2 tỉnh/thành nào?", options: ["Đà Nẵng - Huế", "Đà Nẵng - Quảng Nam", "Huế - Quảng Trị", "Quảng Nam - Quảng Ngãi"], correct: 0 }
-                ],
-                south: [
-                    { question: "Chợ Bến Thành là biểu tượng của thành phố nào?", options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"], correct: 0 },
-                    { question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?", options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"], correct: 2 },
-                    { question: "Bến Nhà Rồng gắn liền với sự kiện nào?", options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"], correct: 0 },
-                    { question: "Địa đạo Củ Chi nằm ở đâu?", options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"], correct: 0 },
-                    { question: "Lăng Ông Bà Chiểu thờ ai?", options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"], correct: 0 },
-                    { question: "Dinh Độc Lập còn có tên gọi khác là gì?", options: ["Dinh Thống Nhất", "Dinh Gia Long", "Dinh Norodom", "Dinh Tự Do"], correct: 0 },
-                    { question: "Bưu điện Thành phố được xây dựng theo phong cách nào?", options: ["Pháp", "Mỹ", "Anh", "Ý"], correct: 0 },
-                    { question: "Chùa Vĩnh Nghiêm được xây dựng năm nào?", options: ["1964", "1970", "1975", "1980"], correct: 0 },
-                    { question: "Đường sách Nguyễn Văn Bình nằm ở quận nào?", options: ["1", "3", "5", "10"], correct: 0 },
-                    { question: "Nhà hát Thành phố còn được gọi là gì?", options: ["Nhà hát Lớn", "Nhà hát Nhỏ", "Nhà hát Kịch", "Nhà hát Giao hưởng"], correct: 0 }
-                ],
-                west: [
-                    { question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?", options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"], correct: 0 },
-                    { question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?", options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"], correct: 0 },
-                    { question: "Đặc sản nào nổi tiếng của miền Tây?", options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"], correct: 3 },
-                    { question: "Cù lao Ông Hổ thuộc tỉnh nào?", options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"], correct: 1 },
-                    { question: "Miền Tây có bao nhiêu tỉnh thành?", options: ["12", "13", "14", "15"], correct: 1 },
-                    { question: "Vườn cò Bằng Lăng thuộc tỉnh nào?", options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Vĩnh Long"], correct: 2 },
-                    { question: "Chùa Vàm Ray nổi tiếng ở tỉnh nào?", options: ["Trà Vinh", "Sóc Trăng", "Bạc Liêu", "Cà Mau"], correct: 0 },
-                    { question: "Rừng tràm Trà Sư thuộc tỉnh nào?", options: ["An Giang", "Đồng Tháp", "Kiên Giang", "Cà Mau"], correct: 0 },
-                    { question: "Làng nổi Tân Lập thuộc tỉnh nào?", options: ["Long An", "Tiền Giang", "Bến Tre", "Vĩnh Long"], correct: 0 },
-                    { question: "Khu du lịch sinh thái Gáo Giồng thuộc tỉnh nào?", options: ["Đồng Tháp", "An Giang", "Cần Thơ", "Hậu Giang"], correct: 0 }
-                ]
-            };
-        }
-
         function logout() {
-            // Cleanup listeners
-            rankListeners.forEach(unsubscribe => {
-                if (typeof unsubscribe === 'function') unsubscribe();
-            });
-            rankListeners = [];
-            
             auth.signOut().then(() => {
                 window.location.href = 'login.html';
             });
@@ -1686,19 +1816,21 @@
                         <!-- Lịch sử sẽ được load ở đây -->
                     </div>
                 </div>
+
+                <div class="ranking-wrapper" id="rankingWrapper">
+                    <!-- Bảng xếp hạng sẽ được load ở đây -->
+                </div>
             `;
 
             if (currentUser) {
                 loadHistory();
+                loadRanking();
             }
-            
-            // Load bảng xếp hạng
-            loadRanking();
         }
 
         function selectRegion(regionKey, regionName) {
             if (!allQuestions[regionKey] || allQuestions[regionKey].length < 10) {
-                alert('Miền này chưa có đủ 10 câu hỏi. Vui lòng quay lại sau.');
+                alert('Miền này chưa có đủ câu hỏi (cần ít nhất 10 câu). Vui lòng quay lại sau.');
                 return;
             }
             
@@ -1866,9 +1998,6 @@
                     '<button class="submit-btn" onclick="submitQuiz()"><i class="fas fa-check-circle"></i> Nộp bài</button>' : ''}
                 </div>
             `;
-            
-            // Load bảng xếp hạng bên dưới
-            loadRanking();
         }
 
         function selectAnswer(index) {
@@ -1946,6 +2075,9 @@
                 } else {
                     displayResult(totalScore, percentage, completionTime, aiFeedback);
                 }
+                
+                // Tải lại bảng xếp hạng
+                loadRanking();
             } catch (error) {
                 console.error('Lỗi khi gọi AI:', error);
                 displayResult(totalScore, percentage, completionTime, 'Không thể lấy nhận xét từ AI. Vui lòng thử lại sau.');
@@ -2013,43 +2145,8 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                     ...userData,
                     challengeHistory: challengeHistory
                 });
-                
-                // Nếu đạt 10/10, lưu vào bảng xếp hạng
-                if (score === 10 && currentUser.displayName) {
-                    await saveToRanking(currentUser.displayName, completionTime);
-                }
             } catch (error) {
                 console.error('Lỗi khi lưu kết quả:', error);
-            }
-        }
-
-        async function saveToRanking(userName, completionTime) {
-            try {
-                // Kiểm tra xem user đã có trong bảng xếp hạng chưa
-                const rankingRef = db.collection('ranking').doc(currentUser.uid);
-                const rankingDoc = await rankingRef.get();
-                
-                const rankingData = {
-                    userId: currentUser.uid,
-                    userName: userName,
-                    score: 10,
-                    completionTime: completionTime,
-                    region: currentRegion.key,
-                    regionName: currentRegion.name,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Nếu đã có, chỉ cập nhật nếu thời gian làm bài tốt hơn
-                if (rankingDoc.exists) {
-                    const existingData = rankingDoc.data();
-                    if (completionTime < existingData.completionTime) {
-                        await rankingRef.set(rankingData);
-                    }
-                } else {
-                    await rankingRef.set(rankingData);
-                }
-            } catch (error) {
-                console.error('Lỗi khi lưu bảng xếp hạng:', error);
             }
         }
 
@@ -2089,9 +2186,13 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                         <i class="fas fa-arrow-left"></i> Quay lại menu
                     </button>
                 </div>
+
+                <div class="ranking-wrapper" id="rankingWrapper">
+                    <!-- Bảng xếp hạng sẽ được load ở đây -->
+                </div>
             `;
             
-            // Load bảng xếp hạng
+            // Tải lại bảng xếp hạng
             loadRanking();
         }
 
@@ -2118,7 +2219,7 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
             }
         }
 
-        // Hàm tạo giấy chứng nhận
+        // Hàm tạo giấy chứng nhận (đã được cải tiến từ code bạn cung cấp)
         function generateCertificate() {
             const name = document.getElementById('certificateName').value.trim();
             if (!name) {
@@ -2126,18 +2227,10 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                 return;
             }
 
-            // Cập nhật tên hiển thị
-            if (currentUser) {
-                currentUser.updateProfile({
-                    displayName: name
-                }).then(async () => {
-                    // Lưu vào bảng xếp hạng với tên mới
-                    if (endTime && startTime) {
-                        const completionTime = Math.floor((endTime - startTime) / 1000);
-                        await saveToRanking(name, completionTime);
-                    }
-                }).catch(console.error);
-            }
+            currentCertificateName = name;
+            
+            // Lưu tên vào Firestore cho bảng xếp hạng
+            saveCertificateName(name);
 
             const canvas = document.getElementById('certificateCanvas');
             const ctx = canvas.getContext('2d');
@@ -2175,249 +2268,155 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
 
             img.onerror = function() {
                 alert('Không thể tải file bằng khen. Vui lòng kiểm tra file "bangkhen.png"!');
+                // Vẫn lưu tên vào bảng xếp hạng
                 closeCertificateModal();
             };
         }
 
-        // Hàm load bảng xếp hạng
-        async function loadRanking() {
+        async function saveCertificateName(name) {
             try {
-                const rankingSnapshot = await db.collection('ranking')
-                    .orderBy('score', 'desc')
-                    .orderBy('completionTime', 'asc')
-                    .limit(20)
-                    .get();
-
-                if (rankingSnapshot.empty) {
-                    // Nếu chưa có dữ liệu, hiển thị bảng xếp hạng mẫu để đẹp
-                    displaySampleRanking();
-                    return;
-                }
-
-                const rankings = [];
-                rankingSnapshot.forEach(doc => {
-                    rankings.push(doc.data());
+                if (!currentUser) return;
+                
+                const totalScore = calculateFinalScore();
+                const completionTime = Math.floor((endTime - startTime) / 1000);
+                
+                // Lưu vào collection ranking
+                const rankingRef = db.collection('ranking').doc();
+                await rankingRef.set({
+                    userId: currentUser.uid,
+                    userName: name,
+                    region: currentRegion.key,
+                    regionName: currentRegion.name,
+                    score: totalScore,
+                    completionTime: completionTime,
+                    date: new Date().toISOString()
                 });
-
-                displayRanking(rankings);
+                
+                // Cập nhật bảng xếp hạng
+                loadRanking();
             } catch (error) {
-                console.error('Lỗi khi load bảng xếp hạng:', error);
-                displaySampleRanking();
+                console.error('Lỗi khi lưu tên lên bảng xếp hạng:', error);
             }
         }
 
-        // Thiết lập realtime update cho bảng xếp hạng
-        function setupRealtimeRanking() {
-            // Cleanup listeners cũ
-            rankListeners.forEach(unsubscribe => {
-                if (typeof unsubscribe === 'function') unsubscribe();
-            });
-            rankListeners = [];
-
-            const unsubscribe = db.collection('ranking')
-                .orderBy('score', 'desc')
-                .orderBy('completionTime', 'asc')
-                .limit(20)
-                .onSnapshot((snapshot) => {
-                    if (!snapshot.empty) {
-                        const rankings = [];
-                        snapshot.forEach(doc => {
-                            rankings.push(doc.data());
-                        });
-                        displayRanking(rankings);
-                    }
-                }, (error) => {
-                    console.error('Lỗi realtime ranking:', error);
+        async function loadRanking() {
+            try {
+                // Lấy top 20 người đạt 10/10 điểm, sắp xếp theo thời gian làm bài tăng dần (nhanh nhất lên đầu)
+                const rankingSnapshot = await db.collection('ranking')
+                    .where('score', '==', 10)
+                    .orderBy('completionTime', 'asc')
+                    .orderBy('date', 'desc')
+                    .limit(20)
+                    .get();
+                
+                const rankingData = [];
+                rankingSnapshot.forEach(doc => {
+                    rankingData.push(doc.data());
                 });
-
-            rankListeners.push(unsubscribe);
+                
+                displayRanking(rankingData);
+            } catch (error) {
+                console.error('Lỗi khi load bảng xếp hạng:', error);
+                // Hiển thị bảng xếp hạng trống
+                displayRanking([]);
+            }
         }
 
-        function displaySampleRanking() {
-            const rankingHtml = `
-                <div class="ranking-container">
-                    <div class="ranking-header">
-                        <i class="fas fa-chart-simple"></i>
-                        <h2>Bảng xếp hạng</h2>
-                        <p>TOP NGƯỜI CHƠI XUẤT SẮC</p>
-                    </div>
-
-                    <div class="top3">
-                        <div class="card top2-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">-/10</div>
-                            <div class="rank-label">🥈 TOP 2</div>
-                        </div>
-
-                        <div class="card top1-card">
-                            <i class="fas fa-crown crown-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">-/10</div>
-                            <div class="rank-label">🥇 TOP 1</div>
-                        </div>
-
-                        <div class="card top3-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">-/10</div>
-                            <div class="rank-label">🥉 TOP 3</div>
-                        </div>
-                    </div>
-
-                    <div class="ranking-list">
-                        <div class="row">
-                            <div class="user">
-                                <div class="user-info">
-                                    <span class="user-name">Chưa có dữ liệu</span>
-                                    <span class="user-badge"><i class="fas fa-info-circle"></i> Hãy là người đầu tiên!</span>
-                                </div>
-                            </div>
-                            <div class="score-badge">0/10</div>
-                        </div>
-                    </div>
-                </div>
-            `;
+        function displayRanking(rankingData) {
+            const rankingWrapper = document.getElementById('rankingWrapper');
+            if (!rankingWrapper) return;
             
-            // Thêm vào cuối container
-            const container = document.getElementById('mainContainer');
-            container.innerHTML += rankingHtml;
-        }
-
-        function displayRanking(rankings) {
-            if (!rankings || rankings.length === 0) {
-                displaySampleRanking();
+            if (rankingData.length === 0) {
+                rankingWrapper.innerHTML = `
+                    <div class="ranking-container">
+                        <div class="ranking-header">
+                            <i class="fas fa-chart-simple"></i>
+                            <h2>Bảng xếp hạng</h2>
+                            <p>Chưa có ai đạt điểm tuyệt đối 10/10</p>
+                        </div>
+                    </div>
+                `;
                 return;
             }
 
-            // Sắp xếp: điểm cao trước, nếu bằng điểm thì thời gian ngắn trước
-            const sorted = [...rankings].sort((a, b) => {
-                if (b.score !== a.score) return b.score - a.score;
-                return a.completionTime - b.completionTime;
-            });
-
-            const top3 = sorted.slice(0, 3);
-            const others = sorted.slice(3);
-
-            // Format thời gian
-            const formatTime = (seconds) => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            };
-
             // Tạo HTML cho top 3
-            let top3Html = '';
-            if (top3.length > 0) {
-                const top1 = top3[0] || { userName: 'Chưa có', score: 0, completionTime: 0 };
-                const top2 = top3[1] || { userName: 'Chưa có', score: 0, completionTime: 0 };
-                const top3Item = top3[2] || { userName: 'Chưa có', score: 0, completionTime: 0 };
-
-                top3Html = `
-                    <div class="top3">
-                        <div class="card top2-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">${top2.userName}</div>
-                            <div class="score">${top2.score}/10</div>
-                            <div class="rank-label">🥈 TOP 2</div>
-                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top2.completionTime)}</div>
-                        </div>
-
-                        <div class="card top1-card">
-                            <i class="fas fa-crown crown-icon"></i>
-                            <div class="user-name">${top1.userName}</div>
-                            <div class="score">${top1.score}/10</div>
-                            <div class="rank-label">🥇 TOP 1</div>
-                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top1.completionTime)}</div>
-                        </div>
-
-                        <div class="card top3-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">${top3Item.userName}</div>
-                            <div class="score">${top3Item.score}/10</div>
-                            <div class="rank-label">🥉 TOP 3</div>
-                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top3Item.completionTime)}</div>
-                        </div>
+            const top3Html = rankingData.slice(0, 3).map((item, index) => {
+                let cardClass = '';
+                let iconHtml = '';
+                
+                if (index === 0) {
+                    cardClass = 'top1-card';
+                    iconHtml = '<i class="fas fa-crown crown-icon"></i>';
+                } else if (index === 1) {
+                    cardClass = 'top2-card';
+                    iconHtml = '<i class="fas fa-trophy trophy-icon"></i>';
+                } else {
+                    cardClass = 'top3-card';
+                    iconHtml = '<i class="fas fa-trophy trophy-icon"></i>';
+                }
+                
+                const timeMinutes = Math.floor(item.completionTime / 60);
+                const timeSeconds = item.completionTime % 60;
+                const timeStr = `${timeMinutes}:${timeSeconds.toString().padStart(2, '0')}`;
+                
+                return `
+                    <div class="card ${cardClass}">
+                        ${iconHtml}
+                        <div class="user-name">${item.userName}</div>
+                        <div class="score">10/10</div>
+                        <div class="rank-label">🥇 TOP ${index + 1} • ${timeStr}</div>
                     </div>
                 `;
-            } else {
-                top3Html = `
-                    <div class="top3">
-                        <div class="card top2-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">0/10</div>
-                            <div class="rank-label">🥈 TOP 2</div>
-                        </div>
+            }).join('');
 
-                        <div class="card top1-card">
-                            <i class="fas fa-crown crown-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">0/10</div>
-                            <div class="rank-label">🥇 TOP 1</div>
-                        </div>
-
-                        <div class="card top3-card">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="user-name">Chưa có</div>
-                            <div class="score">0/10</div>
-                            <div class="rank-label">🥉 TOP 3</div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Tạo HTML cho danh sách còn lại
-            const othersHtml = others.map((item, index) => {
-                const rank = index + 4;
-                let badge = '';
-                if (rank <= 5) badge = '<i class="fas fa-fire"></i>';
-                else if (rank <= 10) badge = '<i class="fas fa-leaf"></i>';
-                else badge = '<i class="fas fa-star"></i>';
-
+            // Tạo HTML cho danh sách xếp hạng
+            const listHtml = rankingData.map((item, index) => {
+                let badgeText = '';
+                if (index === 0) badgeText = 'Đứng đầu';
+                else if (index === 1) badgeText = 'Hạng 2';
+                else if (index === 2) badgeText = 'Hạng 3';
+                else badgeText = `${index + 1}. `;
+                
+                const timeMinutes = Math.floor(item.completionTime / 60);
+                const timeSeconds = item.completionTime % 60;
+                const timeStr = `${timeMinutes}:${timeSeconds.toString().padStart(2, '0')}`;
+                
                 return `
                     <div class="row">
                         <div class="user">
                             <div class="user-info">
                                 <span class="user-name">${item.userName}</span>
-                                <span class="user-badge">${badge} Hạng ${rank} • ${formatTime(item.completionTime)}</span>
+                                <span class="user-badge"><i class="fas fa-${index < 3 ? 'medal' : 'fire'}"></i> ${badgeText}</span>
                             </div>
                         </div>
-                        <div class="score-badge"><i class="fas fa-star"></i> ${item.score}/10</div>
+                        <div class="score-badge"><i class="fas fa-star"></i> 10/10</div>
+                        <div class="time-badge">${timeStr}</div>
                     </div>
                 `;
             }).join('');
 
-            const rankingHtml = `
+            rankingWrapper.innerHTML = `
                 <div class="ranking-container">
                     <div class="ranking-header">
                         <i class="fas fa-chart-simple"></i>
                         <h2>Bảng xếp hạng</h2>
-                        <p>TOP NGƯỜI CHƠI XUẤT SẮC</p>
+                        <p>NHỮNG NGƯỜI ĐẠT ĐIỂM TUYỆT ĐỐI 10/10</p>
                     </div>
 
-                    ${top3Html}
+                    <!-- Top 3 -->
+                    <div class="top3">
+                        ${top3Html}
+                    </div>
 
+                    <!-- Ranking list -->
                     <div class="ranking-list">
-                        ${othersHtml}
-                        ${others.length === 0 ? '<div class="row"><div class="user"><div class="user-info"><span class="user-name">Chưa có thêm dữ liệu</span></div></div></div>' : ''}
+                        ${listHtml}
                     </div>
                 </div>
             `;
-
-            // Thêm vào cuối container, nhưng tránh duplicate
-            const container = document.getElementById('mainContainer');
-            
-            // Xóa ranking cũ nếu có
-            const oldRanking = container.querySelector('.ranking-container');
-            if (oldRanking) {
-                oldRanking.remove();
-            }
-            
-            container.innerHTML += rankingHtml;
         }
 
-        // Thêm event listener để debug tọa độ
+        // Thêm event listener để debug tọa độ (giống code mẫu)
         document.addEventListener('DOMContentLoaded', function() {
             const canvas = document.getElementById('certificateCanvas');
             if (canvas) {
