@@ -30,6 +30,16 @@
             --border: rgba(255, 140, 66, 0.18);
             --text-dim: rgba(44, 24, 16, 0.65);
             --text-mid: rgba(44, 24, 16, 0.72);
+            
+            /* Màu sắc cho các miền */
+            --north: #3498db;
+            --north-glow: rgba(52, 152, 219, 0.2);
+            --central: #e67e22;
+            --central-glow: rgba(230, 126, 52, 0.2);
+            --south: #e74c3c;
+            --south-glow: rgba(231, 76, 60, 0.2);
+            --west: #27ae60;
+            --west-glow: rgba(39, 174, 96, 0.2);
         }
 
         body {
@@ -300,11 +310,87 @@
             font-size: 1.1em;
         }
 
+        /* Region Selection */
+        .region-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .region-card {
+            background: var(--jade-pale);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .region-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .region-card:hover::before {
+            opacity: 1;
+        }
+
+        .region-card.north {
+            border-color: var(--north);
+            box-shadow: 0 10px 30px var(--north-glow);
+        }
+        .region-card.north i { color: var(--north); }
+
+        .region-card.central {
+            border-color: var(--central);
+            box-shadow: 0 10px 30px var(--central-glow);
+        }
+        .region-card.central i { color: var(--central); }
+
+        .region-card.south {
+            border-color: var(--south);
+            box-shadow: 0 10px 30px var(--south-glow);
+        }
+        .region-card.south i { color: var(--south); }
+
+        .region-card.west {
+            border-color: var(--west);
+            box-shadow: 0 10px 30px var(--west-glow);
+        }
+        .region-card.west i { color: var(--west); }
+
+        .region-card i {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .region-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .region-card p {
+            color: var(--text-dim);
+            font-size: 0.95em;
+        }
+
         .menu-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-top: 30px;
         }
 
         .menu-btn {
@@ -346,324 +432,11 @@
             border-color: var(--jade);
         }
 
-        .menu-btn.leaderboard-btn {
-            background: var(--jade-pale);
-            color: var(--white);
-        }
-
-        .menu-btn.leaderboard-btn:hover {
-            background: var(--jade);
-            color: white;
-            transform: translateY(-5px);
-            border-color: var(--jade);
-        }
-
-        .leaderboard-section {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            margin-top: 20px;
-        }
-
-        .leaderboard-section.show {
-            max-height: 800px;
-        }
-
-        /* Leaderboard Styles */
-        .ranking-container {
-            background: linear-gradient(135deg, rgba(255, 249, 240, 0.95) 0%, rgba(255, 239, 224, 0.95) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 15px 30px var(--jade-glow);
-            animation: slideIn 0.3s ease;
-        }
-
-        .ranking-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .ranking-header i {
-            font-size: 2.5em;
-            color: var(--jade);
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px var(--jade-glow);
-            background: var(--jade-pale);
-            padding: 20px;
-            border: 1px solid var(--border);
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 50%;
-        }
-
-        .ranking-header h2 {
-            color: var(--jade2);
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            font-family: 'Fraunces', serif;
-        }
-
-        .ranking-header p {
-            color: var(--text-mid);
-            font-size: 0.95em;
-        }
-
-        /* Top 3 Cards */
-        .top3 {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 15px;
-            margin: 30px 0 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .card {
-            width: 130px;
-            padding: 30px 10px 20px;
-            border-radius: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 35px -8px var(--jade-glow);
-        }
-
-        .card .user-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: white;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding: 0 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .card .score {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 15px;
-            border-radius: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .rank-label {
-            font-weight: 600;
-            font-size: 14px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 4px 12px;
-            border-radius: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: 0.5px;
-            color: white;
-        }
-
-        /* Individual card gradients */
-        .top1-card {
-            background: linear-gradient(145deg, #ffd966, #ff9f4a, #ff8c42);
-            height: 180px;
-            order: 2;
-            border-color: #ffb347;
-        }
-
-        .top2-card {
-            background: linear-gradient(145deg, #4facfe, #00c6fb, #3a9efd);
-            height: 160px;
-            order: 1;
-            border-color: #4facfe;
-        }
-
-        .top3-card {
-            background: linear-gradient(145deg, #a18cd1, #fbc2eb, #b392e0);
-            height: 160px;
-            order: 3;
-            border-color: #a18cd1;
-        }
-
-        .card {
-            position: relative;
-            margin-top: 25px;
-        }
-
-        .card .crown-icon,
-        .card .trophy-icon {
-            position: absolute;
-            top: -35px;
-            font-size: 30px;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-        }
-
-        .top1-card .crown-icon {
-            color: #FFD700;
-        }
-
-        .top2-card .trophy-icon {
-            color: #C0C0C0;
-        }
-
-        .top3-card .trophy-icon {
-            color: #CD7F32;
-        }
-
-        /* Ranking list */
-        .ranking-list {
-            background: var(--jade-pale);
-            border-radius: 30px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            margin: 20px 0 0;
-            position: relative;
-            z-index: 2;
-            max-height: 400px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--jade) var(--jade-pale);
-        }
-
-        .ranking-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .ranking-list::-webkit-scrollbar-track {
-            background: var(--jade-pale);
-            border-radius: 10px;
-        }
-
-        .ranking-list::-webkit-scrollbar-thumb {
-            background: var(--jade);
-            border-radius: 10px;
-        }
-
-        .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 18px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            margin-bottom: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid transparent;
-        }
-
-        .row:hover {
-            background: var(--jade-pale);
-            border-color: var(--jade);
-            transform: translateX(5px);
-            box-shadow: 0 5px 12px var(--jade-glow);
-        }
-
-        .user {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--white);
-        }
-
-        .user-badge {
-            font-size: 11px;
-            color: var(--jade2);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            opacity: 0.9;
-        }
-
-        .user-badge i {
-            font-size: 10px;
-            color: var(--jade);
-        }
-
-        .score-badge {
-            font-weight: 700;
-            font-size: 20px;
-            background: var(--jade-pale);
-            padding: 6px 14px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            color: var(--jade2);
-            min-width: 80px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-        }
-
-        .score-badge i {
-            font-size: 14px;
-            color: var(--gold);
-            margin-right: 2px;
-        }
-
-        .row:nth-child(1) .score-badge {
-            background: linear-gradient(135deg, #ffd966, #ffb347);
-            color: #4a2e00;
-            border-color: #ffb347;
-        }
-        .row:nth-child(2) .score-badge {
-            background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
-            color: #2a2a2a;
-            border-color: #b0b0b0;
-        }
-        .row:nth-child(3) .score-badge {
-            background: linear-gradient(135deg, #cd9f7e, #a5673f);
-            color: #2a1a0a;
-            border-color: #a5673f;
-        }
-
-        .no-ranking {
-            text-align: center;
-            color: var(--text-dim);
-            padding: 40px;
-            font-size: 1.1em;
-        }
-
         .history-section {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease;
+            margin-top: 30px;
         }
 
         .history-section.show {
@@ -778,6 +551,7 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         .question-number {
@@ -791,12 +565,46 @@
             white-space: nowrap;
         }
 
+        .region-badge {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .region-badge.north {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid var(--north);
+            color: var(--north);
+        }
+        .region-badge.central {
+            background: rgba(230, 126, 52, 0.2);
+            border: 1px solid var(--central);
+            color: var(--central);
+        }
+        .region-badge.south {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--south);
+            color: var(--south);
+        }
+        .region-badge.west {
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid var(--west);
+            color: var(--west);
+        }
+
         .question-text {
             font-size: 1.4em;
             color: var(--white);
             line-height: 1.6;
             font-weight: 500;
             flex: 1;
+            min-width: 100%;
+            margin-top: 15px;
         }
 
         .options {
@@ -918,6 +726,16 @@
             margin-bottom: 30px;
         }
 
+        .result-time {
+            font-size: 1.3em;
+            color: var(--jade);
+            margin-bottom: 30px;
+            background: var(--jade-pale);
+            padding: 15px 30px;
+            border-radius: 60px;
+            display: inline-block;
+        }
+
         .loading {
             display: flex;
             flex-direction: column;
@@ -997,6 +815,117 @@
             border-color: var(--jade);
         }
 
+        /* Certificate Modal */
+        .certificate-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .certificate-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .certificate-content {
+            background: rgba(255, 249, 240, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid var(--jade);
+            box-shadow: 0 20px 40px var(--jade-glow);
+            text-align: center;
+        }
+
+        .certificate-content h2 {
+            color: var(--jade);
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .certificate-content p {
+            color: var(--text-mid);
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+
+        .certificate-content input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            background: var(--jade-pale);
+            color: var(--white);
+        }
+
+        .certificate-content input:focus {
+            outline: none;
+            border-color: var(--jade);
+            box-shadow: 0 0 15px var(--jade-glow);
+        }
+
+        .certificate-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .cert-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cert-btn.generate {
+            background: linear-gradient(135deg, var(--jade), var(--gold));
+            color: white;
+        }
+
+        .cert-btn.cancel {
+            background: var(--jade-pale);
+            border: 1px solid var(--border);
+            color: var(--white);
+        }
+
+        .cert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--jade-glow);
+        }
+
+        /* Canvas cho certificate (ẩn) */
+        #certificateCanvas {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -1009,8 +938,12 @@
                 margin-top: 150px;
             }
 
+            .region-selection {
+                grid-template-columns: 1fr;
+            }
+
             .menu-buttons {
-                flex-wrap: wrap;
+                flex-direction: column;
             }
 
             .menu-btn {
@@ -1026,40 +959,6 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
-
-            .top3 {
-                gap: 8px;
-                margin-top: 35px;
-            }
-
-            .card {
-                width: 100px;
-                padding: 25px 5px 15px;
-                margin-top: 20px;
-            }
-
-            .card .user-name {
-                font-size: 14px;
-                color: white;
-            }
-
-            .card .score {
-                font-size: 22px;
-                padding: 4px 10px;
-            }
-
-            .rank-label {
-                font-size: 12px;
-                padding: 3px 8px;
-            }
-
-            .top1-card {
-                height: 160px;
-            }
-
-            .top2-card, .top3-card {
-                height: 140px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1073,26 +972,6 @@
 
             .option {
                 padding: 15px;
-            }
-
-            .card {
-                width: 85px;
-            }
-            
-            .card .user-name {
-                font-size: 12px;
-                color: white;
-            }
-            
-            .card .score {
-                font-size: 18px;
-                padding: 3px 6px;
-            }
-            
-            .score-badge {
-                font-size: 16px;
-                min-width: 55px;
-                padding: 4px 6px;
             }
         }
     </style>
@@ -1129,6 +1008,28 @@
         <!-- Nội dung sẽ được load bằng JavaScript -->
     </div>
 
+    <!-- Certificate Modal -->
+    <div class="certificate-modal" id="certificateModal">
+        <div class="certificate-content">
+            <i class="fas fa-trophy" style="font-size: 4em; color: var(--jade); margin-bottom: 20px;"></i>
+            <h2>CHÚC MỪNG!</h2>
+            <p>Bạn đã đạt điểm tuyệt đối 10/10 ở miền <span id="perfectRegion"></span>!</p>
+            <p>Nhập tên của bạn để nhận giấy chứng nhận:</p>
+            <input type="text" id="certificateName" placeholder="Nhập tên của bạn" value="">
+            <div class="certificate-buttons">
+                <button class="cert-btn generate" onclick="generateCertificate()">
+                    <i class="fas fa-certificate"></i> Tạo giấy chứng nhận
+                </button>
+                <button class="cert-btn cancel" onclick="closeCertificateModal()">
+                    <i class="fas fa-times"></i> Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas để tạo certificate (ẩn) -->
+    <canvas id="certificateCanvas"></canvas>
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -1158,19 +1059,27 @@
         const db = firebase.firestore();
 
         let currentUser = null;
+        let allQuestions = {
+            north: [],     // Miền Bắc
+            central: [],   // Miền Trung
+            south: [],     // Miền Nam
+            west: []       // Miền Tây
+        };
+        let currentRegion = null;
         let questions = [];
         let currentQuestionIndex = 0;
         let userAnswers = [];
         let quizCompleted = false;
-        let challengeQuestions = [];
+        let startTime = null;
+        let endTime = null;
 
         // Kiểm tra đăng nhập
-        auth.onAuthStateChanged(async (user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 if (document.getElementById('userInfo')) document.getElementById('userInfo').style.display = 'flex';
                 if (document.getElementById('loginBtn')) document.getElementById('loginBtn').style.display = 'none';
                 if (document.getElementById('userName')) {
-                    const displayName = user.displayName || user.email?.split('@')[0] || 'Người dùng';
+                    const displayName = user.displayName || 'Người dùng';
                     document.getElementById('userName').textContent = displayName;
                 }
                 currentUser = user;
@@ -1185,7 +1094,7 @@
                     }
                 }
 
-                await loadQuestions();
+                loadQuestions();
             } else {
                 window.location.href = 'login.html';
             }
@@ -1195,61 +1104,127 @@
             try {
                 const settingsDoc = await db.collection('settings').doc('challengeQuestions').get();
                 if (settingsDoc.exists) {
-                    challengeQuestions = settingsDoc.data().questions || [];
+                    allQuestions = settingsDoc.data() || {
+                        north: [],
+                        central: [],
+                        south: [],
+                        west: []
+                    };
                 } else {
-                    // Câu hỏi mặc định
-                    challengeQuestions = [
-                        {
-                            question: "Vua Hùng đầu tiên của nước Văn Lang là ai?",
-                            options: ["Hùng Vương thứ I", "Hùng Vương thứ VI", "Hùng Vương thứ XVIII", "Hùng Vương thứ X"],
-                            correct: 0
-                        },
-                        {
-                            question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?",
-                            options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"],
-                            correct: 0
-                        },
-                        {
-                            question: "Áo dài truyền thống của Việt Nam có nguồn gốc từ đâu?",
-                            options: ["Miền Bắc", "Miền Trung", "Miền Nam", "Cả 3 miền"],
-                            correct: 3
-                        },
-                        {
-                            question: "Tết Nguyên Đán còn được gọi là gì?",
-                            options: ["Tết Cả", "Tết Ta", "Tết cổ truyền", "Tất cả đều đúng"],
-                            correct: 3
-                        },
-                        {
-                            question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?",
-                            options: ["1010", "1070", "1076", "1484"],
-                            correct: 1
-                        },
-                        {
-                            question: "Trần Hưng Đạo nổi tiếng với chiến thắng nào?",
-                            options: ["Bạch Đằng 938", "Như Nguyệt", "Bạch Đằng 1288", "Chi Lăng"],
-                            correct: 2
-                        },
-                        {
-                            question: "Bánh chưng gắn liền với truyền thuyết về ai?",
-                            options: ["Lang Liêu", "Sơn Tinh", "Thánh Gióng", "Mỵ Châu"],
-                            correct: 0
-                        },
-                        {
-                            question: "Chiến dịch Điện Biên Phủ diễn ra vào năm nào?",
-                            options: ["1945", "1954", "1975", "1930"],
-                            correct: 1
-                        },
-                        {
-                            question: "Ca trù là loại hình nghệ thuật của vùng nào?",
-                            options: ["Bắc Bộ", "Trung Bộ", "Nam Bộ", "Tây Nguyên"],
-                            correct: 0
-                        },
-                        {
-                            question: "Quốc hiệu đầu tiên của Việt Nam là gì?",
-                            options: ["Văn Lang", "Âu Lạc", "Đại Việt", "Việt Nam"],
-                            correct: 0
-                        }
-                    ];
+                    // Câu hỏi mặc định theo 4 miền
+                    allQuestions = {
+                        north: [
+                            {
+                                question: "Vua Hùng đầu tiên của nước Văn Lang là ai?",
+                                options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "Âu Cơ"],
+                                correct: 2
+                            },
+                            {
+                                question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?",
+                                options: ["1010", "1070", "1076", "1484"],
+                                correct: 1
+                            },
+                            {
+                                question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?",
+                                options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"],
+                                correct: 0
+                            },
+                            {
+                                question: "Chùa Một Cột còn có tên gọi khác là gì?",
+                                options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"],
+                                correct: 0
+                            },
+                            {
+                                question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?",
+                                options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"],
+                                correct: 0
+                            }
+                        ],
+                        central: [
+                            {
+                                question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?",
+                                options: ["1993", "1999", "2003", "2011"],
+                                correct: 0
+                            },
+                            {
+                                question: "Phố cổ Hội An thuộc tỉnh nào?",
+                                options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vua nào đã có công mở mang bờ cõi về phương Nam?",
+                                options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"],
+                                correct: 3
+                            },
+                            {
+                                question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?",
+                                options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"],
+                                correct: 0
+                            },
+                            {
+                                question: "Cầu Rồng là biểu tượng của thành phố nào?",
+                                options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"],
+                                correct: 0
+                            }
+                        ],
+                        south: [
+                            {
+                                question: "Chợ Bến Thành là biểu tượng của thành phố nào?",
+                                options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"],
+                                correct: 0
+                            },
+                            {
+                                question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?",
+                                options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"],
+                                correct: 2
+                            },
+                            {
+                                question: "Bến Nhà Rồng gắn liền với sự kiện nào?",
+                                options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"],
+                                correct: 0
+                            },
+                            {
+                                question: "Địa đạo Củ Chi nằm ở đâu?",
+                                options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"],
+                                correct: 0
+                            },
+                            {
+                                question: "Lăng Ông Bà Chiểu thờ ai?",
+                                options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"],
+                                correct: 0
+                            }
+                        ],
+                        west: [
+                            {
+                                question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?",
+                                options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"],
+                                correct: 0
+                            },
+                            {
+                                question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?",
+                                options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"],
+                                correct: 0
+                            },
+                            {
+                                question: "Đặc sản nào nổi tiếng của miền Tây?",
+                                options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"],
+                                correct: 3
+                            },
+                            {
+                                question: "Cù lao Ông Hổ thuộc tỉnh nào?",
+                                options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"],
+                                correct: 1
+                            },
+                            {
+                                question: "Miền Tây có bao nhiêu tỉnh thành?",
+                                options: ["12", "13", "14", "15"],
+                                correct: 1
+                            }
+                        ]
+                    };
+                    
+                    // Lưu câu hỏi mặc định
+                    await db.collection('settings').doc('challengeQuestions').set(allQuestions);
                 }
                 showMainMenu();
             } catch (error) {
@@ -1270,183 +1245,61 @@
                     <div class="menu-header">
                         <i class="fas fa-trophy"></i>
                         <h1>Thử thách kiến thức</h1>
-                        <p>Kiểm tra hiểu biết của bạn về văn hóa Việt Nam</p>
+                        <p>Chọn miền để bắt đầu hành trình khám phá văn hóa Việt Nam</p>
                     </div>
                     
+                    <div class="region-selection">
+                        <div class="region-card north" onclick="selectRegion('north', 'Miền Bắc')">
+                            <i class="fas fa-snowflake"></i>
+                            <h3>Miền Bắc</h3>
+                            <p>Văn hóa nghìn năm văn hiến, lịch sử hào hùng</p>
+                        </div>
+                        <div class="region-card central" onclick="selectRegion('central', 'Miền Trung')">
+                            <i class="fas fa-sun"></i>
+                            <h3>Miền Trung</h3>
+                            <p>Di sản cố đô, nắng gió miền Trung</p>
+                        </div>
+                        <div class="region-card south" onclick="selectRegion('south', 'Miền Nam')">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <h3>Miền Nam</h3>
+                            <p>Sài Gòn năng động, văn minh miệt vườn</p>
+                        </div>
+                        <div class="region-card west" onclick="selectRegion('west', 'Miền Tây')">
+                            <i class="fas fa-leaf"></i>
+                            <h3>Miền Tây</h3>
+                            <p>Sông nước Cửu Long, chợ nổi, vườn cây trái</p>
+                        </div>
+                    </div>
+
                     <div class="menu-buttons">
-                        <button class="menu-btn start-btn" onclick="startQuiz()">
-                            <i class="fas fa-play"></i> Bắt đầu
-                        </button>
                         <button class="menu-btn history-btn" onclick="toggleHistory()">
                             <i class="fas fa-history"></i> Lịch sử
-                        </button>
-                        <button class="menu-btn leaderboard-btn" onclick="toggleLeaderboard()">
-                            <i class="fas fa-chart-simple"></i> Bảng xếp hạng
                         </button>
                     </div>
 
                     <div class="history-section" id="historySection">
                         <!-- Lịch sử sẽ được load ở đây -->
                     </div>
-
-                    <div class="leaderboard-section" id="leaderboardSection">
-                        <div class="ranking-container">
-                            <div class="ranking-header">
-                                <i class="fas fa-chart-simple"></i>
-                                <h2>Bảng xếp hạng</h2>
-                                <p>Top người chơi có điểm cao nhất</p>
-                            </div>
-
-                            <div class="top3" id="top3Container">
-                                <!-- Top 3 sẽ được load bằng JavaScript -->
-                                <div class="loading-spinner" style="margin: 20px auto;"></div>
-                            </div>
-
-                            <div class="ranking-list" id="rankingList">
-                                <!-- Danh sách xếp hạng sẽ được load bằng JavaScript -->
-                                <div class="loading-spinner" style="margin: 20px auto;"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             `;
 
             if (currentUser) {
                 loadHistory();
-                loadLeaderboard();
             }
         }
 
-        function toggleLeaderboard() {
-            const section = document.getElementById('leaderboardSection');
-            section.classList.toggle('show');
-            
-            // Ẩn lịch sử nếu đang mở
-            const historySection = document.getElementById('historySection');
-            if (historySection.classList.contains('show')) {
-                historySection.classList.remove('show');
-            }
-            
-            // Load lại leaderboard nếu đang mở
-            if (section.classList.contains('show')) {
-                loadLeaderboard();
-            }
-        }
-
-        function toggleHistory() {
-            const section = document.getElementById('historySection');
-            section.classList.toggle('show');
-            
-            // Ẩn leaderboard nếu đang mở
-            const leaderboardSection = document.getElementById('leaderboardSection');
-            if (leaderboardSection.classList.contains('show')) {
-                leaderboardSection.classList.remove('show');
-            }
-        }
-
-        async function loadLeaderboard() {
-            try {
-                const usersSnapshot = await db.collection('users').get();
-                const rankings = [];
-
-                usersSnapshot.forEach(doc => {
-                    const userData = doc.data();
-                    if (userData.challengeHistory && userData.challengeHistory.length > 0) {
-                        // Lấy điểm cao nhất của mỗi người dùng
-                        const highestScore = Math.max(...userData.challengeHistory.map(h => h.score || 0));
-                        const totalQuestions = userData.challengeHistory[0]?.totalQuestions || 10;
-                        const percentage = Math.round((highestScore / totalQuestions) * 100);
-                        
-                        rankings.push({
-                            userId: doc.id,
-                            userName: userData.displayName || userData.email?.split('@')[0] || 'Người dùng',
-                            highestScore: highestScore,
-                            totalQuestions: totalQuestions,
-                            percentage: percentage,
-                            timestamp: userData.challengeHistory.find(h => h.score === highestScore)?.date || new Date().toISOString()
-                        });
-                    }
-                });
-
-                // Sắp xếp theo điểm cao nhất, nếu bằng nhau thì theo thời gian đạt được sớm hơn
-                rankings.sort((a, b) => {
-                    if (a.highestScore !== b.highestScore) {
-                        return b.highestScore - a.highestScore;
-                    }
-                    return new Date(a.timestamp) - new Date(b.timestamp);
-                });
-
-                displayLeaderboard(rankings.slice(0, 20)); // Hiển thị top 20
-            } catch (error) {
-                console.error('Lỗi khi load leaderboard:', error);
-            }
-        }
-
-        function displayLeaderboard(rankings) {
-            const top3Container = document.getElementById('top3Container');
-            const rankingList = document.getElementById('rankingList');
-
-            if (rankings.length === 0) {
-                top3Container.innerHTML = '<div class="no-ranking"><i class="fas fa-trophy" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i><p>Chưa có dữ liệu xếp hạng</p></div>';
-                rankingList.innerHTML = '';
+        function selectRegion(regionKey, regionName) {
+            if (!allQuestions[regionKey] || allQuestions[regionKey].length < 5) {
+                alert('Miền này chưa có đủ câu hỏi (cần ít nhất 5 câu). Vui lòng quay lại sau.');
                 return;
             }
-
-            // Hiển thị Top 3
-            const top3 = rankings.slice(0, 3);
-            top3Container.innerHTML = `
-                ${top3[1] ? `
-                    <div class="card top2-card">
-                        <i class="fas fa-trophy trophy-icon"></i>
-                        <div class="user-name">${top3[1].userName}</div>
-                        <div class="score">${top3[1].highestScore}/${top3[1].totalQuestions}</div>
-                        <div class="rank-label">🥈 TOP 2</div>
-                    </div>
-                ` : ''}
-
-                ${top3[0] ? `
-                    <div class="card top1-card">
-                        <i class="fas fa-crown crown-icon"></i>
-                        <div class="user-name">${top3[0].userName}</div>
-                        <div class="score">${top3[0].highestScore}/${top3[0].totalQuestions}</div>
-                        <div class="rank-label">🥇 TOP 1</div>
-                    </div>
-                ` : ''}
-
-                ${top3[2] ? `
-                    <div class="card top3-card">
-                        <i class="fas fa-trophy trophy-icon"></i>
-                        <div class="user-name">${top3[2].userName}</div>
-                        <div class="score">${top3[2].highestScore}/${top3[2].totalQuestions}</div>
-                        <div class="rank-label">🥉 TOP 3</div>
-                    </div>
-                ` : ''}
-            `;
-
-            // Hiển thị danh sách xếp hạng
-            rankingList.innerHTML = rankings.map((rank, index) => {
-                const badges = ['🥇', '🥈', '🥉'];
-                const badge = index < 3 ? badges[index] : '';
-                const rankText = index < 3 ? `Hạng ${index + 1}` : `#${index + 1}`;
-                const percentage = rank.percentage;
-
-                return `
-                    <div class="row">
-                        <div class="user">
-                            <div class="user-info">
-                                <span class="user-name">${rank.userName}</span>
-                                <span class="user-badge">
-                                    <i class="fas ${index < 3 ? 'fa-crown' : 'fa-star'}"></i> 
-                                    ${badge} ${rankText}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="score-badge">
-                            <i class="fas fa-star"></i> ${rank.highestScore}/${rank.totalQuestions}
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            
+            currentRegion = {
+                key: regionKey,
+                name: regionName
+            };
+            
+            startQuiz();
         }
 
         // Hàm format feedback từ AI
@@ -1491,30 +1344,46 @@
                         return;
                     }
 
-                    historySection.innerHTML = challengeHistory.reverse().map((item, index) => `
-                        <div class="history-card">
-                            <div class="history-header" onclick="toggleFeedback(${index})">
-                                <span class="history-date">
-                                    <i class="far fa-calendar-alt"></i> 
-                                    ${new Date(item.date).toLocaleDateString('vi-VN')}
-                                </span>
-                                <span class="history-score">
-                                    <i class="fas fa-star"></i> ${item.score}/${item.totalQuestions}
-                                </span>
-                                <i class="fas fa-chevron-right expand-icon" id="expand-icon-${index}"></i>
-                            </div>
-                            <div class="history-details">
-                                <p><i class="fas fa-percent" style="color: var(--jade);"></i> Tỷ lệ: ${item.percentage}%</p>
-                            </div>
-                            ${item.aiFeedback ? `
-                                <div class="history-feedback" id="feedback-${index}">
-                                    <div class="history-feedback-content">
-                                        ${formatAIFeedback(item.aiFeedback)}
-                                    </div>
+                    historySection.innerHTML = challengeHistory.reverse().map((item, index) => {
+                        // Xác định class màu cho region badge
+                        let regionClass = '';
+                        if (item.region === 'north') regionClass = 'north';
+                        else if (item.region === 'central') regionClass = 'central';
+                        else if (item.region === 'south') regionClass = 'south';
+                        else if (item.region === 'west') regionClass = 'west';
+                        
+                        // Format thời gian
+                        const timeStr = item.completionTime ? 
+                            `Thời gian: ${Math.floor(item.completionTime / 60)}:${(item.completionTime % 60).toString().padStart(2, '0')} phút` : 
+                            '';
+                        
+                        return `
+                            <div class="history-card">
+                                <div class="history-header" onclick="toggleFeedback(${index})">
+                                    <span class="history-date">
+                                        <i class="far fa-calendar-alt"></i> 
+                                        ${new Date(item.date).toLocaleDateString('vi-VN')}
+                                    </span>
+                                    <span class="history-score">
+                                        <i class="fas fa-star"></i> ${item.score}/${item.totalQuestions}
+                                    </span>
+                                    <i class="fas fa-chevron-right expand-icon" id="expand-icon-${index}"></i>
                                 </div>
-                            ` : ''}
-                        </div>
-                    `).join('');
+                                <div class="history-details">
+                                    <p><span class="region-badge ${regionClass}" style="display: inline-block; padding: 5px 15px; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> ${item.regionName || item.region}</span></p>
+                                    <p><i class="fas fa-percent" style="color: var(--jade);"></i> Tỷ lệ: ${item.percentage}%</p>
+                                    ${timeStr ? `<p><i class="fas fa-clock" style="color: var(--jade);"></i> ${timeStr}</p>` : ''}
+                                </div>
+                                ${item.aiFeedback ? `
+                                    <div class="history-feedback" id="feedback-${index}">
+                                        <div class="history-feedback-content">
+                                            ${formatAIFeedback(item.aiFeedback)}
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('');
                 }
             } catch (error) {
                 console.error('Lỗi khi load lịch sử:', error);
@@ -1531,18 +1400,31 @@
             }
         }
 
+        function toggleHistory() {
+            const section = document.getElementById('historySection');
+            section.classList.toggle('show');
+        }
+
         function startQuiz() {
-            // Lấy ngẫu nhiên 10 câu hỏi
-            questions = [...challengeQuestions].sort(() => 0.5 - Math.random()).slice(0, 10);
+            // Lấy 5 câu hỏi từ miền đã chọn
+            questions = [...allQuestions[currentRegion.key]].sort(() => 0.5 - Math.random()).slice(0, 5);
             currentQuestionIndex = 0;
             userAnswers = new Array(questions.length).fill(null);
             quizCompleted = false;
+            startTime = new Date(); // Bắt đầu tính thời gian
             displayQuiz();
         }
 
         function displayQuiz() {
             const question = questions[currentQuestionIndex];
             const selectedAnswer = userAnswers[currentQuestionIndex];
+
+            // Xác định class cho region badge
+            let regionClass = '';
+            if (currentRegion.key === 'north') regionClass = 'north';
+            else if (currentRegion.key === 'central') regionClass = 'central';
+            else if (currentRegion.key === 'south') regionClass = 'south';
+            else if (currentRegion.key === 'west') regionClass = 'west';
 
             const optionsHtml = question.options.map((option, index) => `
                 <div class="option ${selectedAnswer === index ? 'selected' : ''}" onclick="selectAnswer(${index})">
@@ -1555,6 +1437,7 @@
                 <div class="quiz-container">
                     <div class="question-header">
                         <span class="question-number"><i class="fas fa-question-circle"></i> Câu ${currentQuestionIndex + 1}/${questions.length}</span>
+                        <span class="region-badge ${regionClass}"><i class="fas fa-map-marker-alt"></i> ${currentRegion.name}</span>
                         <div class="question-text">${question.question}</div>
                     </div>
 
@@ -1624,6 +1507,8 @@
             }
 
             quizCompleted = true;
+            endTime = new Date();
+            const completionTime = Math.floor((endTime - startTime) / 1000); // Thời gian làm bài (giây)
 
             const totalScore = calculateFinalScore();
             const percentage = Math.round((totalScore / questions.length) * 100);
@@ -1641,12 +1526,18 @@
             try {
                 const aiFeedback = await getAIFeedback(totalScore, percentage);
                 if (currentUser) {
-                    await saveResult(totalScore, percentage, aiFeedback);
+                    await saveResult(totalScore, percentage, completionTime, aiFeedback);
                 }
-                displayResult(totalScore, percentage, aiFeedback);
+                
+                // Kiểm tra nếu đạt 5/5 điểm
+                if (totalScore === 5) {
+                    showCertificateModal();
+                } else {
+                    displayResult(totalScore, percentage, completionTime, aiFeedback);
+                }
             } catch (error) {
                 console.error('Lỗi khi gọi AI:', error);
-                displayResult(totalScore, percentage, 'Không thể lấy nhận xét từ AI. Vui lòng thử lại sau.');
+                displayResult(totalScore, percentage, completionTime, 'Không thể lấy nhận xét từ AI. Vui lòng thử lại sau.');
             }
         }
 
@@ -1662,7 +1553,7 @@
                 }
             }
 
-            const prompt = `Bạn là chuyên gia về văn hóa Việt Nam. Hãy phân tích kết quả bài kiểm tra:
+            const prompt = `Bạn là chuyên gia về văn hóa Việt Nam. Hãy phân tích kết quả bài kiểm tra về ${currentRegion.name}:
 
 Số câu đúng: ${score}/${questions.length} (${percentage}%)
 
@@ -1690,7 +1581,7 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
             return data.candidates[0].content.parts[0].text;
         }
 
-        async function saveResult(score, percentage, feedback) {
+        async function saveResult(score, percentage, completionTime, feedback) {
             try {
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 const userData = userDoc.exists ? userDoc.data() : {};
@@ -1698,9 +1589,12 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
 
                 challengeHistory.push({
                     date: new Date().toISOString(),
+                    region: currentRegion.key,
+                    regionName: currentRegion.name,
                     score: score,
                     totalQuestions: questions.length,
                     percentage: percentage,
+                    completionTime: completionTime,
                     aiFeedback: feedback
                 });
 
@@ -1713,8 +1607,13 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
             }
         }
 
-        function displayResult(score, percentage, feedback) {
-            // Format feedback để xử lý markdown và giữ xuống dòng
+        function displayResult(score, percentage, completionTime, feedback) {
+            // Format thời gian
+            const minutes = Math.floor(completionTime / 60);
+            const seconds = completionTime % 60;
+            const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Format feedback
             const formattedFeedback = formatAIFeedback(feedback);
             
             document.getElementById('mainContainer').innerHTML = `
@@ -1726,11 +1625,15 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                     </div>
                     
                     <div class="result-percentage">
-                        ${percentage}% hiểu biết văn hóa
+                        ${percentage}% hiểu biết về ${currentRegion.name}
+                    </div>
+                    
+                    <div class="result-time">
+                        <i class="fas fa-clock"></i> Thời gian: ${timeString}
                     </div>
                     
                     <div class="ai-feedback">
-                        <h3><i class="fas fa-robot"></i> Nhận xét từ Sao Vàng</h3>
+                        <h3><i class="fas-robot"></i> Nhận xét từ Sao Vàng</h3>
                         <div class="ai-feedback-content">
                             ${formattedFeedback}
                         </div>
@@ -1742,6 +1645,89 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                 </div>
             `;
         }
+
+        function showCertificateModal() {
+            document.getElementById('perfectRegion').textContent = currentRegion.name;
+            
+            // Tự động điền tên người dùng nếu có
+            if (currentUser && currentUser.displayName) {
+                document.getElementById('certificateName').value = currentUser.displayName;
+            }
+            
+            document.getElementById('certificateModal').classList.add('active');
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.remove('active');
+            // Sau khi đóng modal, hiển thị kết quả
+            if (endTime && startTime) {
+                const totalScore = calculateFinalScore();
+                const percentage = Math.round((totalScore / questions.length) * 100);
+                const completionTime = Math.floor((endTime - startTime) / 1000);
+                // Lấy feedback từ biến đã lưu hoặc hiển thị thông báo mặc định
+                displayResult(totalScore, percentage, completionTime, 'Chúc mừng bạn đã đạt điểm tuyệt đối!');
+            }
+        }
+
+        // Hàm tạo giấy chứng nhận (đã được cải tiến từ code bạn cung cấp)
+        function generateCertificate() {
+            const name = document.getElementById('certificateName').value.trim();
+            if (!name) {
+                alert('Vui lòng nhập tên của bạn!');
+                return;
+            }
+
+            const canvas = document.getElementById('certificateCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            img.src = 'bangkhen.png'; // Đường dẫn đến file bằng khen
+
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                // Vẽ tên lên bằng khen
+                ctx.font = "bold 80px 'Fraunces', serif";
+                ctx.fillStyle = "#000";
+                ctx.textAlign = "left";
+                
+                // Tọa độ tên (điều chỉnh theo file bằng khen của bạn)
+                const x = 730;
+                const y = 585;
+                
+                ctx.fillText(name, x, y);
+
+                // Tải xuống
+                const link = document.createElement('a');
+                link.download = `bangkhen_${name}_${currentRegion.name}.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                alert('Tải giấy chứng nhận thành công!');
+                closeCertificateModal();
+            };
+
+            img.onerror = function() {
+                alert('Không thể tải file bằng khen. Vui lòng kiểm tra file "bangkhen.png"!');
+            };
+        }
+
+        // Thêm event listener để debug tọa độ (giống code mẫu)
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('certificateCanvas');
+            if (canvas) {
+                canvas.addEventListener('mousemove', function(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    console.log("x:", Math.floor(x), "y:", Math.floor(y));
+                });
+            }
+        });
     </script>
 </body>
 
