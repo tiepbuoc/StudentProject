@@ -312,53 +312,6 @@
       z-index: 1;
     }
 
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(2deg); }
-      100% { transform: translateY(0px) rotate(0deg); }
-    }
-
-    .float-item {
-      animation: float 5s ease-in-out infinite;
-      filter: drop-shadow(0 18px 15px rgba(0,0,0,0.15));
-    }
-
-    .float-delay-1 { animation-delay: 0.2s; }
-    .float-delay-2 { animation-delay: 0.8s; }
-    .float-delay-3 { animation-delay: 1.4s; }
-    .float-delay-4 { animation-delay: 0.5s; }
-    .float-delay-5 { animation-delay: 1.9s; }
-    .float-delay-6 { animation-delay: 2.4s; }
-
-    .floating-objects {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .obj {
-      position: absolute;
-      font-size: 3.5rem;
-      filter: drop-shadow(0 15px 10px #00000030);
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(4px);
-      padding: 0.5rem;
-      border-radius: 50%;
-      width: 5rem;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(255,255,255,0.5);
-    }
-
-    .obj-1 { top: 15%; left: 10%; background: #ffb3c6; color: #a53860; }
-    .obj-3 { bottom: 15%; right: 12%; background: #bae6fd; color: #0369a1; }
-    .obj-4 { top: 25%; right: 15%; background: #d9f99d; color: #3f6212; }
-    .obj-5 { bottom: 25%; left: 18%; background: #fed7aa; color: #854d0e; }
-    .obj-6 { top: 40%; right: 25%; background: #cbd5e1; color: #1e293b; }
-
     .hero-content {
       position: absolute;
       top: 50%;
@@ -663,11 +616,6 @@
 
     @media screen and (max-width: 600px) {
       .card-grid { grid-template-columns: 1fr; }
-      .obj {
-        width: 3.5rem;
-        height: 3.5rem;
-        font-size: 2.5rem;
-      }
       .hero h1 { font-size: 3rem; }
     }
   </style>
@@ -705,13 +653,6 @@
 
   <!-- HERO SECTION -->
   <section class="hero">
-    <div class="floating-objects">
-      <div class="obj obj-1 float-item"><i class="fas fa-dragon"></i></div>
-      <div class="obj obj-3 float-item float-delay-2"><i class="fas fa-leaf"></i></div>
-      <div class="obj obj-4 float-item float-delay-3"><i class="fas fa-gamepad"></i></div>
-      <div class="obj obj-5 float-item float-delay-4"><i class="fas fa-futbol"></i></div>
-      <div class="obj obj-6 float-item float-delay-5"><i class="fas fa-camera-retro"></i></div>
-    </div>
     <div class="glow-swirl"></div>
     <div class="hero-content">
       <h1>
