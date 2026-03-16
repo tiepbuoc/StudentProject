@@ -250,6 +250,7 @@
             padding: 0 20px;
         }
 
+        /* Menu Container */
         .menu-container {
             background: rgba(255, 249, 240, 0.9);
             backdrop-filter: blur(15px);
@@ -261,6 +262,7 @@
             animation: fadeIn 0.5s ease;
             position: relative;
             overflow: hidden;
+            margin-bottom: 30px;
         }
 
         .menu-container::before {
@@ -535,6 +537,7 @@
             transform: rotate(90deg);
         }
 
+        /* Quiz Container */
         .quiz-container {
             background: rgba(255, 249, 240, 0.9);
             backdrop-filter: blur(15px);
@@ -544,6 +547,7 @@
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px var(--jade-glow);
             animation: fadeIn 0.5s ease;
+            margin-bottom: 30px;
         }
 
         .question-header {
@@ -921,9 +925,359 @@
             box-shadow: 0 10px 20px var(--jade-glow);
         }
 
+        /* Ranking Container */
+        .ranking-container {
+            background: rgba(255, 249, 240, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px var(--jade-glow);
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .ranking-container::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--jade-pale) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .ranking-container::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--gold-pale) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .ranking-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .ranking-header i {
+            font-size: 2.5em;
+            color: var(--jade);
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px var(--jade-glow);
+            background: var(--jade-pale);
+            padding: 20px;
+            border: 1px solid var(--border);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 50%;
+        }
+
+        .ranking-header h2 {
+            color: var(--jade2);
+            font-size: 2em;
+            margin-bottom: 8px;
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+        }
+
+        .ranking-header p {
+            color: var(--text-mid);
+            font-size: 1em;
+            letter-spacing: 1px;
+        }
+
+        /* Top 3 Cards */
+        .top3 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            margin: 40px 0 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            width: 130px;
+            padding: 30px 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: visible;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 35px -8px var(--jade-glow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card .user-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .card .score {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .rank-label {
+            font-weight: 600;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 12px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+            color: white;
+        }
+
+        /* Individual card gradients */
+        .top1-card {
+            background: linear-gradient(145deg, #ffd966, #ff9f4a, #ff8c42);
+            height: 180px;
+            order: 2;
+            border-color: #ffb347;
+        }
+
+        .top2-card {
+            background: linear-gradient(145deg, #4facfe, #00c6fb, #3a9efd);
+            height: 160px;
+            order: 1;
+            border-color: #4facfe;
+        }
+
+        .top3-card {
+            background: linear-gradient(145deg, #a18cd1, #fbc2eb, #b392e0);
+            height: 160px;
+            order: 3;
+            border-color: #a18cd1;
+        }
+
+        /* Crown và Trophy icons */
+        .card {
+            position: relative;
+            margin-top: 25px;
+        }
+
+        .card .crown-icon,
+        .card .trophy-icon {
+            position: absolute;
+            top: -35px;
+            font-size: 30px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        .top1-card .crown-icon {
+            color: #FFD700;
+        }
+
+        .top2-card .trophy-icon {
+            color: #C0C0C0;
+        }
+
+        .top3-card .trophy-icon {
+            color: #CD7F32;
+        }
+
+        /* Ranking list */
+        .ranking-list {
+            background: var(--jade-pale);
+            border-radius: 30px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            margin: 20px 0 0;
+            position: relative;
+            z-index: 2;
+            max-height: 400px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--jade) var(--jade-pale);
+        }
+
+        .ranking-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ranking-list::-webkit-scrollbar-track {
+            background: var(--jade-pale);
+            border-radius: 10px;
+        }
+
+        .ranking-list::-webkit-scrollbar-thumb {
+            background: var(--jade);
+            border-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid transparent;
+        }
+
+        .row:hover {
+            background: var(--jade-pale);
+            border-color: var(--jade);
+            transform: translateX(5px);
+            box-shadow: 0 5px 12px var(--jade-glow);
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-info .user-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .user-badge {
+            font-size: 11px;
+            color: var(--jade2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.9;
+        }
+
+        .user-badge i {
+            font-size: 10px;
+            color: var(--jade);
+        }
+
+        .score-badge {
+            font-weight: 700;
+            font-size: 20px;
+            background: var(--jade-pale);
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            color: var(--jade2);
+            min-width: 80px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .score-badge i {
+            font-size: 14px;
+            color: var(--gold);
+            margin-right: 2px;
+        }
+
+        /* Row medals */
+        .row:nth-child(1) .score-badge {
+            background: linear-gradient(135deg, #ffd966, #ffb347);
+            color: #4a2e00;
+            border-color: #ffb347;
+        }
+        .row:nth-child(2) .score-badge {
+            background: linear-gradient(135deg, #e0e0e0, #b0b0b0);
+            color: #2a2a2a;
+            border-color: #b0b0b0;
+        }
+        .row:nth-child(3) .score-badge {
+            background: linear-gradient(135deg, #cd9f7e, #a5673f);
+            color: #2a1a0a;
+            border-color: #a5673f;
+        }
+
+        .time-badge {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-left: 10px;
+        }
+
         /* Canvas cho certificate (ẩn) */
         #certificateCanvas {
             display: none;
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 15px var(--jade-glow); }
+            50% { text-shadow: 0 0 30px var(--jade-glow); }
+            100% { text-shadow: 0 0 15px var(--jade-glow); }
+        }
+
+        .ranking-header i {
+            animation: glowPulse 3s infinite;
         }
 
         @media (max-width: 768px) {
@@ -959,6 +1313,60 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .top3 {
+                gap: 8px;
+                margin-top: 35px;
+            }
+
+            .card {
+                width: 100px;
+                padding: 25px 5px 15px;
+                margin-top: 20px;
+            }
+
+            .card .user-name {
+                font-size: 14px;
+                color: white;
+            }
+
+            .card .score {
+                font-size: 22px;
+                padding: 4px 10px;
+            }
+
+            .rank-label {
+                font-size: 12px;
+                padding: 3px 8px;
+            }
+
+            .top1-card {
+                height: 160px;
+            }
+
+            .top2-card, .top3-card {
+                height: 140px;
+            }
+
+            .card .crown-icon,
+            .card .trophy-icon {
+                font-size: 26px;
+                top: -30px;
+            }
+
+            .row {
+                padding: 12px 12px;
+            }
+
+            .score-badge {
+                font-size: 18px;
+                padding: 5px 10px;
+                min-width: 65px;
+            }
+
+            .user-info .user-name {
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -972,6 +1380,26 @@
 
             .option {
                 padding: 15px;
+            }
+
+            .card {
+                width: 85px;
+            }
+            
+            .card .user-name {
+                font-size: 12px;
+                color: white;
+            }
+            
+            .card .score {
+                font-size: 18px;
+                padding: 3px 6px;
+            }
+            
+            .score-badge {
+                font-size: 16px;
+                min-width: 55px;
+                padding: 4px 6px;
             }
         }
     </style>
@@ -1014,8 +1442,8 @@
             <i class="fas fa-trophy" style="font-size: 4em; color: var(--jade); margin-bottom: 20px;"></i>
             <h2>CHÚC MỪNG!</h2>
             <p>Bạn đã đạt điểm tuyệt đối 10/10 ở miền <span id="perfectRegion"></span>!</p>
-            <p>Nhập tên của bạn để nhận giấy chứng nhận:</p>
-            <input type="text" id="certificateName" placeholder="Nhập tên của bạn" value="">
+            <p>Nhập tên của bạn để nhận giấy chứng nhận và ghi danh lên bảng xếp hạng:</p>
+            <input type="text" id="certificateName" placeholder="Nhập tên của bạn" value="" required>
             <div class="certificate-buttons">
                 <button class="cert-btn generate" onclick="generateCertificate()">
                     <i class="fas fa-certificate"></i> Tạo giấy chứng nhận
@@ -1072,6 +1500,7 @@
         let quizCompleted = false;
         let startTime = null;
         let endTime = null;
+        let rankListeners = []; // Lưu các listener để cleanup
 
         // Kiểm tra đăng nhập
         auth.onAuthStateChanged((user) => {
@@ -1110,130 +1539,106 @@
                         south: [],
                         west: []
                     };
-                } else {
-                    // Câu hỏi mặc định theo 4 miền
-                    allQuestions = {
-                        north: [
-                            {
-                                question: "Vua Hùng đầu tiên của nước Văn Lang là ai?",
-                                options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "Âu Cơ"],
-                                correct: 2
-                            },
-                            {
-                                question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?",
-                                options: ["1010", "1070", "1076", "1484"],
-                                correct: 1
-                            },
-                            {
-                                question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?",
-                                options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"],
-                                correct: 0
-                            },
-                            {
-                                question: "Chùa Một Cột còn có tên gọi khác là gì?",
-                                options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"],
-                                correct: 0
-                            },
-                            {
-                                question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?",
-                                options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"],
-                                correct: 0
-                            }
-                        ],
-                        central: [
-                            {
-                                question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?",
-                                options: ["1993", "1999", "2003", "2011"],
-                                correct: 0
-                            },
-                            {
-                                question: "Phố cổ Hội An thuộc tỉnh nào?",
-                                options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"],
-                                correct: 0
-                            },
-                            {
-                                question: "Vua nào đã có công mở mang bờ cõi về phương Nam?",
-                                options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"],
-                                correct: 3
-                            },
-                            {
-                                question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?",
-                                options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"],
-                                correct: 0
-                            },
-                            {
-                                question: "Cầu Rồng là biểu tượng của thành phố nào?",
-                                options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"],
-                                correct: 0
-                            }
-                        ],
-                        south: [
-                            {
-                                question: "Chợ Bến Thành là biểu tượng của thành phố nào?",
-                                options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"],
-                                correct: 0
-                            },
-                            {
-                                question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?",
-                                options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"],
-                                correct: 2
-                            },
-                            {
-                                question: "Bến Nhà Rồng gắn liền với sự kiện nào?",
-                                options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"],
-                                correct: 0
-                            },
-                            {
-                                question: "Địa đạo Củ Chi nằm ở đâu?",
-                                options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"],
-                                correct: 0
-                            },
-                            {
-                                question: "Lăng Ông Bà Chiểu thờ ai?",
-                                options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"],
-                                correct: 0
-                            }
-                        ],
-                        west: [
-                            {
-                                question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?",
-                                options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"],
-                                correct: 0
-                            },
-                            {
-                                question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?",
-                                options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"],
-                                correct: 0
-                            },
-                            {
-                                question: "Đặc sản nào nổi tiếng của miền Tây?",
-                                options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"],
-                                correct: 3
-                            },
-                            {
-                                question: "Cù lao Ông Hổ thuộc tỉnh nào?",
-                                options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"],
-                                correct: 1
-                            },
-                            {
-                                question: "Miền Tây có bao nhiêu tỉnh thành?",
-                                options: ["12", "13", "14", "15"],
-                                correct: 1
-                            }
-                        ]
-                    };
                     
-                    // Lưu câu hỏi mặc định
+                    // Kiểm tra mỗi miền có ít nhất 10 câu hỏi
+                    const regions = ['north', 'central', 'south', 'west'];
+                    let needUpdate = false;
+                    
+                    regions.forEach(region => {
+                        if (!allQuestions[region] || allQuestions[region].length < 10) {
+                            needUpdate = true;
+                        }
+                    });
+                    
+                    if (needUpdate) {
+                        // Thêm câu hỏi mặc định nếu thiếu
+                        const defaultQuestions = getDefaultQuestions();
+                        regions.forEach(region => {
+                            if (!allQuestions[region]) allQuestions[region] = [];
+                            while (allQuestions[region].length < 10) {
+                                const defaultQ = defaultQuestions[region][allQuestions[region].length % defaultQuestions[region].length];
+                                allQuestions[region].push({...defaultQ});
+                            }
+                        });
+                        
+                        await db.collection('settings').doc('challengeQuestions').set(allQuestions);
+                    }
+                } else {
+                    // Tạo câu hỏi mặc định
+                    allQuestions = getDefaultQuestions();
                     await db.collection('settings').doc('challengeQuestions').set(allQuestions);
                 }
+                
                 showMainMenu();
+                loadRanking(); // Load bảng xếp hạng
+                setupRealtimeRanking(); // Thiết lập realtime update
             } catch (error) {
                 console.error('Lỗi khi load câu hỏi:', error);
                 showMainMenu();
+                loadRanking();
             }
         }
 
+        function getDefaultQuestions() {
+            return {
+                north: [
+                    { question: "Vua Hùng đầu tiên của nước Văn Lang là ai?", options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "Âu Cơ"], correct: 2 },
+                    { question: "Văn Miếu - Quốc Tử Giám được xây dựng vào năm nào?", options: ["1010", "1070", "1076", "1484"], correct: 1 },
+                    { question: "Chiến thắng Bạch Đằng năm 938 do ai lãnh đạo?", options: ["Ngô Quyền", "Trần Hưng Đạo", "Lý Thường Kiệt", "Quang Trung"], correct: 0 },
+                    { question: "Chùa Một Cột còn có tên gọi khác là gì?", options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"], correct: 0 },
+                    { question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?", options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"], correct: 0 },
+                    { question: "Hoàng thành Thăng Long được xây dựng dưới triều vua nào?", options: ["Lý Thái Tổ", "Lý Thánh Tông", "Trần Nhân Tông", "Lê Lợi"], correct: 0 },
+                    { question: "Dân ca quan họ là di sản của vùng nào?", options: ["Bắc Ninh", "Hà Nội", "Hải Dương", "Bắc Giang"], correct: 0 },
+                    { question: "Vua Lý Thái Tổ dời đô từ Hoa Lư về Thăng Long năm nào?", options: ["1009", "1010", "1011", "1012"], correct: 1 },
+                    { question: "Bánh chưng gắn liền với truyền thuyết về ai?", options: ["Lang Liêu", "Sơn Tinh", "Thánh Gióng", "Mỵ Châu"], correct: 0 },
+                    { question: "Núi Ba Vì gắn liền với truyền thuyết gì?", options: ["Sơn Tinh - Thủy Tinh", "Thánh Gióng", "Mỵ Châu - Trọng Thủy", "Bánh chưng bánh giầy"], correct: 0 }
+                ],
+                central: [
+                    { question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?", options: ["1993", "1999", "2003", "2011"], correct: 0 },
+                    { question: "Phố cổ Hội An thuộc tỉnh nào?", options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"], correct: 0 },
+                    { question: "Vua nào đã có công mở mang bờ cõi về phương Nam?", options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"], correct: 3 },
+                    { question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?", options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"], correct: 0 },
+                    { question: "Cầu Rồng là biểu tượng của thành phố nào?", options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"], correct: 0 },
+                    { question: "Vịnh Hạ Long là di sản thế giới từ năm nào?", options: ["1994", "2000", "2005", "2010"], correct: 0 },
+                    { question: "Động Phong Nha thuộc tỉnh nào?", options: ["Quảng Bình", "Quảng Trị", "Hà Tĩnh", "Nghệ An"], correct: 0 },
+                    { question: "Lăng vua Gia Long nằm ở đâu?", options: ["Huế", "Đà Nẵng", "Quảng Nam", "Bình Định"], correct: 0 },
+                    { question: "Nhã nhạc cung đình Huế được công nhận năm nào?", options: ["2003", "2005", "2008", "2010"], correct: 0 },
+                    { question: "Đèo Hải Vân nối liền 2 tỉnh/thành nào?", options: ["Đà Nẵng - Huế", "Đà Nẵng - Quảng Nam", "Huế - Quảng Trị", "Quảng Nam - Quảng Ngãi"], correct: 0 }
+                ],
+                south: [
+                    { question: "Chợ Bến Thành là biểu tượng của thành phố nào?", options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"], correct: 0 },
+                    { question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?", options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"], correct: 2 },
+                    { question: "Bến Nhà Rồng gắn liền với sự kiện nào?", options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"], correct: 0 },
+                    { question: "Địa đạo Củ Chi nằm ở đâu?", options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"], correct: 0 },
+                    { question: "Lăng Ông Bà Chiểu thờ ai?", options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"], correct: 0 },
+                    { question: "Dinh Độc Lập còn có tên gọi khác là gì?", options: ["Dinh Thống Nhất", "Dinh Gia Long", "Dinh Norodom", "Dinh Tự Do"], correct: 0 },
+                    { question: "Bưu điện Thành phố được xây dựng theo phong cách nào?", options: ["Pháp", "Mỹ", "Anh", "Ý"], correct: 0 },
+                    { question: "Chùa Vĩnh Nghiêm được xây dựng năm nào?", options: ["1964", "1970", "1975", "1980"], correct: 0 },
+                    { question: "Đường sách Nguyễn Văn Bình nằm ở quận nào?", options: ["1", "3", "5", "10"], correct: 0 },
+                    { question: "Nhà hát Thành phố còn được gọi là gì?", options: ["Nhà hát Lớn", "Nhà hát Nhỏ", "Nhà hát Kịch", "Nhà hát Giao hưởng"], correct: 0 }
+                ],
+                west: [
+                    { question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?", options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"], correct: 0 },
+                    { question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?", options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"], correct: 0 },
+                    { question: "Đặc sản nào nổi tiếng của miền Tây?", options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"], correct: 3 },
+                    { question: "Cù lao Ông Hổ thuộc tỉnh nào?", options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"], correct: 1 },
+                    { question: "Miền Tây có bao nhiêu tỉnh thành?", options: ["12", "13", "14", "15"], correct: 1 },
+                    { question: "Vườn cò Bằng Lăng thuộc tỉnh nào?", options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Vĩnh Long"], correct: 2 },
+                    { question: "Chùa Vàm Ray nổi tiếng ở tỉnh nào?", options: ["Trà Vinh", "Sóc Trăng", "Bạc Liêu", "Cà Mau"], correct: 0 },
+                    { question: "Rừng tràm Trà Sư thuộc tỉnh nào?", options: ["An Giang", "Đồng Tháp", "Kiên Giang", "Cà Mau"], correct: 0 },
+                    { question: "Làng nổi Tân Lập thuộc tỉnh nào?", options: ["Long An", "Tiền Giang", "Bến Tre", "Vĩnh Long"], correct: 0 },
+                    { question: "Khu du lịch sinh thái Gáo Giồng thuộc tỉnh nào?", options: ["Đồng Tháp", "An Giang", "Cần Thơ", "Hậu Giang"], correct: 0 }
+                ]
+            };
+        }
+
         function logout() {
+            // Cleanup listeners
+            rankListeners.forEach(unsubscribe => {
+                if (typeof unsubscribe === 'function') unsubscribe();
+            });
+            rankListeners = [];
+            
             auth.signOut().then(() => {
                 window.location.href = 'login.html';
             });
@@ -1286,11 +1691,14 @@
             if (currentUser) {
                 loadHistory();
             }
+            
+            // Load bảng xếp hạng
+            loadRanking();
         }
 
         function selectRegion(regionKey, regionName) {
-            if (!allQuestions[regionKey] || allQuestions[regionKey].length < 5) {
-                alert('Miền này chưa có đủ câu hỏi (cần ít nhất 5 câu). Vui lòng quay lại sau.');
+            if (!allQuestions[regionKey] || allQuestions[regionKey].length < 10) {
+                alert('Miền này chưa có đủ 10 câu hỏi. Vui lòng quay lại sau.');
                 return;
             }
             
@@ -1406,8 +1814,8 @@
         }
 
         function startQuiz() {
-            // Lấy 5 câu hỏi từ miền đã chọn
-            questions = [...allQuestions[currentRegion.key]].sort(() => 0.5 - Math.random()).slice(0, 5);
+            // Lấy 10 câu hỏi từ miền đã chọn
+            questions = [...allQuestions[currentRegion.key]].sort(() => 0.5 - Math.random()).slice(0, 10);
             currentQuestionIndex = 0;
             userAnswers = new Array(questions.length).fill(null);
             quizCompleted = false;
@@ -1458,6 +1866,9 @@
                     '<button class="submit-btn" onclick="submitQuiz()"><i class="fas fa-check-circle"></i> Nộp bài</button>' : ''}
                 </div>
             `;
+            
+            // Load bảng xếp hạng bên dưới
+            loadRanking();
         }
 
         function selectAnswer(index) {
@@ -1529,8 +1940,8 @@
                     await saveResult(totalScore, percentage, completionTime, aiFeedback);
                 }
                 
-                // Kiểm tra nếu đạt 5/5 điểm
-                if (totalScore === 5) {
+                // Kiểm tra nếu đạt 10/10 điểm
+                if (totalScore === 10) {
                     showCertificateModal();
                 } else {
                     displayResult(totalScore, percentage, completionTime, aiFeedback);
@@ -1602,8 +2013,43 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                     ...userData,
                     challengeHistory: challengeHistory
                 });
+                
+                // Nếu đạt 10/10, lưu vào bảng xếp hạng
+                if (score === 10 && currentUser.displayName) {
+                    await saveToRanking(currentUser.displayName, completionTime);
+                }
             } catch (error) {
                 console.error('Lỗi khi lưu kết quả:', error);
+            }
+        }
+
+        async function saveToRanking(userName, completionTime) {
+            try {
+                // Kiểm tra xem user đã có trong bảng xếp hạng chưa
+                const rankingRef = db.collection('ranking').doc(currentUser.uid);
+                const rankingDoc = await rankingRef.get();
+                
+                const rankingData = {
+                    userId: currentUser.uid,
+                    userName: userName,
+                    score: 10,
+                    completionTime: completionTime,
+                    region: currentRegion.key,
+                    regionName: currentRegion.name,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Nếu đã có, chỉ cập nhật nếu thời gian làm bài tốt hơn
+                if (rankingDoc.exists) {
+                    const existingData = rankingDoc.data();
+                    if (completionTime < existingData.completionTime) {
+                        await rankingRef.set(rankingData);
+                    }
+                } else {
+                    await rankingRef.set(rankingData);
+                }
+            } catch (error) {
+                console.error('Lỗi khi lưu bảng xếp hạng:', error);
             }
         }
 
@@ -1633,7 +2079,7 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                     </div>
                     
                     <div class="ai-feedback">
-                        <h3><i class="fas-robot"></i> Nhận xét từ Sao Vàng</h3>
+                        <h3><i class="fas fa-robot"></i> Nhận xét từ Sao Vàng</h3>
                         <div class="ai-feedback-content">
                             ${formattedFeedback}
                         </div>
@@ -1644,6 +2090,9 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                     </button>
                 </div>
             `;
+            
+            // Load bảng xếp hạng
+            loadRanking();
         }
 
         function showCertificateModal() {
@@ -1669,12 +2118,25 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
             }
         }
 
-        // Hàm tạo giấy chứng nhận (đã được cải tiến từ code bạn cung cấp)
+        // Hàm tạo giấy chứng nhận
         function generateCertificate() {
             const name = document.getElementById('certificateName').value.trim();
             if (!name) {
                 alert('Vui lòng nhập tên của bạn!');
                 return;
+            }
+
+            // Cập nhật tên hiển thị
+            if (currentUser) {
+                currentUser.updateProfile({
+                    displayName: name
+                }).then(async () => {
+                    // Lưu vào bảng xếp hạng với tên mới
+                    if (endTime && startTime) {
+                        const completionTime = Math.floor((endTime - startTime) / 1000);
+                        await saveToRanking(name, completionTime);
+                    }
+                }).catch(console.error);
             }
 
             const canvas = document.getElementById('certificateCanvas');
@@ -1713,10 +2175,249 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
 
             img.onerror = function() {
                 alert('Không thể tải file bằng khen. Vui lòng kiểm tra file "bangkhen.png"!');
+                closeCertificateModal();
             };
         }
 
-        // Thêm event listener để debug tọa độ (giống code mẫu)
+        // Hàm load bảng xếp hạng
+        async function loadRanking() {
+            try {
+                const rankingSnapshot = await db.collection('ranking')
+                    .orderBy('score', 'desc')
+                    .orderBy('completionTime', 'asc')
+                    .limit(20)
+                    .get();
+
+                if (rankingSnapshot.empty) {
+                    // Nếu chưa có dữ liệu, hiển thị bảng xếp hạng mẫu để đẹp
+                    displaySampleRanking();
+                    return;
+                }
+
+                const rankings = [];
+                rankingSnapshot.forEach(doc => {
+                    rankings.push(doc.data());
+                });
+
+                displayRanking(rankings);
+            } catch (error) {
+                console.error('Lỗi khi load bảng xếp hạng:', error);
+                displaySampleRanking();
+            }
+        }
+
+        // Thiết lập realtime update cho bảng xếp hạng
+        function setupRealtimeRanking() {
+            // Cleanup listeners cũ
+            rankListeners.forEach(unsubscribe => {
+                if (typeof unsubscribe === 'function') unsubscribe();
+            });
+            rankListeners = [];
+
+            const unsubscribe = db.collection('ranking')
+                .orderBy('score', 'desc')
+                .orderBy('completionTime', 'asc')
+                .limit(20)
+                .onSnapshot((snapshot) => {
+                    if (!snapshot.empty) {
+                        const rankings = [];
+                        snapshot.forEach(doc => {
+                            rankings.push(doc.data());
+                        });
+                        displayRanking(rankings);
+                    }
+                }, (error) => {
+                    console.error('Lỗi realtime ranking:', error);
+                });
+
+            rankListeners.push(unsubscribe);
+        }
+
+        function displaySampleRanking() {
+            const rankingHtml = `
+                <div class="ranking-container">
+                    <div class="ranking-header">
+                        <i class="fas fa-chart-simple"></i>
+                        <h2>Bảng xếp hạng</h2>
+                        <p>TOP NGƯỜI CHƠI XUẤT SẮC</p>
+                    </div>
+
+                    <div class="top3">
+                        <div class="card top2-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">-/10</div>
+                            <div class="rank-label">🥈 TOP 2</div>
+                        </div>
+
+                        <div class="card top1-card">
+                            <i class="fas fa-crown crown-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">-/10</div>
+                            <div class="rank-label">🥇 TOP 1</div>
+                        </div>
+
+                        <div class="card top3-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">-/10</div>
+                            <div class="rank-label">🥉 TOP 3</div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-list">
+                        <div class="row">
+                            <div class="user">
+                                <div class="user-info">
+                                    <span class="user-name">Chưa có dữ liệu</span>
+                                    <span class="user-badge"><i class="fas fa-info-circle"></i> Hãy là người đầu tiên!</span>
+                                </div>
+                            </div>
+                            <div class="score-badge">0/10</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Thêm vào cuối container
+            const container = document.getElementById('mainContainer');
+            container.innerHTML += rankingHtml;
+        }
+
+        function displayRanking(rankings) {
+            if (!rankings || rankings.length === 0) {
+                displaySampleRanking();
+                return;
+            }
+
+            // Sắp xếp: điểm cao trước, nếu bằng điểm thì thời gian ngắn trước
+            const sorted = [...rankings].sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return a.completionTime - b.completionTime;
+            });
+
+            const top3 = sorted.slice(0, 3);
+            const others = sorted.slice(3);
+
+            // Format thời gian
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            // Tạo HTML cho top 3
+            let top3Html = '';
+            if (top3.length > 0) {
+                const top1 = top3[0] || { userName: 'Chưa có', score: 0, completionTime: 0 };
+                const top2 = top3[1] || { userName: 'Chưa có', score: 0, completionTime: 0 };
+                const top3Item = top3[2] || { userName: 'Chưa có', score: 0, completionTime: 0 };
+
+                top3Html = `
+                    <div class="top3">
+                        <div class="card top2-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">${top2.userName}</div>
+                            <div class="score">${top2.score}/10</div>
+                            <div class="rank-label">🥈 TOP 2</div>
+                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top2.completionTime)}</div>
+                        </div>
+
+                        <div class="card top1-card">
+                            <i class="fas fa-crown crown-icon"></i>
+                            <div class="user-name">${top1.userName}</div>
+                            <div class="score">${top1.score}/10</div>
+                            <div class="rank-label">🥇 TOP 1</div>
+                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top1.completionTime)}</div>
+                        </div>
+
+                        <div class="card top3-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">${top3Item.userName}</div>
+                            <div class="score">${top3Item.score}/10</div>
+                            <div class="rank-label">🥉 TOP 3</div>
+                            <div style="font-size: 10px; color: rgba(255,255,255,0.7);">${formatTime(top3Item.completionTime)}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                top3Html = `
+                    <div class="top3">
+                        <div class="card top2-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">0/10</div>
+                            <div class="rank-label">🥈 TOP 2</div>
+                        </div>
+
+                        <div class="card top1-card">
+                            <i class="fas fa-crown crown-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">0/10</div>
+                            <div class="rank-label">🥇 TOP 1</div>
+                        </div>
+
+                        <div class="card top3-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">Chưa có</div>
+                            <div class="score">0/10</div>
+                            <div class="rank-label">🥉 TOP 3</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tạo HTML cho danh sách còn lại
+            const othersHtml = others.map((item, index) => {
+                const rank = index + 4;
+                let badge = '';
+                if (rank <= 5) badge = '<i class="fas fa-fire"></i>';
+                else if (rank <= 10) badge = '<i class="fas fa-leaf"></i>';
+                else badge = '<i class="fas fa-star"></i>';
+
+                return `
+                    <div class="row">
+                        <div class="user">
+                            <div class="user-info">
+                                <span class="user-name">${item.userName}</span>
+                                <span class="user-badge">${badge} Hạng ${rank} • ${formatTime(item.completionTime)}</span>
+                            </div>
+                        </div>
+                        <div class="score-badge"><i class="fas fa-star"></i> ${item.score}/10</div>
+                    </div>
+                `;
+            }).join('');
+
+            const rankingHtml = `
+                <div class="ranking-container">
+                    <div class="ranking-header">
+                        <i class="fas fa-chart-simple"></i>
+                        <h2>Bảng xếp hạng</h2>
+                        <p>TOP NGƯỜI CHƠI XUẤT SẮC</p>
+                    </div>
+
+                    ${top3Html}
+
+                    <div class="ranking-list">
+                        ${othersHtml}
+                        ${others.length === 0 ? '<div class="row"><div class="user"><div class="user-info"><span class="user-name">Chưa có thêm dữ liệu</span></div></div></div>' : ''}
+                    </div>
+                </div>
+            `;
+
+            // Thêm vào cuối container, nhưng tránh duplicate
+            const container = document.getElementById('mainContainer');
+            
+            // Xóa ranking cũ nếu có
+            const oldRanking = container.querySelector('.ranking-container');
+            if (oldRanking) {
+                oldRanking.remove();
+            }
+            
+            container.innerHTML += rankingHtml;
+        }
+
+        // Thêm event listener để debug tọa độ
         document.addEventListener('DOMContentLoaded', function() {
             const canvas = document.getElementById('certificateCanvas');
             if (canvas) {
