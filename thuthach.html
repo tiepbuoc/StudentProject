@@ -266,6 +266,292 @@
             pointer-events: none;
         }
 
+        /* Leaderboard Styles */
+        .leaderboard-container {
+            background: rgba(255, 249, 240, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px var(--jade-glow);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leaderboard-container::before {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--gold-pale) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .leaderboard-header i {
+            font-size: 2.2em;
+            color: var(--jade);
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px var(--jade-glow);
+            background: var(--jade-pale);
+            padding: 15px;
+            border: 1px solid var(--border);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 50%;
+        }
+
+        .leaderboard-header h2 {
+            color: var(--jade2);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-family: 'Fraunces', serif;
+        }
+
+        .leaderboard-header p {
+            color: var(--text-mid);
+            font-size: 0.95em;
+        }
+
+        /* Top 3 Cards */
+        .top3 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            margin: 30px 0 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            width: 130px;
+            padding: 30px 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 35px -8px var(--jade-glow);
+        }
+
+        .card .user-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .card .score {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .rank-label {
+            font-weight: 600;
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 10px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .top1-card {
+            background: linear-gradient(145deg, #ffd966, #ff9f4a, #ff8c42);
+            height: 170px;
+            order: 2;
+        }
+
+        .top2-card {
+            background: linear-gradient(145deg, #4facfe, #00c6fb, #3a9efd);
+            height: 150px;
+            order: 1;
+        }
+
+        .top3-card {
+            background: linear-gradient(145deg, #a18cd1, #fbc2eb, #b392e0);
+            height: 150px;
+            order: 3;
+        }
+
+        .card .crown-icon,
+        .card .trophy-icon {
+            position: absolute;
+            top: -30px;
+            font-size: 28px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .top1-card .crown-icon {
+            color: #FFD700;
+        }
+
+        .top2-card .trophy-icon {
+            color: #C0C0C0;
+        }
+
+        .top3-card .trophy-icon {
+            color: #CD7F32;
+        }
+
+        /* Ranking list */
+        .ranking-list {
+            background: var(--jade-pale);
+            border-radius: 25px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            margin: 15px 0 0;
+            position: relative;
+            z-index: 2;
+            max-height: 350px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--jade) var(--jade-pale);
+        }
+
+        .ranking-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .ranking-list::-webkit-scrollbar-track {
+            background: var(--jade-pale);
+            border-radius: 10px;
+        }
+
+        .ranking-list::-webkit-scrollbar-thumb {
+            background: var(--jade);
+            border-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-radius: 18px;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid transparent;
+        }
+
+        .row:hover {
+            background: var(--jade-pale);
+            border-color: var(--jade);
+            transform: translateX(5px);
+            box-shadow: 0 5px 12px var(--jade-glow);
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .rank-number {
+            width: 28px;
+            height: 28px;
+            background: var(--jade-pale);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--jade2);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .user-badge {
+            font-size: 10px;
+            color: var(--jade2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.9;
+        }
+
+        .score-badge {
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--jade-pale);
+            padding: 5px 12px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            color: var(--jade2);
+            min-width: 70px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .score-badge i {
+            font-size: 12px;
+            color: var(--gold);
+        }
+
+        .loading-rank {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 30px;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -458,6 +744,7 @@
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px var(--jade-glow);
             animation: fadeIn 0.5s ease;
+            margin-bottom: 30px;
         }
 
         .question-header {
@@ -684,262 +971,25 @@
             border-color: var(--jade);
         }
 
-        /* Leaderboard Styles */
-        .leaderboard-container {
-            background: rgba(255, 249, 240, 0.9);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 40px var(--jade-glow);
-            position: relative;
-            overflow: hidden;
-            margin-top: 30px;
-        }
-
-        .leaderboard-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .leaderboard-header i {
-            font-size: 2.5em;
-            color: var(--jade);
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px var(--jade-glow);
-            background: var(--jade-pale);
-            padding: 15px;
-            border: 1px solid var(--border);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 50%;
-        }
-
-        .leaderboard-header h2 {
-            color: var(--jade2);
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            font-family: 'Fraunces', serif;
-        }
-
-        .leaderboard-header p {
-            color: var(--text-mid);
-            font-size: 0.9em;
-        }
-
-        .top3 {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 15px;
-            margin: 20px 0 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .top-card {
-            width: 120px;
-            padding: 25px 10px 15px;
-            border-radius: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            margin-top: 25px;
-        }
-
-        .top-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 25px 35px -8px var(--jade-glow);
-        }
-
-        .top-card .icon-top {
-            position: absolute;
-            top: -25px;
-            font-size: 30px;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-        }
-
-        .top-card .user-name {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: white;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding: 0 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .top-card .score {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .top-card .rank-label {
-            font-weight: 600;
-            font-size: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 3px 10px;
-            border-radius: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .top1 {
-            background: linear-gradient(145deg, #ffd966, #ff9f4a, #ff8c42);
-            height: 160px;
-            order: 2;
-        }
-
-        .top2 {
-            background: linear-gradient(145deg, #4facfe, #00c6fb, #3a9efd);
-            height: 140px;
-            order: 1;
-        }
-
-        .top3 {
-            background: linear-gradient(145deg, #a18cd1, #fbc2eb, #b392e0);
-            height: 140px;
-            order: 3;
-        }
-
-        .top1 .icon-top {
-            color: #FFD700;
-        }
-
-        .top2 .icon-top {
-            color: #C0C0C0;
-        }
-
-        .top3 .icon-top {
-            color: #CD7F32;
-        }
-
-        .ranking-list {
-            background: var(--jade-pale);
-            border-radius: 25px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            margin-top: 20px;
-            max-height: 350px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--jade) var(--jade-pale);
-        }
-
-        .ranking-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .ranking-list::-webkit-scrollbar-track {
-            background: var(--jade-pale);
-            border-radius: 10px;
-        }
-
-        .ranking-list::-webkit-scrollbar-thumb {
-            background: var(--jade);
-            border-radius: 10px;
-        }
-
-        .rank-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 15px;
-            border-radius: 18px;
-            transition: all 0.3s;
-            margin-bottom: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid transparent;
-        }
-
-        .rank-row:hover {
-            background: var(--jade-pale);
-            border-color: var(--jade);
-            transform: translateX(5px);
-            box-shadow: 0 5px 12px var(--jade-glow);
-        }
-
-        .rank-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .rank-number {
-            font-weight: 700;
-            color: var(--jade2);
-            min-width: 35px;
-            font-size: 16px;
-        }
-
-        .rank-name {
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--white);
-        }
-
-        .rank-score {
-            font-weight: 700;
-            font-size: 18px;
-            background: var(--jade-pale);
-            padding: 4px 12px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
-            color: var(--jade2);
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .rank-score i {
-            font-size: 12px;
-            color: var(--gold);
-        }
-
-        .loading-leaderboard {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-mid);
-        }
-
         @media (max-width: 768px) {
             .navbar {
-                flex-direction: column;
-                gap: 15px;
+                grid-template-columns: 1fr;
                 height: auto;
                 padding: 15px;
+                gap: 15px;
+            }
+
+            .nav-links {
+                order: 3;
+            }
+
+            .right-section {
+                order: 2;
+                justify-content: center;
             }
 
             .container {
-                margin-top: 150px;
+                margin-top: 180px;
             }
 
             .menu-buttons {
@@ -964,33 +1014,24 @@
                 gap: 8px;
             }
 
-            .top-card {
-                width: 90px;
-                padding: 20px 5px 12px;
-                margin-top: 20px;
+            .card {
+                width: 100px;
+                padding: 25px 5px 15px;
             }
 
-            .top-card .user-name {
+            .card .score {
+                font-size: 20px;
+                padding: 4px 8px;
+            }
+
+            .card .user-name {
                 font-size: 13px;
-            }
-
-            .top-card .score {
-                font-size: 18px;
-                padding: 3px 8px;
-            }
-
-            .top1 {
-                height: 140px;
-            }
-
-            .top2, .top3 {
-                height: 120px;
             }
         }
 
         @media (max-width: 480px) {
-            .menu-container {
-                padding: 25px;
+            .menu-container, .leaderboard-container {
+                padding: 20px;
             }
 
             .question-text {
@@ -1001,8 +1042,12 @@
                 padding: 15px;
             }
 
-            .top-card {
-                width: 80px;
+            .top3 {
+                flex-wrap: wrap;
+            }
+
+            .card {
+                width: 85px;
             }
         }
     </style>
@@ -1163,9 +1208,122 @@
                     ];
                 }
                 showMainMenu();
+                loadLeaderboard();
             } catch (error) {
                 console.error('Lỗi khi load câu hỏi:', error);
                 showMainMenu();
+                loadLeaderboard();
+            }
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const usersSnapshot = await db.collection('users').get();
+                const leaderboardData = [];
+
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    if (userData.challengeHistory && userData.challengeHistory.length > 0) {
+                        // Lấy điểm cao nhất của mỗi người
+                        const bestScore = Math.max(...userData.challengeHistory.map(item => item.score || 0));
+                        leaderboardData.push({
+                            uid: doc.id,
+                            name: userData.displayName || userData.email || 'Người dùng',
+                            email: userData.email,
+                            bestScore: bestScore,
+                            totalQuestions: 10
+                        });
+                    }
+                });
+
+                // Sắp xếp theo điểm cao nhất giảm dần
+                leaderboardData.sort((a, b) => b.bestScore - a.bestScore);
+                
+                // Lấy top 10
+                const topUsers = leaderboardData.slice(0, 10);
+
+                displayLeaderboard(topUsers);
+            } catch (error) {
+                console.error('Lỗi khi load leaderboard:', error);
+            }
+        }
+
+        function displayLeaderboard(users) {
+            const leaderboardHtml = `
+                <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <i class="fas fa-chart-simple"></i>
+                        <h2>Bảng xếp hạng</h2>
+                        <p>Những người chơi có điểm số cao nhất</p>
+                    </div>
+
+                    ${users.length > 0 ? `
+                        <!-- Top 3 Cards -->
+                        <div class="top3">
+                            ${users[1] ? `
+                                <div class="card top2-card">
+                                    <i class="fas fa-trophy trophy-icon"></i>
+                                    <div class="user-name">${users[1].name}</div>
+                                    <div class="score">${users[1].bestScore}/10</div>
+                                    <div class="rank-label">🥈 TOP 2</div>
+                                </div>
+                            ` : ''}
+
+                            ${users[0] ? `
+                                <div class="card top1-card">
+                                    <i class="fas fa-crown crown-icon"></i>
+                                    <div class="user-name">${users[0].name}</div>
+                                    <div class="score">${users[0].bestScore}/10</div>
+                                    <div class="rank-label">🥇 TOP 1</div>
+                                </div>
+                            ` : ''}
+
+                            ${users[2] ? `
+                                <div class="card top3-card">
+                                    <i class="fas fa-trophy trophy-icon"></i>
+                                    <div class="user-name">${users[2].name}</div>
+                                    <div class="score">${users[2].bestScore}/10</div>
+                                    <div class="rank-label">🥉 TOP 3</div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Ranking list -->
+                        <div class="ranking-list">
+                            ${users.map((user, index) => `
+                                <div class="row">
+                                    <div class="user">
+                                        <div class="rank-number">${index + 1}</div>
+                                        <div class="user-info">
+                                            <span class="user-name">${user.name}</span>
+                                            <span class="user-badge">
+                                                <i class="fas ${index === 0 ? 'fa-crown' : (index < 3 ? 'fa-medal' : 'fa-star')}"></i>
+                                                ${index === 0 ? 'Đứng đầu' : (index === 1 ? 'Hạng 2' : (index === 2 ? 'Hạng 3' : `${user.bestScore}/10 điểm`))}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="score-badge">
+                                        <i class="fas fa-star"></i> ${user.bestScore}/10
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="no-history">
+                            <i class="fas fa-chart-simple" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <p>Chưa có dữ liệu xếp hạng</p>
+                        </div>
+                    `}
+                </div>
+            `;
+
+            // Thêm leaderboard vào sau menu
+            const mainContainer = document.getElementById('mainContainer');
+            if (mainContainer) {
+                const menuContainer = mainContainer.querySelector('.menu-container');
+                if (menuContainer) {
+                    menuContainer.insertAdjacentHTML('afterend', leaderboardHtml);
+                }
             }
         }
 
@@ -1197,25 +1355,10 @@
                         <!-- Lịch sử sẽ được load ở đây -->
                     </div>
                 </div>
-
-                <div class="leaderboard-container" id="leaderboardContainer">
-                    <div class="leaderboard-header">
-                        <i class="fas fa-chart-simple"></i>
-                        <h2>Bảng xếp hạng</h2>
-                        <p>Top những người chơi xuất sắc nhất</p>
-                    </div>
-                    <div id="leaderboardContent">
-                        <!-- Leaderboard sẽ được load ở đây -->
-                        <div class="loading-leaderboard">
-                            <i class="fas fa-spinner fa-spin"></i> Đang tải bảng xếp hạng...
-                        </div>
-                    </div>
-                </div>
             `;
 
             if (currentUser) {
                 loadHistory();
-                loadLeaderboard();
             }
         }
 
@@ -1288,109 +1431,6 @@
                 }
             } catch (error) {
                 console.error('Lỗi khi load lịch sử:', error);
-            }
-        }
-
-        async function loadLeaderboard() {
-            try {
-                const usersSnapshot = await db.collection('users').get();
-                const leaderboardData = [];
-
-                usersSnapshot.forEach(doc => {
-                    const userData = doc.data();
-                    if (userData.challengeHistory && userData.challengeHistory.length > 0) {
-                        // Lấy điểm cao nhất của mỗi người dùng
-                        const bestScore = Math.max(...userData.challengeHistory.map(h => h.score));
-                        const bestPercentage = Math.max(...userData.challengeHistory.map(h => h.percentage));
-                        
-                        leaderboardData.push({
-                            userId: doc.id,
-                            userName: userData.displayName || 'Người dùng',
-                            bestScore: bestScore,
-                            bestPercentage: bestPercentage,
-                            totalQuestions: 10 // Số câu hỏi mặc định
-                        });
-                    }
-                });
-
-                // Sắp xếp theo điểm cao nhất giảm dần
-                leaderboardData.sort((a, b) => b.bestScore - a.bestScore || b.bestPercentage - a.bestPercentage);
-                
-                // Lấy top 20
-                const topUsers = leaderboardData.slice(0, 20);
-
-                if (topUsers.length === 0) {
-                    document.getElementById('leaderboardContent').innerHTML = `
-                        <div class="no-history">
-                            <i class="fas fa-chart-simple" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <p>Chưa có dữ liệu xếp hạng</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Hiển thị leaderboard
-                let leaderboardHtml = '';
-
-                // Hiển thị top 3 nếu có
-                if (topUsers.length >= 3) {
-                    leaderboardHtml += `
-                        <div class="top3">
-                            <div class="top-card top2">
-                                <i class="fas fa-trophy icon-top"></i>
-                                <div class="user-name">${topUsers[1].userName}</div>
-                                <div class="score">${topUsers[1].bestScore}/10</div>
-                                <div class="rank-label">🥈 TOP 2</div>
-                            </div>
-                            <div class="top-card top1">
-                                <i class="fas fa-crown icon-top"></i>
-                                <div class="user-name">${topUsers[0].userName}</div>
-                                <div class="score">${topUsers[0].bestScore}/10</div>
-                                <div class="rank-label">🥇 TOP 1</div>
-                            </div>
-                            <div class="top-card top3">
-                                <i class="fas fa-trophy icon-top"></i>
-                                <div class="user-name">${topUsers[2].userName}</div>
-                                <div class="score">${topUsers[2].bestScore}/10</div>
-                                <div class="rank-label">🥉 TOP 3</div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // Hiển thị danh sách xếp hạng
-                leaderboardHtml += '<div class="ranking-list">';
-                
-                topUsers.forEach((user, index) => {
-                    let rankIcon = '';
-                    if (index === 0) rankIcon = '<i class="fas fa-crown" style="color: #FFD700;"></i>';
-                    else if (index === 1) rankIcon = '<i class="fas fa-medal" style="color: #C0C0C0;"></i>';
-                    else if (index === 2) rankIcon = '<i class="fas fa-medal" style="color: #CD7F32;"></i>';
-                    
-                    leaderboardHtml += `
-                        <div class="rank-row">
-                            <div class="rank-user">
-                                <span class="rank-number">${index + 1}</span>
-                                <span class="rank-name">${user.userName}</span>
-                            </div>
-                            <div class="rank-score">
-                                ${rankIcon} ${user.bestScore}/10
-                            </div>
-                        </div>
-                    `;
-                });
-
-                leaderboardHtml += '</div>';
-                document.getElementById('leaderboardContent').innerHTML = leaderboardHtml;
-
-            } catch (error) {
-                console.error('Lỗi khi load leaderboard:', error);
-                document.getElementById('leaderboardContent').innerHTML = `
-                    <div class="no-history">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
-                        <p>Không thể tải bảng xếp hạng</p>
-                    </div>
-                `;
             }
         }
 
@@ -1520,6 +1560,10 @@
                 const aiFeedback = await getAIFeedback(totalScore, percentage);
                 if (currentUser) {
                     await saveResult(totalScore, percentage, aiFeedback);
+                    // Reload leaderboard sau khi lưu kết quả
+                    setTimeout(() => {
+                        loadLeaderboard();
+                    }, 500);
                 }
                 displayResult(totalScore, percentage, aiFeedback);
             } catch (error) {
@@ -1572,6 +1616,15 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
             try {
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 const userData = userDoc.exists ? userDoc.data() : {};
+                
+                // Cập nhật displayName nếu có
+                if (!userData.displayName && currentUser.displayName) {
+                    userData.displayName = currentUser.displayName;
+                }
+                if (!userData.email && currentUser.email) {
+                    userData.email = currentUser.email;
+                }
+                
                 const challengeHistory = userData.challengeHistory || [];
 
                 challengeHistory.push({
@@ -1584,16 +1637,10 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
 
                 await db.collection('users').doc(currentUser.uid).set({
                     ...userData,
-                    challengeHistory: challengeHistory,
-                    displayName: currentUser.displayName || 'Người dùng'
-                }, { merge: true });
-
-                // Reload leaderboard sau khi lưu kết quả
-                setTimeout(() => {
-                    if (document.getElementById('leaderboardContent')) {
-                        loadLeaderboard();
-                    }
-                }, 1000);
+                    displayName: currentUser.displayName || userData.displayName,
+                    email: currentUser.email || userData.email,
+                    challengeHistory: challengeHistory
+                });
             } catch (error) {
                 console.error('Lỗi khi lưu kết quả:', error);
             }
@@ -1622,7 +1669,7 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                         </div>
                     </div>
                     
-                    <button class="back-btn" onclick="showMainMenu()">
+                    <button class="back-btn" onclick="location.reload()">
                         <i class="fas fa-arrow-left"></i> Quay lại menu
                     </button>
                 </div>
