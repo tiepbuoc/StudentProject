@@ -458,6 +458,7 @@
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px var(--jade-glow);
             animation: fadeIn 0.5s ease;
+            margin-bottom: 30px;
         }
 
         .question-header {
@@ -693,14 +694,13 @@
             padding: 30px;
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px var(--jade-glow);
-            position: relative;
-            overflow: hidden;
+            animation: fadeIn 0.5s ease;
             margin-top: 30px;
         }
 
         .leaderboard-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .leaderboard-header i {
@@ -708,45 +708,29 @@
             color: var(--jade);
             margin-bottom: 10px;
             text-shadow: 0 0 30px var(--jade-glow);
-            background: var(--jade-pale);
-            padding: 15px;
-            border: 1px solid var(--border);
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 50%;
         }
 
         .leaderboard-header h2 {
             color: var(--jade2);
-            font-size: 1.8em;
-            margin-bottom: 5px;
+            font-size: 2em;
             font-family: 'Fraunces', serif;
         }
 
-        .leaderboard-header p {
-            color: var(--text-mid);
-            font-size: 0.9em;
-        }
-
+        /* Top 3 Cards */
         .top3 {
             display: flex;
             justify-content: center;
             align-items: flex-end;
             gap: 15px;
-            margin: 20px 0 30px;
+            margin: 30px 0;
             position: relative;
             z-index: 2;
         }
 
-        .top-card {
-            width: 120px;
-            padding: 25px 10px 15px;
-            border-radius: 25px;
+        .card {
+            width: 130px;
+            padding: 30px 10px 20px;
+            border-radius: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -755,25 +739,16 @@
             transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
+            overflow: visible;
             margin-top: 25px;
         }
 
-        .top-card:hover {
-            transform: translateY(-5px) scale(1.02);
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 25px 35px -8px var(--jade-glow);
         }
 
-        .top-card .icon-top {
-            position: absolute;
-            top: -25px;
-            font-size: 30px;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-        }
-
-        .top-card .user-name {
+        .card .user-name {
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 8px;
@@ -787,12 +762,12 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .top-card .score {
-            font-size: 22px;
+        .card .score {
+            font-size: 24px;
             font-weight: 800;
             margin-bottom: 5px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
+            padding: 5px 12px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -800,54 +775,71 @@
             text-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .top-card .rank-label {
+        .rank-label {
             font-weight: 600;
             font-size: 12px;
             background: rgba(0, 0, 0, 0.3);
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
         }
 
-        .top1 {
+        .card .crown-icon,
+        .card .trophy-icon {
+            position: absolute;
+            top: -35px;
+            font-size: 30px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        .top1-card {
             background: linear-gradient(145deg, #ffd966, #ff9f4a, #ff8c42);
-            height: 160px;
+            height: 180px;
             order: 2;
+            border-color: #ffb347;
         }
 
-        .top2 {
+        .top2-card {
             background: linear-gradient(145deg, #4facfe, #00c6fb, #3a9efd);
-            height: 140px;
+            height: 160px;
             order: 1;
+            border-color: #4facfe;
         }
 
-        .top3 {
+        .top3-card {
             background: linear-gradient(145deg, #a18cd1, #fbc2eb, #b392e0);
-            height: 140px;
+            height: 160px;
             order: 3;
+            border-color: #a18cd1;
         }
 
-        .top1 .icon-top {
+        .top1-card .crown-icon {
             color: #FFD700;
         }
 
-        .top2 .icon-top {
+        .top2-card .trophy-icon {
             color: #C0C0C0;
         }
 
-        .top3 .icon-top {
+        .top3-card .trophy-icon {
             color: #CD7F32;
         }
 
+        /* Ranking list */
         .ranking-list {
             background: var(--jade-pale);
-            border-radius: 25px;
+            border-radius: 30px;
             padding: 15px;
             border: 1px solid var(--border);
-            margin-top: 20px;
-            max-height: 350px;
+            margin: 20px 0 0;
+            position: relative;
+            z-index: 2;
+            max-height: 400px;
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--jade) var(--jade-pale);
@@ -867,79 +859,105 @@
             border-radius: 10px;
         }
 
-        .rank-row {
+        .row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 15px;
-            border-radius: 18px;
+            padding: 12px 18px;
+            border-radius: 20px;
             transition: all 0.3s;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid transparent;
         }
 
-        .rank-row:hover {
+        .row:hover {
             background: var(--jade-pale);
             border-color: var(--jade);
             transform: translateX(5px);
             box-shadow: 0 5px 12px var(--jade-glow);
         }
 
-        .rank-user {
+        .user {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex: 1;
         }
 
         .rank-number {
-            font-weight: 700;
-            color: var(--jade2);
-            min-width: 35px;
-            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            background: var(--jade-pale);
+            border: 1px solid var(--jade);
+            color: var(--jade);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        .rank-name {
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .user-name {
             font-weight: 600;
             font-size: 15px;
             color: var(--white);
         }
 
-        .rank-score {
-            font-weight: 700;
-            font-size: 18px;
-            background: var(--jade-pale);
-            padding: 4px 12px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
+        .user-badge {
+            font-size: 11px;
             color: var(--jade2);
             display: flex;
             align-items: center;
+            gap: 4px;
+            opacity: 0.9;
+        }
+
+        .score-badge {
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--jade-pale);
+            padding: 5px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            color: var(--jade2);
+            min-width: 70px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             gap: 3px;
         }
 
-        .rank-score i {
+        .score-badge i {
             font-size: 12px;
             color: var(--gold);
         }
 
-        .loading-leaderboard {
+        .no-data {
             text-align: center;
-            padding: 40px;
-            color: var(--text-mid);
+            color: var(--text-dim);
+            padding: 30px;
+            font-size: 1.1em;
         }
 
         @media (max-width: 768px) {
             .navbar {
-                flex-direction: column;
-                gap: 15px;
+                grid-template-columns: 1fr;
                 height: auto;
                 padding: 15px;
+                gap: 15px;
             }
 
             .container {
-                margin-top: 150px;
+                margin-top: 180px;
             }
 
             .menu-buttons {
@@ -964,27 +982,26 @@
                 gap: 8px;
             }
 
-            .top-card {
-                width: 90px;
-                padding: 20px 5px 12px;
-                margin-top: 20px;
+            .card {
+                width: 100px;
+                padding: 25px 5px 15px;
             }
 
-            .top-card .user-name {
-                font-size: 13px;
+            .card .user-name {
+                font-size: 14px;
             }
 
-            .top-card .score {
-                font-size: 18px;
-                padding: 3px 8px;
+            .card .score {
+                font-size: 20px;
+                padding: 4px 8px;
             }
 
-            .top1 {
+            .top1-card {
+                height: 160px;
+            }
+
+            .top2-card, .top3-card {
                 height: 140px;
-            }
-
-            .top2, .top3 {
-                height: 120px;
             }
         }
 
@@ -1001,8 +1018,23 @@
                 padding: 15px;
             }
 
-            .top-card {
-                width: 80px;
+            .card {
+                width: 85px;
+            }
+            
+            .card .user-name {
+                font-size: 12px;
+            }
+            
+            .card .score {
+                font-size: 18px;
+                padding: 3px 6px;
+            }
+            
+            .score-badge {
+                font-size: 16px;
+                min-width: 60px;
+                padding: 4px 8px;
             }
         }
     </style>
@@ -1079,7 +1111,6 @@
             if (user) {
                 if (document.getElementById('userInfo')) document.getElementById('userInfo').style.display = 'flex';
                 if (document.getElementById('loginBtn')) document.getElementById('loginBtn').style.display = 'none';
-                if (document.getElementById('loginLink')) document.getElementById('loginLink').style.display = 'none';
                 if (document.getElementById('userName')) {
                     const displayName = user.displayName || 'Người dùng';
                     document.getElementById('userName').textContent = displayName;
@@ -1175,7 +1206,7 @@
             });
         }
 
-        function showMainMenu() {
+        async function showMainMenu() {
             document.getElementById('mainContainer').innerHTML = `
                 <div class="menu-container">
                     <div class="menu-header">
@@ -1202,12 +1233,11 @@
                     <div class="leaderboard-header">
                         <i class="fas fa-chart-simple"></i>
                         <h2>Bảng xếp hạng</h2>
-                        <p>Top những người chơi xuất sắc nhất</p>
                     </div>
                     <div id="leaderboardContent">
-                        <!-- Leaderboard sẽ được load ở đây -->
-                        <div class="loading-leaderboard">
-                            <i class="fas fa-spinner fa-spin"></i> Đang tải bảng xếp hạng...
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p style="color: var(--white);">Đang tải bảng xếp hạng...</p>
                         </div>
                     </div>
                 </div>
@@ -1294,100 +1324,123 @@
         async function loadLeaderboard() {
             try {
                 const usersSnapshot = await db.collection('users').get();
-                const leaderboardData = [];
+                const leaderboard = [];
 
                 usersSnapshot.forEach(doc => {
                     const userData = doc.data();
                     if (userData.challengeHistory && userData.challengeHistory.length > 0) {
                         // Lấy điểm cao nhất của mỗi người dùng
                         const bestScore = Math.max(...userData.challengeHistory.map(h => h.score));
-                        const bestPercentage = Math.max(...userData.challengeHistory.map(h => h.percentage));
+                        const bestEntry = userData.challengeHistory.find(h => h.score === bestScore);
                         
-                        leaderboardData.push({
+                        leaderboard.push({
                             userId: doc.id,
-                            userName: userData.displayName || 'Người dùng',
+                            userName: userData.displayName || userData.email || 'Người dùng',
                             bestScore: bestScore,
-                            bestPercentage: bestPercentage,
-                            totalQuestions: 10 // Số câu hỏi mặc định
+                            totalQuestions: bestEntry ? bestEntry.totalQuestions : 10,
+                            date: bestEntry ? bestEntry.date : null
                         });
                     }
                 });
 
                 // Sắp xếp theo điểm cao nhất giảm dần
-                leaderboardData.sort((a, b) => b.bestScore - a.bestScore || b.bestPercentage - a.bestPercentage);
+                leaderboard.sort((a, b) => b.bestScore - a.bestScore);
                 
                 // Lấy top 20
-                const topUsers = leaderboardData.slice(0, 20);
+                const top20 = leaderboard.slice(0, 20);
 
-                if (topUsers.length === 0) {
+                if (top20.length === 0) {
                     document.getElementById('leaderboardContent').innerHTML = `
-                        <div class="no-history">
-                            <i class="fas fa-chart-simple" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <div class="no-data">
+                            <i class="fas fa-trophy" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
                             <p>Chưa có dữ liệu xếp hạng</p>
                         </div>
                     `;
                     return;
                 }
 
-                // Hiển thị leaderboard
-                let leaderboardHtml = '';
-
-                // Hiển thị top 3 nếu có
-                if (topUsers.length >= 3) {
-                    leaderboardHtml += `
-                        <div class="top3">
-                            <div class="top-card top2">
-                                <i class="fas fa-trophy icon-top"></i>
-                                <div class="user-name">${topUsers[1].userName}</div>
-                                <div class="score">${topUsers[1].bestScore}/10</div>
-                                <div class="rank-label">🥈 TOP 2</div>
-                            </div>
-                            <div class="top-card top1">
-                                <i class="fas fa-crown icon-top"></i>
-                                <div class="user-name">${topUsers[0].userName}</div>
-                                <div class="score">${topUsers[0].bestScore}/10</div>
-                                <div class="rank-label">🥇 TOP 1</div>
-                            </div>
-                            <div class="top-card top3">
-                                <i class="fas fa-trophy icon-top"></i>
-                                <div class="user-name">${topUsers[2].userName}</div>
-                                <div class="score">${topUsers[2].bestScore}/10</div>
-                                <div class="rank-label">🥉 TOP 3</div>
-                            </div>
+                // Tạo HTML cho top 3
+                let top3Html = '';
+                if (top20.length >= 1) {
+                    const top1 = top20[0];
+                    top3Html += `
+                        <div class="card top1-card">
+                            <i class="fas fa-crown crown-icon"></i>
+                            <div class="user-name">${top1.userName}</div>
+                            <div class="score">${top1.bestScore}/${top1.totalQuestions}</div>
+                            <div class="rank-label">🥇 TOP 1</div>
+                        </div>
+                    `;
+                }
+                
+                if (top20.length >= 2) {
+                    const top2 = top20[1];
+                    top3Html += `
+                        <div class="card top2-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">${top2.userName}</div>
+                            <div class="score">${top2.bestScore}/${top2.totalQuestions}</div>
+                            <div class="rank-label">🥈 TOP 2</div>
+                        </div>
+                    `;
+                }
+                
+                if (top20.length >= 3) {
+                    const top3 = top20[2];
+                    top3Html += `
+                        <div class="card top3-card">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="user-name">${top3.userName}</div>
+                            <div class="score">${top3.bestScore}/${top3.totalQuestions}</div>
+                            <div class="rank-label">🥉 TOP 3</div>
                         </div>
                     `;
                 }
 
-                // Hiển thị danh sách xếp hạng
-                leaderboardHtml += '<div class="ranking-list">';
-                
-                topUsers.forEach((user, index) => {
-                    let rankIcon = '';
-                    if (index === 0) rankIcon = '<i class="fas fa-crown" style="color: #FFD700;"></i>';
-                    else if (index === 1) rankIcon = '<i class="fas fa-medal" style="color: #C0C0C0;"></i>';
-                    else if (index === 2) rankIcon = '<i class="fas fa-medal" style="color: #CD7F32;"></i>';
-                    
-                    leaderboardHtml += `
-                        <div class="rank-row">
-                            <div class="rank-user">
-                                <span class="rank-number">${index + 1}</span>
-                                <span class="rank-name">${user.userName}</span>
+                // Tạo HTML cho danh sách xếp hạng
+                const rankingListHtml = top20.map((user, index) => {
+                    let badge = '';
+                    if (index === 0) badge = '<i class="fas fa-crown"></i> Đứng đầu';
+                    else if (index === 1) badge = '<i class="fas fa-medal"></i> Hạng 2';
+                    else if (index === 2) badge = '<i class="fas fa-medal"></i> Hạng 3';
+                    else badge = `<i class="fas fa-fire"></i> ${user.bestScore} điểm`;
+
+                    const isCurrentUser = currentUser && currentUser.uid === user.userId;
+
+                    return `
+                        <div class="row" ${isCurrentUser ? 'style="background: var(--jade-pale); border-color: var(--jade);"' : ''}>
+                            <div class="user">
+                                <div class="rank-number">${index + 1}</div>
+                                <div class="user-info">
+                                    <span class="user-name">${user.userName}${isCurrentUser ? ' (Bạn)' : ''}</span>
+                                    <span class="user-badge">${badge}</span>
+                                </div>
                             </div>
-                            <div class="rank-score">
-                                ${rankIcon} ${user.bestScore}/10
-                            </div>
+                            <div class="score-badge"><i class="fas fa-star"></i> ${user.bestScore}/${user.totalQuestions}</div>
                         </div>
                     `;
-                });
+                }).join('');
 
-                leaderboardHtml += '</div>';
-                document.getElementById('leaderboardContent').innerHTML = leaderboardHtml;
+                // Sắp xếp lại thứ tự top 3 cards (2-1-3)
+                let orderedTop3 = '';
+                if (top20.length >= 2) orderedTop3 += top20[1] ? '<div class="card top2-card"><i class="fas fa-trophy trophy-icon"></i><div class="user-name">' + top20[1].userName + '</div><div class="score">' + top20[1].bestScore + '/' + top20[1].totalQuestions + '</div><div class="rank-label">🥈 TOP 2</div></div>' : '';
+                if (top20.length >= 1) orderedTop3 += top20[0] ? '<div class="card top1-card"><i class="fas fa-crown crown-icon"></i><div class="user-name">' + top20[0].userName + '</div><div class="score">' + top20[0].bestScore + '/' + top20[0].totalQuestions + '</div><div class="rank-label">🥇 TOP 1</div></div>' : '';
+                if (top20.length >= 3) orderedTop3 += top20[2] ? '<div class="card top3-card"><i class="fas fa-trophy trophy-icon"></i><div class="user-name">' + top20[2].userName + '</div><div class="score">' + top20[2].bestScore + '/' + top20[2].totalQuestions + '</div><div class="rank-label">🥉 TOP 3</div></div>' : '';
+
+                document.getElementById('leaderboardContent').innerHTML = `
+                    <div class="top3">
+                        ${orderedTop3}
+                    </div>
+                    <div class="ranking-list">
+                        ${rankingListHtml}
+                    </div>
+                `;
 
             } catch (error) {
                 console.error('Lỗi khi load leaderboard:', error);
                 document.getElementById('leaderboardContent').innerHTML = `
-                    <div class="no-history">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <div class="no-data">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3em; margin-bottom: 15px; color: var(--jade);"></i>
                         <p>Không thể tải bảng xếp hạng</p>
                     </div>
                 `;
@@ -1584,16 +1637,13 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
 
                 await db.collection('users').doc(currentUser.uid).set({
                     ...userData,
-                    challengeHistory: challengeHistory,
-                    displayName: currentUser.displayName || 'Người dùng'
+                    displayName: currentUser.displayName || userData.displayName || 'Người dùng',
+                    email: currentUser.email,
+                    challengeHistory: challengeHistory
                 }, { merge: true });
 
                 // Reload leaderboard sau khi lưu kết quả
-                setTimeout(() => {
-                    if (document.getElementById('leaderboardContent')) {
-                        loadLeaderboard();
-                    }
-                }, 1000);
+                loadLeaderboard();
             } catch (error) {
                 console.error('Lỗi khi lưu kết quả:', error);
             }
@@ -1626,7 +1676,23 @@ Trả lời bằng tiếng Việt, thân thiện, khích lệ. KHÔNG sử dụn
                         <i class="fas fa-arrow-left"></i> Quay lại menu
                     </button>
                 </div>
+
+                <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <i class="fas fa-chart-simple"></i>
+                        <h2>Bảng xếp hạng</h2>
+                    </div>
+                    <div id="leaderboardContent">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                            <p style="color: var(--white);">Đang tải bảng xếp hạng...</p>
+                        </div>
+                    </div>
+                </div>
             `;
+
+            // Load lại leaderboard
+            loadLeaderboard();
         }
     </script>
 </body>
