@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -31,6 +30,16 @@
             --border: rgba(255, 140, 66, 0.18);
             --text-dim: rgba(44, 24, 16, 0.65);
             --text-mid: rgba(44, 24, 16, 0.72);
+            
+            /* Màu sắc cho các miền */
+            --north: #3498db;
+            --north-glow: rgba(52, 152, 219, 0.2);
+            --central: #e67e22;
+            --central-glow: rgba(230, 126, 52, 0.2);
+            --south: #e74c3c;
+            --south-glow: rgba(231, 76, 60, 0.2);
+            --west: #27ae60;
+            --west-glow: rgba(39, 174, 96, 0.2);
         }
 
         body {
@@ -333,10 +342,11 @@
 
         .admin-tabs {
             display: flex;
-            gap: 20px;
+            gap: 10px;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--border);
             padding-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .admin-tab {
@@ -375,6 +385,42 @@
         .admin-tab.active i {
             color: #fff;
         }
+
+        /* Region tabs */
+        .region-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .region-tab {
+            padding: 10px 25px;
+            background: var(--jade-pale);
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .region-tab.north { color: var(--north); border-color: var(--north); }
+        .region-tab.central { color: var(--central); border-color: var(--central); }
+        .region-tab.south { color: var(--south); border-color: var(--south); }
+        .region-tab.west { color: var(--west); border-color: var(--west); }
+
+        .region-tab.active {
+            background: currentColor;
+            color: white;
+        }
+
+        .region-tab.north.active { background: var(--north); }
+        .region-tab.central.active { background: var(--central); }
+        .region-tab.south.active { background: var(--south); }
+        .region-tab.west.active { background: var(--west); }
 
         .admin-content {
             display: none;
@@ -645,7 +691,8 @@
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 12px 15px;
             background: rgba(255, 249, 240, 0.9);
@@ -656,8 +703,14 @@
             transition: all 0.3s;
         }
 
+        .form-group select option {
+            background: var(--ink);
+            color: var(--white);
+        }
+
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--jade);
             box-shadow: 0 0 15px var(--jade-glow);
@@ -795,10 +848,37 @@
             </div>
 
             <div id="challenge-tab" class="admin-content">
+                <div class="region-tabs">
+                    <button class="region-tab north active" onclick="switchChallengeRegion('north')">
+                        <i class="fas fa-snowflake"></i> Miền Bắc
+                    </button>
+                    <button class="region-tab central" onclick="switchChallengeRegion('central')">
+                        <i class="fas fa-sun"></i> Miền Trung
+                    </button>
+                    <button class="region-tab south" onclick="switchChallengeRegion('south')">
+                        <i class="fas fa-umbrella-beach"></i> Miền Nam
+                    </button>
+                    <button class="region-tab west" onclick="switchChallengeRegion('west')">
+                        <i class="fas fa-leaf"></i> Miền Tây
+                    </button>
+                </div>
+
                 <button class="add-btn" onclick="openModal('challenge')">
-                    <i class="fas fa-plus"></i> Thêm câu hỏi thử thách
+                    <i class="fas fa-plus"></i> Thêm câu hỏi
                 </button>
-                <div class="items-list" id="challengeQuestionsList"></div>
+
+                <div id="north-questions" class="challenge-region-questions active">
+                    <div class="items-list" id="northQuestionsList"></div>
+                </div>
+                <div id="central-questions" class="challenge-region-questions" style="display: none;">
+                    <div class="items-list" id="centralQuestionsList"></div>
+                </div>
+                <div id="south-questions" class="challenge-region-questions" style="display: none;">
+                    <div class="items-list" id="southQuestionsList"></div>
+                </div>
+                <div id="west-questions" class="challenge-region-questions" style="display: none;">
+                    <div class="items-list" id="westQuestionsList"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -813,6 +893,17 @@
             <form id="questionForm" onsubmit="saveQuestion(event)">
                 <input type="hidden" id="questionId">
                 <input type="hidden" id="questionType">
+
+                <!-- Thêm region cho câu hỏi challenge -->
+                <div class="form-group" id="regionField">
+                    <label><i class="fas fa-map-marker-alt"></i> Miền</label>
+                    <select id="questionRegion" required>
+                        <option value="north">Miền Bắc</option>
+                        <option value="central">Miền Trung</option>
+                        <option value="south">Miền Nam</option>
+                        <option value="west">Miền Tây</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label><i class="fas fa-question-circle"></i> Câu hỏi</label>
@@ -850,7 +941,16 @@
 
         let currentUser = null;
         let chatbotQuestions = [];
-        let challengeQuestions = [];
+        
+        // Câu hỏi challenge theo 4 miền
+        let challengeQuestions = {
+            north: [],
+            central: [],
+            south: [],
+            west: []
+        };
+
+        let currentChallengeRegion = 'north';
 
         // Câu hỏi mặc định cho chatbot - Đã được cải thiện
         const defaultChatbotQuestions = [
@@ -863,72 +963,120 @@
             "Trần Hưng Đạo có vai trò gì trong lịch sử chống giặc ngoại xâm?",
             "Truyền thuyết bánh chưng, bánh giày kể về điều gì?",
             "Tầm quan trọng của chiến dịch Điện Biên Phủ?",
-            "Ca trù - Di sản văn hóa phi vật thể của Việt Nam?",
-            "Các quốc hiệu của Việt Nam qua các thời kỳ lịch sử?",
-            "Chùa Hương có những nét đặc sắc gì về văn hóa tâm linh?",
-            "Sự kiện Lý Thái Tổ dời đô về Thăng Long có ý nghĩa gì?",
-            "Nghệ thuật múa rối nước độc đáo của người Việt?",
-            "Trống đồng Đông Sơn - Biểu tượng văn hóa thời kỳ nào?",
-            "Tết Trung Thu có ý nghĩa gì với trẻ em Việt Nam?",
-            "Chiến thắng Rạch Gầm - Xoài Mút do ai lãnh đạo?",
-            "Nón lá Việt Nam có từ bao giờ và ý nghĩa ra sao?",
-            "Chiến công hiển hách của vua Quang Trung đại phá quân Thanh?",
-            "Làng gốm Bát Tràng nổi tiếng với những sản phẩm gì?"
+            "Ca trù - Di sản văn hóa phi vật thể của Việt Nam?"
         ];
 
-        // Câu hỏi mặc định cho thử thách - Đã được cải thiện
-        const defaultChallengeQuestions = [
-            {
-                question: "Vị vua nào được coi là người sáng lập ra nhà nước Văn Lang?",
-                options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "An Dương Vương"],
-                correct: 2
-            },
-            {
-                question: "Trận địa cọc gỗ trên sông Bạch Đằng năm 938 do ai chỉ huy?",
-                options: ["Ngô Quyền", "Dương Đình Nghệ", "Kiều Công Tiễn", "Lý Thường Kiệt"],
-                correct: 0
-            },
-            {
-                question: "Chiếc áo dài truyền thống Việt Nam bắt nguồn từ triều đại nào?",
-                options: ["Lý", "Trần", "Lê", "Nguyễn"],
-                correct: 3
-            },
-            {
-                question: "Tết Nguyên Đán còn có tên gọi dân gian nào khác?",
-                options: ["Tết Cả", "Tết Trung Thu", "Tết Đoan Ngọ", "Tết Hàn Thực"],
-                correct: 0
-            },
-            {
-                question: "Văn Miếu - Quốc Tử Giám được xây dựng dưới triều vua nào?",
-                options: ["Lý Thái Tổ", "Lý Thánh Tông", "Lý Nhân Tông", "Lý Anh Tông"],
-                correct: 1
-            },
-            {
-                question: "Trần Hưng Đạo đã chỉ huy quân dân nhà Trần đánh thắng quân Nguyên Mông mấy lần?",
-                options: ["1 lần", "2 lần", "3 lần", "4 lần"],
-                correct: 1
-            },
-            {
-                question: "Truyền thuyết bánh chưng, bánh giày gắn với đời vua Hùng thứ mấy?",
-                options: ["Hùng Vương thứ 6", "Hùng Vương thứ 7", "Hùng Vương thứ 8", "Hùng Vương thứ 18"],
-                correct: 0
-            },
-            {
-                question: "Chiến dịch Điện Biên Phủ kết thúc vào ngày tháng năm nào?",
-                options: ["7/5/1954", "5/7/1954", "7/5/1953", "5/7/1953"],
-                correct: 0
-            },
-            {
-                question: "Ca trù còn được gọi là gì?",
-                options: ["Hát ả đào", "Hát chèo", "Hát tuồng", "Hát xẩm"],
-                correct: 0
-            },
-            {
-                question: "Quốc hiệu Đại Việt có từ năm nào?",
-                options: ["1010", "1054", "1070", "1225"],
-                correct: 1
-            }
-        ];
+        // Câu hỏi mặc định cho thử thách theo 4 miền
+        const defaultChallengeQuestions = {
+            north: [
+                {
+                    question: "Vị vua nào được coi là người sáng lập ra nhà nước Văn Lang?",
+                    options: ["Kinh Dương Vương", "Lạc Long Quân", "Hùng Vương thứ I", "An Dương Vương"],
+                    correct: 2
+                },
+                {
+                    question: "Trận địa cọc gỗ trên sông Bạch Đằng năm 938 do ai chỉ huy?",
+                    options: ["Ngô Quyền", "Dương Đình Nghệ", "Kiều Công Tiễn", "Lý Thường Kiệt"],
+                    correct: 0
+                },
+                {
+                    question: "Văn Miếu - Quốc Tử Giám được xây dựng dưới triều vua nào?",
+                    options: ["Lý Thái Tổ", "Lý Thánh Tông", "Lý Nhân Tông", "Lý Anh Tông"],
+                    correct: 1
+                },
+                {
+                    question: "Chùa Một Cột còn có tên gọi khác là gì?",
+                    options: ["Diên Hựu tự", "Trấn Quốc tự", "Quán Thế Âm", "Thiên Mụ"],
+                    correct: 0
+                },
+                {
+                    question: "Làng gốm Bát Tràng nằm ở tỉnh/thành nào?",
+                    options: ["Hà Nội", "Bắc Ninh", "Hưng Yên", "Hải Dương"],
+                    correct: 0
+                }
+            ],
+            central: [
+                {
+                    question: "Cố đô Huế được UNESCO công nhận là di sản thế giới năm nào?",
+                    options: ["1993", "1999", "2003", "2011"],
+                    correct: 0
+                },
+                {
+                    question: "Phố cổ Hội An thuộc tỉnh nào?",
+                    options: ["Quảng Nam", "Đà Nẵng", "Quảng Ngãi", "Bình Định"],
+                    correct: 0
+                },
+                {
+                    question: "Vua nào đã có công mở mang bờ cõi về phương Nam?",
+                    options: ["Lý Thường Kiệt", "Trần Hưng Đạo", "Lê Thánh Tông", "Quang Trung"],
+                    correct: 3
+                },
+                {
+                    question: "Địa đạo Vịnh Mốc thuộc tỉnh nào?",
+                    options: ["Quảng Trị", "Quảng Bình", "Thừa Thiên Huế", "Nghệ An"],
+                    correct: 0
+                },
+                {
+                    question: "Cầu Rồng là biểu tượng của thành phố nào?",
+                    options: ["Đà Nẵng", "Nha Trang", "Huế", "Quy Nhơn"],
+                    correct: 0
+                }
+            ],
+            south: [
+                {
+                    question: "Chợ Bến Thành là biểu tượng của thành phố nào?",
+                    options: ["Hồ Chí Minh", "Cần Thơ", "Biên Hòa", "Vũng Tàu"],
+                    correct: 0
+                },
+                {
+                    question: "Nhà thờ Đức Bà Sài Gòn được xây dựng bằng vật liệu gì?",
+                    options: ["Gạch nung", "Đá cẩm thạch", "Gạch từ Marseille", "Bê tông cốt thép"],
+                    correct: 2
+                },
+                {
+                    question: "Bến Nhà Rồng gắn liền với sự kiện nào?",
+                    options: ["Bác Hồ ra đi tìm đường cứu nước", "Ngày giải phóng miền Nam", "Chiến dịch Hồ Chí Minh", "Tổng tiến công Tết Mậu Thân"],
+                    correct: 0
+                },
+                {
+                    question: "Địa đạo Củ Chi nằm ở đâu?",
+                    options: ["TP.HCM", "Bình Dương", "Tây Ninh", "Long An"],
+                    correct: 0
+                },
+                {
+                    question: "Lăng Ông Bà Chiểu thờ ai?",
+                    options: ["Lê Văn Duyệt", "Nguyễn Huệ", "Trần Hưng Đạo", "Lý Thường Kiệt"],
+                    correct: 0
+                }
+            ],
+            west: [
+                {
+                    question: "Chợ nổi Cái Răng thuộc tỉnh/thành nào?",
+                    options: ["Cần Thơ", "An Giang", "Đồng Tháp", "Hậu Giang"],
+                    correct: 0
+                },
+                {
+                    question: "Vườn quốc gia Tràm Chim nổi tiếng với loài chim gì?",
+                    options: ["Sếu đầu đỏ", "Cò trắng", "Vạc", "Diệc"],
+                    correct: 0
+                },
+                {
+                    question: "Đặc sản nào nổi tiếng của miền Tây?",
+                    options: ["Bánh xèo", "Hủ tiếu", "Lẩu mắm", "Tất cả đều đúng"],
+                    correct: 3
+                },
+                {
+                    question: "Cù lao Ông Hổ thuộc tỉnh nào?",
+                    options: ["Trà Vinh", "Vĩnh Long", "Bến Tre", "Sóc Trăng"],
+                    correct: 1
+                },
+                {
+                    question: "Miền Tây có bao nhiêu tỉnh thành?",
+                    options: ["12", "13", "14", "15"],
+                    correct: 1
+                }
+            ]
+        };
 
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -969,20 +1117,22 @@
                 // Load câu hỏi thử thách
                 const challengeDoc = await db.collection('settings').doc('challengeQuestions').get();
                 if (challengeDoc.exists) {
-                    challengeQuestions = challengeDoc.data().questions || [];
+                    challengeQuestions = challengeDoc.data() || {
+                        north: [],
+                        central: [],
+                        south: [],
+                        west: []
+                    };
                 } else {
                     // Tạo dữ liệu mặc định
                     challengeQuestions = defaultChallengeQuestions;
-                    await db.collection('settings').doc('challengeQuestions').set({
-                        questions: defaultChallengeQuestions
-                    });
+                    await db.collection('settings').doc('challengeQuestions').set(challengeQuestions);
                 }
 
                 displayChatbotQuestions();
                 displayChallengeQuestions();
             } catch (error) {
                 console.error('Lỗi khi load câu hỏi:', error);
-                showLoading(false);
             }
         }
 
@@ -1011,37 +1161,53 @@
         }
 
         function displayChallengeQuestions() {
-            const list = document.getElementById('challengeQuestionsList');
-            if (!challengeQuestions || challengeQuestions.length === 0) {
-                list.innerHTML = '<div class="loading"><i class="fas fa-info-circle"></i> Chưa có câu hỏi nào</div>';
-                return;
-            }
-            list.innerHTML = challengeQuestions.map((q, index) => `
-                <div class="item-card">
-                    <div class="item-header">
-                        <span class="item-title"><i class="fas fa-question-circle"></i> Câu hỏi ${index + 1}</span>
-                        <div class="item-actions">
-                            <button class="item-btn edit" onclick="editChallengeQuestion(${index})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="item-btn delete" onclick="deleteChallengeQuestion(${index})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="item-content">
-                        <p><strong>${q.question}</strong></p>
-                        <div class="item-options">
-                            ${q.options.map((opt, optIndex) => `
-                                <div class="item-option ${optIndex === q.correct ? 'correct' : ''}">
-                                    ${String.fromCharCode(65 + optIndex)}. ${opt}
-                                    ${optIndex === q.correct ? ' <i class="fas fa-check" style="color: #4caf50;"></i>' : ''}
+            // Hiển thị câu hỏi theo từng miền
+            const regions = ['north', 'central', 'south', 'west'];
+            regions.forEach(region => {
+                const list = document.getElementById(`${region}QuestionsList`);
+                const questions = challengeQuestions[region] || [];
+                
+                if (questions.length === 0) {
+                    list.innerHTML = '<div class="loading"><i class="fas fa-info-circle"></i> Chưa có câu hỏi nào</div>';
+                    return;
+                }
+
+                list.innerHTML = questions.map((q, index) => {
+                    // Xác định class màu cho region
+                    let regionClass = '';
+                    if (region === 'north') regionClass = 'north';
+                    else if (region === 'central') regionClass = 'central';
+                    else if (region === 'south') regionClass = 'south';
+                    else if (region === 'west') regionClass = 'west';
+
+                    return `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <span class="item-title"><i class="fas fa-question-circle"></i> Câu hỏi ${index + 1}</span>
+                                <div class="item-actions">
+                                    <button class="item-btn edit" onclick="editChallengeQuestion('${region}', ${index})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="item-btn delete" onclick="deleteChallengeQuestion('${region}', ${index})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
-                            `).join('')}
+                            </div>
+                            <div class="item-content">
+                                <p><strong>${q.question}</strong></p>
+                                <div class="item-options">
+                                    ${q.options.map((opt, optIndex) => `
+                                        <div class="item-option ${optIndex === q.correct ? 'correct' : ''}">
+                                            ${String.fromCharCode(65 + optIndex)}. ${opt}
+                                            ${optIndex === q.correct ? ' <i class="fas fa-check" style="color: #4caf50;"></i>' : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `).join('');
+                    `;
+                }).join('');
+            });
         }
 
         function switchTab(tab) {
@@ -1060,13 +1226,39 @@
             }
         }
 
+        function switchChallengeRegion(region) {
+            currentChallengeRegion = region;
+            
+            // Update region tabs
+            const regionTabs = document.querySelectorAll('.region-tab');
+            regionTabs.forEach(tab => tab.classList.remove('active'));
+            
+            if (region === 'north') document.querySelector('.region-tab.north').classList.add('active');
+            else if (region === 'central') document.querySelector('.region-tab.central').classList.add('active');
+            else if (region === 'south') document.querySelector('.region-tab.south').classList.add('active');
+            else if (region === 'west') document.querySelector('.region-tab.west').classList.add('active');
+            
+            // Show/hide region questions
+            const regionDivs = document.querySelectorAll('.challenge-region-questions');
+            regionDivs.forEach(div => div.style.display = 'none');
+            
+            document.getElementById(`${region}-questions`).style.display = 'block';
+        }
+
         function openModal(type) {
             document.getElementById('questionType').value = type;
-            document.getElementById('modalTitle').textContent = type === 'chatbot' ? 'Thêm câu hỏi gợi ý' : 'Thêm câu hỏi thử thách';
-            document.getElementById('questionId').value = '';
-            document.getElementById('questionText').value = '';
-
-            if (type === 'challenge') {
+            
+            if (type === 'chatbot') {
+                document.getElementById('modalTitle').textContent = 'Thêm câu hỏi gợi ý';
+                document.getElementById('regionField').style.display = 'none';
+                document.getElementById('optionsContainer').innerHTML = '';
+            } else {
+                document.getElementById('modalTitle').textContent = 'Thêm câu hỏi thử thách';
+                document.getElementById('regionField').style.display = 'block';
+                
+                // Set default region to current selected
+                document.getElementById('questionRegion').value = currentChallengeRegion;
+                
                 document.getElementById('optionsContainer').innerHTML = `
                     <label>Đáp án (chọn đáp án đúng)</label>
                     ${[0, 1, 2, 3].map(i => `
@@ -1076,10 +1268,10 @@
                         </div>
                     `).join('')}
                 `;
-            } else {
-                document.getElementById('optionsContainer').innerHTML = '';
             }
-
+            
+            document.getElementById('questionId').value = '';
+            document.getElementById('questionText').value = '';
             document.getElementById('questionModal').classList.add('active');
         }
 
@@ -1093,16 +1285,19 @@
             document.getElementById('modalTitle').textContent = 'Sửa câu hỏi gợi ý';
             document.getElementById('questionId').value = index;
             document.getElementById('questionText').value = question;
+            document.getElementById('regionField').style.display = 'none';
             document.getElementById('optionsContainer').innerHTML = '';
             document.getElementById('questionModal').classList.add('active');
         }
 
-        function editChallengeQuestion(index) {
-            const question = challengeQuestions[index];
+        function editChallengeQuestion(region, index) {
+            const question = challengeQuestions[region][index];
             document.getElementById('questionType').value = 'challenge';
             document.getElementById('modalTitle').textContent = 'Sửa câu hỏi thử thách';
             document.getElementById('questionId').value = index;
             document.getElementById('questionText').value = question.question;
+            document.getElementById('regionField').style.display = 'block';
+            document.getElementById('questionRegion').value = region;
 
             let optionsHtml = '<label>Đáp án (chọn đáp án đúng)</label>';
             for (let i = 0; i < 4; i++) {
@@ -1145,6 +1340,9 @@
 
                 displayChatbotQuestions();
             } else {
+                // Lấy region
+                const region = document.getElementById('questionRegion').value;
+                
                 // Lấy các đáp án
                 const options = [];
                 for (let i = 0; i < 4; i++) {
@@ -1166,15 +1364,17 @@
 
                 if (id === '') {
                     // Thêm mới
-                    challengeQuestions.push(questionData);
+                    if (!challengeQuestions[region]) {
+                        challengeQuestions[region] = [];
+                    }
+                    challengeQuestions[region].push(questionData);
                 } else {
                     // Sửa
-                    challengeQuestions[parseInt(id)] = questionData;
+                    challengeQuestions[region][parseInt(id)] = questionData;
                 }
 
-                await db.collection('settings').doc('challengeQuestions').set({
-                    questions: challengeQuestions
-                });
+                // Lưu toàn bộ challengeQuestions
+                await db.collection('settings').doc('challengeQuestions').set(challengeQuestions);
 
                 displayChallengeQuestions();
             }
@@ -1192,12 +1392,10 @@
             }
         }
 
-        async function deleteChallengeQuestion(index) {
+        async function deleteChallengeQuestion(region, index) {
             if (confirm('Bạn có chắc muốn xóa câu hỏi này?')) {
-                challengeQuestions.splice(index, 1);
-                await db.collection('settings').doc('challengeQuestions').set({
-                    questions: challengeQuestions
-                });
+                challengeQuestions[region].splice(index, 1);
+                await db.collection('settings').doc('challengeQuestions').set(challengeQuestions);
                 displayChallengeQuestions();
             }
         }
