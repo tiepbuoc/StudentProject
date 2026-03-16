@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIETVERSE - Khám phá văn hóa Việt Nam</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet">
+  <title>VIETVERSE · Khám phá văn hóa Việt</title>
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -35,14 +37,14 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: linear-gradient(135deg, #fff9f0 0%, #ffe6d1 100%);
+      font-family: 'DM Sans', 'Inter', sans-serif;
+      background: linear-gradient(145deg, #ffe8d4 0%, #ffb3c6 60%, #ffd86b 100%);
       min-height: 100vh;
-      position: relative;
       color: var(--white);
+      overflow-x: hidden;
     }
 
-    /* Grain effect */
+    /* Grain effect từ code index */
     .grain {
       position: fixed;
       inset: 0;
@@ -98,7 +100,7 @@
       }
     }
 
-    /* Ambient lights */
+    /* Ambient lights từ code index */
     .ambient {
       position: fixed;
       pointer-events: none;
@@ -146,6 +148,7 @@
       }
     }
 
+    /* NAVBAR - kết hợp từ cả hai */
     .navbar {
       position: fixed;
       top: 0;
@@ -275,67 +278,146 @@
       color: var(--jade);
     }
 
-    .container {
+    /* Hero section */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 70vh;
+      background: #fbc4d4;
+      background: url('main-gb.png') center/cover no-repeat;
+      overflow: hidden;
+      border-bottom-left-radius: 60px;
+      border-bottom-right-radius: 60px;
+      box-shadow: 0 30px 40px -15px rgba(255, 159, 67, 0.35);
+      margin-top: 72px;
+    }
+
+    @keyframes slow-spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .glow-swirl {
+      position: absolute;
+      width: 90vmax;
+      height: 90vmax;
+      background: radial-gradient(circle at 30% 30%, rgba(255,215,0,0.4) 0%, rgba(255,140,0,0.2) 25%, rgba(255,0,255,0.15) 50%, rgba(120,90,255,0.1) 80%);
+      filter: blur(70px) brightness(1.3);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: slow-spin 30s infinite linear;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Đã xóa các class obj, float-item, float-delay theo yêu cầu */
+    .floating-objects {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      color: white;
+      max-width: 800px;
+      padding: 1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 10vw, 6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.5);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .markword-logo {
+      height: 1.2em;
+      width: auto;
+      filter: drop-shadow(0 4px 10px rgba(255,215,0,0.6));
+    }
+
+    .hero-sub {
+      font-size: 1.5rem;
+      font-weight: 500;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      display: inline-block;
+      padding: 0.75rem 2.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.2);
+      margin-top: 1rem;
+    }
+
+    /* Main section */
+    .main-section {
+      max-width: 1300px;
+      margin: 3rem auto 4rem;
+      padding: 0 2rem;
       position: relative;
       z-index: 10;
-      max-width: 1200px;
-      margin: 100px auto 40px;
-      padding: 0 20px;
     }
 
-    .welcome-section {
-      background: rgba(255, 249, 240, 0.9);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+    .grid-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .left-tag {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #c33a18;
+      background: #ffe6b3;
+      padding: 0.5rem 1.2rem;
       border-radius: 30px;
-      padding: 50px;
-      margin-bottom: 40px;
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 40px var(--jade-glow);
-      animation: fadeInUp 0.5s ease;
-      position: relative;
-      overflow: hidden;
     }
 
-    .welcome-section::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, var(--jade-pale) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
+    .main-title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(130deg, #ff7a18, #ffb3c6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-top: 0.25rem;
     }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .right-year {
+      font-size: 1.1rem;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.6);
+      color: #d97706;
     }
 
-    .welcome-section h1 {
-      color: var(--jade2);
-      font-size: 2.8em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px var(--jade-pale);
-      font-family: 'Fraunces', serif;
-    }
-
-    .welcome-section p {
-      color: var(--text-mid);
-      font-size: 1.2em;
-      line-height: 1.6;
-      max-width: 800px;
-    }
-
+    /* Stats grid từ code index */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -357,17 +439,9 @@
       box-shadow: 0 10px 30px var(--jade-glow);
     }
 
-    .stat-card:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .stat-card:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .stat-card:nth-child(3) {
-      animation-delay: 0.3s;
-    }
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
 
     .stat-card:hover {
       transform: translateY(-10px);
@@ -395,6 +469,7 @@
       letter-spacing: 1px;
     }
 
+    /* Features grid */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -434,17 +509,9 @@
       transition: all 0.5s;
     }
 
-    .feature-card:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .feature-card:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .feature-card:nth-child(3) {
-      animation-delay: 0.3s;
-    }
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
 
     .feature-card:hover {
       transform: translateY(-15px);
@@ -519,42 +586,44 @@
       border-left: 4px solid var(--jade);
     }
 
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 15px;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
-
-      .welcome-section h1 {
-        font-size: 2em;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .container {
-        margin-top: 150px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    @media (max-width: 480px) {
-      .welcome-section {
-        padding: 30px;
-      }
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+      color: #a970e0;
+      position: relative;
+      z-index: 10;
+    }
 
-      .welcome-section h1 {
-        font-size: 1.8em;
-      }
+    @media screen and (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
-      .feature-title {
-        font-size: 1.5em;
+    @media screen and (max-width: 768px) {
+      .navbar {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 10px 5%;
+        gap: 10px;
       }
+      .nav-links { order: 3; }
+      .right-section { order: 2; }
+      .features-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+
+    @media screen and (max-width: 600px) {
+      .hero h1 { font-size: 3rem; }
     }
   </style>
 </head>
@@ -565,16 +634,17 @@
   <div class="ambient amb2"></div>
   <div class="ambient amb3"></div>
 
+  <!-- NAVBAR -->
   <div class="navbar">
     <a class="logo" href="index.html">
-      <img src="logo.png" alt="VIETVERSE Logo">
-      <img src="markword.png" alt="VIETVERSE" style="height: 28px;">
+      <img src="logo.png" alt="VIETVERSE Logo" onerror="this.style.display='none'">
+      <img src="markword.png" alt="VIETVERSE" style="height: 45px;" onerror="this.style.display='none'">
     </a>
     <div class="nav-links">
       <a href="chatbot.html" title="Chatbot"><i class="fas fa-robot"></i></a>
       <a href="thuthach.html" title="Thử thách"><i class="fas fa-trophy"></i></a>
       <a href="minigame.html" title="Minigame"><i class="fas fa-gamepad"></i></a>
-      <a href="quantri.html" id="adminLink" style="display: none;" title="Quản trị"><i class="fas fa-cog"></i></a>
+      <a href="quantri.html" id="adminLink" title="Quản trị" style="display: none;"><i class="fas fa-cog"></i></a>
     </div>
     <div class="right-section">
       <div class="user-info" id="userInfo" style="display: none;">
@@ -582,14 +652,38 @@
         <span id="userName">Đang tải...</span>
         <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
       </div>
-      <button class="login-btn" id="loginBtn" style="display: none;" onclick="window.location.href='login.html'"><i
-          class="fas fa-sign-in-alt"></i></button>
+      <button class="login-btn" id="loginBtn" style="display: none;" onclick="window.location.href='login.html'">
+        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+      </button>
     </div>
   </div>
 
-  <div class="container" id="mainContent">
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="floating-objects">
+      <!-- Đã xóa các obj theo yêu cầu -->
+    </div>
+    <div class="glow-swirl"></div>
+    <div class="hero-content">
+      <h1>
+        <img src="markword.png" alt="VIETVERSE" class="markword-logo" onerror="this.style.display='none'">
+      </h1>
+      <div class="hero-sub">
+        <i class="fas fa-compass"></i> Khám phá văn hóa Việt <i class="fas fa-location-dot"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-section" id="mainContent">
     <!-- Nội dung sẽ được load bằng JavaScript -->
-  </div>
+  </main>
+
+  <footer>
+    <p style="font-size: 0.95rem; opacity: 0.7;">
+      <i class="fas fa-rainbow"></i> Vietverse khám phá văn hóa · nguồn cảm hứng Việt <i class="fas fa-lotus"></i>
+    </p>
+  </footer>
 
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -616,7 +710,6 @@
       if (user) {
         if (document.getElementById('userInfo')) document.getElementById('userInfo').style.display = 'flex';
         if (document.getElementById('loginBtn')) document.getElementById('loginBtn').style.display = 'none';
-        if (document.getElementById('loginLink')) document.getElementById('loginLink').style.display = 'none';
         if (document.getElementById('userName')) {
           const displayName = user.displayName || 'Người dùng';
           document.getElementById('userName').textContent = displayName;
@@ -634,6 +727,7 @@
 
         loadHomePage(user);
       } else {
+        // User chưa đăng nhập - chuyển về login
         window.location.href = 'login.html';
       }
     });
@@ -642,47 +736,6 @@
       auth.signOut().then(() => {
         window.location.href = 'login.html';
       });
-    }
-
-    function loadGuestHomePage() {
-      document.getElementById('mainContent').innerHTML = `
-                <div class="welcome-section">
-                    <h1>Chào mừng đến với VIETVERSE!</h1>
-                    <p>Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo. Đăng nhập để lưu lại tiến trình và nhận đánh giá từ AI!</p>
-                </div>
-
-                <div class="features-grid">
-                    <a href="chatbot.html" class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                        <div class="feature-title">Chatbot Sao Vàng</div>
-                        <div class="feature-description">Trò chuyện với AI về lịch sử và văn hóa Việt Nam</div>
-                    </a>
-
-                    <a href="thuthach.html" class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                        <div class="feature-title">Thử thách kiến thức</div>
-                        <div class="feature-description">Kiểm tra hiểu biết và nhận đánh giá chi tiết từ AI</div>
-                    </a>
-
-                    <a href="minigame.html" class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
-                        <div class="feature-title">Minigame</div>
-                        <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam</div>
-                    </a>
-                </div>
-
-                <div class="feedback-card">
-                    <div class="feedback-header">
-                        <i class="fas fa-info-circle"></i>
-                        <h3>Về VIETVERSE</h3>
-                    </div>
-                    <div class="feedback-content">
-                        VIETVERSE là nền tảng khám phá văn hóa và lịch sử Việt Nam thông qua AI. 
-                        Đăng nhập để trải nghiệm đầy đủ: lưu lịch sử chat, tham gia thử thách, 
-                        nhận đánh giá chi tiết và theo dõi tiến trình học tập của bạn!
-                    </div>
-                </div>
-            `;
     }
 
     async function loadHomePage(user) {
@@ -700,73 +753,115 @@
           const lastChallenge = challengeHistory[challengeHistory.length - 1];
 
           statsHtml = `
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon"><i class="fas fa-star"></i></div>
-                                <div class="stat-number">${totalScore}</div>
-                                <div class="stat-label">Tổng điểm</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon"><i class="fas fa-history"></i></div>
-                                <div class="stat-number">${challengeHistory.length}</div>
-                                <div class="stat-label">Số lần thử thách</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon"><i class="fas fa-percent"></i></div>
-                                <div class="stat-number">${avgPercentage}%</div>
-                                <div class="stat-label">Tỷ lệ trung bình</div>
-                            </div>
-                        </div>
-                    `;
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-number">${totalScore}</div>
+                <div class="stat-label">Tổng điểm</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-history"></i></div>
+                <div class="stat-number">${challengeHistory.length}</div>
+                <div class="stat-label">Số lần thử thách</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-percent"></i></div>
+                <div class="stat-number">${avgPercentage}%</div>
+                <div class="stat-label">Tỷ lệ trung bình</div>
+              </div>
+            </div>
+          `;
 
           if (lastChallenge.aiFeedback) {
             feedbackHtml = `
-                            <div class="feedback-card">
-                                <div class="feedback-header">
-                                    <i class="fas fa-robot"></i>
-                                    <h3>Nhận xét từ thử thách gần nhất</h3>
-                                </div>
-                                <div class="feedback-content">
-                                    ${lastChallenge.aiFeedback}
-                                </div>
-                            </div>
-                        `;
+              <div class="feedback-card">
+                <div class="feedback-header">
+                  <i class="fas fa-robot"></i>
+                  <h3>Nhận xét từ thử thách gần nhất</h3>
+                </div>
+                <div class="feedback-content">
+                  ${lastChallenge.aiFeedback}
+                </div>
+              </div>
+            `;
           }
         }
 
         document.getElementById('mainContent').innerHTML = `
-                    <div class="welcome-section">
-                        <h1>Chào mừng ${user.displayName || 'bạn'} trở lại VIETVERSE!</h1>
-                        <p>Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo. Hãy tiếp tục hành trình khám phá của bạn!</p>
-                    </div>
+          <div class="grid-header">
+            <div>
+              <div class="left-tag"><i class="fas fa-globe-asia"></i> VIETVERSE</div>
+              <div class="main-title"><i class="fas fa-spa"></i> Khám phá văn hóa Việt</div>
+            </div>
+            <div class="right-year"><i class="fas fa-school"></i> Trường THPT FPT Đà Nẵng</div>
+          </div>
 
-                    ${statsHtml}
+          <div class="welcome-section" style="background: rgba(255, 249, 240, 0.9); backdrop-filter: blur(15px); border-radius: 30px; padding: 50px; margin-bottom: 40px; border: 1px solid var(--border); box-shadow: 0 20px 40px var(--jade-glow); position: relative; overflow: hidden;">
+            <h1 style="color: var(--jade2); font-size: 2.8em; margin-bottom: 20px; text-shadow: 2px 2px 4px var(--jade-pale); font-family: 'Fraunces', serif;">Chào mừng ${user.displayName || 'bạn'} trở lại VIETVERSE!</h1>
+            <p style="color: var(--text-mid); font-size: 1.2em; line-height: 1.6; max-width: 800px;">Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo. Hãy tiếp tục hành trình khám phá của bạn!</p>
+          </div>
 
-                    <div class="features-grid">
-                        <a href="chatbot.html" class="feature-card">
-                            <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                            <div class="feature-title">Chatbot Sao Vàng</div>
-                            <div class="feature-description">Trò chuyện với AI về lịch sử và văn hóa Việt Nam</div>
-                        </a>
+          ${statsHtml}
 
-                        <a href="thuthach.html" class="feature-card">
-                            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                            <div class="feature-title">Thử thách kiến thức</div>
-                            <div class="feature-description">Kiểm tra hiểu biết và nhận đánh giá chi tiết từ AI</div>
-                        </a>
+          <div class="features-grid">
+            <a href="chatbot.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-robot"></i></div>
+              <div class="feature-title">Chatbot Sao Vàng</div>
+              <div class="feature-description">Trò chuyện với AI về lịch sử và văn hóa Việt Nam</div>
+            </a>
 
-                        <a href="minigame.html" class="feature-card">
-                            <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
-                            <div class="feature-title">Minigame</div>
-                            <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam</div>
-                        </a>
-                    </div>
+            <a href="thuthach.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+              <div class="feature-title">Thử thách kiến thức</div>
+              <div class="feature-description">Kiểm tra hiểu biết và nhận đánh giá chi tiết từ AI</div>
+            </a>
 
-                    ${feedbackHtml}
-                `;
+            <a href="minigame.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+              <div class="feature-title">Minigame</div>
+              <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam</div>
+            </a>
+          </div>
+
+          ${feedbackHtml}
+        `;
       } catch (error) {
         console.error('Lỗi khi load trang chủ:', error);
-        loadGuestHomePage();
+        // Fallback content nếu có lỗi
+        document.getElementById('mainContent').innerHTML = `
+          <div class="grid-header">
+            <div>
+              <div class="left-tag"><i class="fas fa-globe-asia"></i> VIETVERSE</div>
+              <div class="main-title"><i class="fas fa-spa"></i> Khám phá văn hóa Việt</div>
+            </div>
+            <div class="right-year"><i class="fas fa-school"></i> Trường THPT FPT Đà Nẵng</div>
+          </div>
+
+          <div class="welcome-section" style="background: rgba(255, 249, 240, 0.9); backdrop-filter: blur(15px); border-radius: 30px; padding: 50px; margin-bottom: 40px; border: 1px solid var(--border); box-shadow: 0 20px 40px var(--jade-glow);">
+            <h1 style="color: var(--jade2); font-size: 2.8em; margin-bottom: 20px; font-family: 'Fraunces', serif;">Chào mừng bạn đến với VIETVERSE!</h1>
+            <p style="color: var(--text-mid); font-size: 1.2em; line-height: 1.6;">Khám phá vẻ đẹp văn hóa và lịch sử Việt Nam qua những trải nghiệm tương tác độc đáo.</p>
+          </div>
+
+          <div class="features-grid">
+            <a href="chatbot.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-robot"></i></div>
+              <div class="feature-title">Chatbot Sao Vàng</div>
+              <div class="feature-description">Trò chuyện với AI về lịch sử và văn hóa Việt Nam</div>
+            </a>
+
+            <a href="thuthach.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+              <div class="feature-title">Thử thách kiến thức</div>
+              <div class="feature-description">Kiểm tra hiểu biết và nhận đánh giá chi tiết từ AI</div>
+            </a>
+
+            <a href="minigame.html" class="feature-card">
+              <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+              <div class="feature-title">Minigame</div>
+              <div class="feature-description">Giải trí với các trò chơi nhỏ về văn hóa Việt Nam</div>
+            </a>
+          </div>
+        `;
       }
     }
   </script>
